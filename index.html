@@ -136,8 +136,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ci-del{position:absolute;top:4px;right:4px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:5;-webkit-tap-highlight-color:transparent}
 .ci-del svg{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
 
-.btray-wrap{flex:1;min-height:0;display:flex;flex-direction:column;padding:12px 0 0}
-.btray-lbl{padding:0 16px 8px;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}
+.btray-wrap{flex:1;min-height:0;display:flex;flex-direction:column;padding:8px 0 0}
+.btray-lbl{padding:0 16px 6px;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}
+.btray-filters{display:flex;gap:6px;padding:0 14px 8px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
+.btray-filters::-webkit-scrollbar{display:none}
+.btray-fpill{padding:5px 12px;border-radius:20px;border:1.5px solid var(--ln);background:var(--w);font-size:11px;font-weight:500;color:var(--mid);cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent;transition:background .12s,border-color .12s,color .12s}
+.btray-fpill.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.btray-fpill:active{opacity:.75}
 .btray{display:flex;gap:10px;padding:0 14px 12px;overflow-x:auto;scrollbar-width:none;flex-shrink:0}
 .btray::-webkit-scrollbar{display:none}
 .btray-item{flex-shrink:0;width:70px;height:86px;border-radius:11px;overflow:hidden;cursor:pointer;border:2.5px solid transparent;transition:border-color .15s,transform .12s;-webkit-tap-highlight-color:transparent}
@@ -370,6 +375,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .p-edit-overlay{position:absolute;top:0;bottom:0;left:0;right:0;background:var(--bg);z-index:161;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,1,.45,1);overflow-y:auto;scrollbar-width:none}
 .p-edit-overlay.open{transform:none}
 .p-edit-overlay::-webkit-scrollbar{display:none}
+.p-edit-overlay .ov-hdr{padding-top:14px} /* default desktop */
 .p-sec{padding:16px 20px 6px;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}
 .p-row{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--ln);cursor:pointer;background:var(--w);-webkit-tap-highlight-color:transparent}
 .p-row:active{background:var(--tag)}
@@ -782,6 +788,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
   /* ── Auth screen ── */
   .auth-body{padding-top:max(44px,calc(20px + env(safe-area-inset-top,0px)))}
+
+  /* ── Edit profile + settings overlays need safe area on mobile ── */
+  .p-edit-overlay .ov-hdr,
+  .p-settings-overlay .ov-hdr{padding-top:calc(14px + env(safe-area-inset-top,0px))}
 
   /* ── Splash safe area ── */
   .splash{padding-top:env(safe-area-inset-top,0px)}
@@ -1238,7 +1248,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.1.9</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.2.0</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -1584,6 +1594,16 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
     <div class="btray-wrap">
       <div class="btray-lbl" id="btray-lbl">Tap to add to canvas</div>
+      <div class="btray-filters" id="btray-filters">
+        <div class="btray-fpill on" onclick="filterBuilderTray('all',this)">All</div>
+        <div class="btray-fpill" onclick="filterBuilderTray('tops',this)">Tops</div>
+        <div class="btray-fpill" onclick="filterBuilderTray('bottoms',this)">Bottoms</div>
+        <div class="btray-fpill" onclick="filterBuilderTray('dresses',this)">Dresses</div>
+        <div class="btray-fpill" onclick="filterBuilderTray('outerwear',this)">Outerwear</div>
+        <div class="btray-fpill" onclick="filterBuilderTray('shoes',this)">Shoes</div>
+        <div class="btray-fpill" onclick="filterBuilderTray('bags',this)">Bags</div>
+        <div class="btray-fpill" onclick="filterBuilderTray('accessories',this)">Accessories</div>
+      </div>
       <div class="btray" id="builder-tray"></div>
     </div>
 
@@ -2474,6 +2494,9 @@ function openBuilder(preId, editId=null){
   }
   editOutfitId = editId;
   builderCanvas=[]; selectedCI=null;
+  builderTrayFilter='all';
+  // Reset filter pills to All
+  document.querySelectorAll('.btray-fpill').forEach((p,i)=>p.classList.toggle('on',i===0));
   // Reset gift mode
   isGiftMode=false; giftBowColor='gold';
   const gmb=document.getElementById('gift-mode-btn');
@@ -2537,14 +2560,26 @@ function closeBuilder(){
   if(badge) badge.style.display='none';
 }
 
+let builderTrayFilter = 'all';
+
+function filterBuilderTray(cat, el){
+  builderTrayFilter = cat;
+  document.querySelectorAll('.btray-fpill').forEach(p => p.classList.remove('on'));
+  if(el) el.classList.add('on');
+  renderBuilderTray();
+}
+
 function renderBuilderTray(){
-  document.getElementById('builder-tray').innerHTML=S.items.map(it=>{
+  const items = builderTrayFilter === 'all'
+    ? S.items
+    : S.items.filter(i => i.category === builderTrayFilter);
+  document.getElementById('builder-tray').innerHTML = items.map(it=>{
     const inUse=builderCanvas.some(b=>b.itemId===it.id);
     const c1=it.c1||(CAT_PAL[it.category]||CAT_PAL.tops).c1;
     const c2=it.c2||(CAT_PAL[it.category]||CAT_PAL.tops).c2;
-    const inner=it.image?`<img src="${it.image}" style="width:100%;height:100%;object-fit:cover">`:`<div style="height:100%;background:${c1}"><div style="height:20px;background:${c2}"></div></div>`;
-    return `<div class="btray-item ${inUse?'in-use':''}" id="tray-${it.id}" onclick="addToCanvas('${it.id}')">${inner}</div>`;
-  }).join('');
+    const inner=it.image?`<img src="${it.image}" style="width:100%;height:100%;object-fit:contain;background:#F2EFE9">`:`<div style="height:100%;background:${c1}"><div style="height:20px;background:${c2}"></div></div>`;
+    return `<div class="btray-item ${inUse?'in-use':''}" id="tray-${it.id}" onclick="addToCanvas('${it.id}')" title="${it.name}">${inner}</div>`;
+  }).join('') || `<div style="padding:20px 16px;font-size:12px;color:var(--dim)">No ${builderTrayFilter} items</div>`;
 }
 
 // ── Background ──────────────────────────────────────────

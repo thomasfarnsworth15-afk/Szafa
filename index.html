@@ -160,7 +160,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .h-thumb{flex-shrink:0;width:88px;height:112px;border-radius:13px;overflow:hidden;cursor:pointer;transition:transform .15s}
 .h-thumb:active{transform:scale(.94)}
 /* ── Home-feed outfit card (horizontal scroll) ── */
-.outfit-card{flex-shrink:0;width:164px;background:var(--w);border-radius:18px;overflow:hidden;cursor:pointer;border:1px solid var(--ln);box-shadow:0 2px 12px rgba(26,25,22,.07);transition:transform .17s,box-shadow .17s;-webkit-tap-highlight-color:transparent}
+.outfit-card{flex-shrink:0;width:164px;background:var(--w);border-radius:18px;overflow:hidden;cursor:pointer;border:1px solid var(--ln);box-shadow:0 2px 12px rgba(26,25,22,.07);transition:transform .17s,box-shadow .17s;-webkit-tap-highlight-color:transparent;position:relative}
+.outfit-card.gift-wrapped{border-width:2px}
 .outfit-card:active{transform:scale(.95);box-shadow:0 1px 4px rgba(26,25,22,.04)}
 
 /* ── Shared outfit preview — fixed 3-zone slot grid ── */
@@ -224,9 +225,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .out-card:active{transform:scale(.97);box-shadow:0 1px 4px rgba(26,25,22,.04)}
 /* Gift-wrapped card — ribbon crosses the card container */
 .out-card.gift-wrapped{border-width:2px}
-.out-card.gift-wrapped .card-ribbon-h{position:absolute;left:0;right:0;top:50%;height:9px;transform:translateY(-50%);pointer-events:none;z-index:20;opacity:.55}
-.out-card.gift-wrapped .card-ribbon-v{position:absolute;top:0;bottom:0;left:50%;width:9px;transform:translateX(-50%);pointer-events:none;z-index:20;opacity:.55}
-.out-card.gift-wrapped .card-ribbon-bow{position:absolute;top:calc(50% - 14px);left:50%;transform:translateX(-50%);z-index:21;pointer-events:none;width:28px;height:20px}
+/* Ribbon sits at the seam between the outfit image and the card info — outfit is never obscured */
+.gift-wrapped .card-ribbon-h{position:absolute;left:0;right:0;bottom:42px;height:8px;pointer-events:none;z-index:20}
+.gift-wrapped .card-ribbon-v{display:none}
+.gift-wrapped .card-ribbon-bow{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);z-index:21;pointer-events:none;width:24px;height:18px}
 /* Grid card: scaled-down zones summing to 148px */
 .out-card .oc-preview{height:148px;grid-template-rows:72px 48px 28px}
 .out-card .oc-slot-upper{width:50px;height:62px}
@@ -1258,7 +1260,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.2.3</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.2.4</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -1542,8 +1544,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </svg>
         <span>Tap items below to add</span>
       </div>
-      <!-- Gift ribbon wrap — shown when gift mode is on -->
-      <div id="canvas-gift-ribbon" class="gift-ribbon-overlay" style="display:none"></div>
       <!-- Snap alignment guides -->
       <div class="cv-guide cv-guide-h" id="guide-h"></div>
       <div class="cv-guide cv-guide-v" id="guide-v"></div>
@@ -2531,8 +2531,6 @@ function openBuilder(preId, editId=null){
   document.querySelectorAll('.btray-fpill').forEach((p,i)=>p.classList.toggle('on',i===0));
   // Reset gift mode
   isGiftMode=false; giftBowColor='gold';
-  const ribbon=document.getElementById('canvas-gift-ribbon');
-  if(ribbon){ ribbon.style.display='none'; ribbon.innerHTML=''; }
   const gmb=document.getElementById('gift-mode-btn');
   if(gmb) gmb.classList.remove('on');
   const bp=document.getElementById('bow-picker');
@@ -4650,17 +4648,13 @@ function giftRibbonHTML(colorKey, size='full', tappable=false){
 }
 
 // Toggle gift mode on / off in the outfit builder
+// (no canvas visual change — gift wrapping shows on the saved card only)
 function toggleGiftMode(){
   isGiftMode = !isGiftMode;
   const btn    = document.getElementById('gift-mode-btn');
   const picker = document.getElementById('bow-picker');
-  const ribbon = document.getElementById('canvas-gift-ribbon');
   if(btn)    btn.classList.toggle('on', isGiftMode);
   if(picker) picker.classList.toggle('on', isGiftMode);
-  if(ribbon){
-    ribbon.style.display = isGiftMode ? 'block' : 'none';
-    if(isGiftMode) ribbon.innerHTML = giftRibbonHTML(giftBowColor);
-  }
 }
 
 // Pick a bow colour in the builder colour picker
@@ -4668,9 +4662,6 @@ function pickBowColor(el){
   document.querySelectorAll('.bow-color').forEach(c => c.classList.remove('on'));
   el.classList.add('on');
   giftBowColor = el.dataset.color;
-  // Update canvas ribbon color live
-  const ribbon = document.getElementById('canvas-gift-ribbon');
-  if(ribbon && isGiftMode) ribbon.innerHTML = giftRibbonHTML(giftBowColor);
 }
 
 // Open the gift send panel after an outfit has been saved

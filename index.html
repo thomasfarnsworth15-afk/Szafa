@@ -1248,7 +1248,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.2.0</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.2.1</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -1508,6 +1508,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <input class="ov-title-input" id="outfit-name" type="text" placeholder="Name this outfit…">
       <span class="edit-badge" id="ov-mode-badge" style="display:none">Editing</span>
       <button class="gift-mode-btn" id="gift-mode-btn" onclick="toggleGiftMode()" title="Mark as gift">🎁</button>
+      <button class="ov-bg-btn" id="outfit-bow-btn" onclick="toggleOutfitBow()" title="Add bow decoration" style="font-size:15px">🎀</button>
       <button class="ov-bg-btn" onclick="openBgPanel()" title="Board background">🎨</button>
       <button class="ov-save" id="ov-save" onclick="saveOutfit()">Save</button>
     </div>
@@ -1531,6 +1532,27 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <path d="M16 13V11C16 10.2 16.7 9.5 17.5 9.5S19 10.2 19 11V13"/><path d="M16 13L7.5 23H24.5L16 13Z"/>
         </svg>
         <span>Tap items below to add</span>
+      </div>
+      <!-- Outfit bow decoration overlay -->
+      <div id="outfit-bow-overlay" style="display:none;position:absolute;z-index:50;pointer-events:none;top:8px;right:10px;width:52px;height:38px">
+        <svg width="52" height="38" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="#F5A8BE"/>
+          <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="#E07898" opacity=".38"/>
+          <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
+          <circle cx="5.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
+          <circle cx="7.2" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
+          <circle cx="4.8" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
+          <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="#F5A8BE"/>
+          <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="#E07898" opacity=".38"/>
+          <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
+          <circle cx="18.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
+          <circle cx="16.8" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
+          <circle cx="19.2" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
+          <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round"/>
+          <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round"/>
+          <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="#D56080"/>
+          <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="#A84058" opacity=".65"/>
+        </svg>
       </div>
       <!-- Snap alignment guides -->
       <div class="cv-guide cv-guide-h" id="guide-h"></div>
@@ -1832,16 +1854,34 @@ const DEMO = [
 
 // ─── BACKGROUND STYLES ───────────────────────────────────
 const BG_STYLES = {
-  white:   {color:'#FFFFFF',      image:'none',                                                                                                                                                  size:'auto',    pos:'',         label:'White',  type:'solid'},
-  beige:   {color:'#F5F0E8',      image:'none',                                                                                                                                                  size:'auto',    pos:'',         label:'Beige',  type:'solid'},
-  grey:    {color:'#E8E8E6',      image:'none',                                                                                                                                                  size:'auto',    pos:'',         label:'Grey',   type:'solid'},
-  black:   {color:'#1A1916',      image:'none',                                                                                                                                                  size:'auto',    pos:'',         label:'Black',  type:'solid'},
-  ltblue:  {color:'#E8EEF6',      image:'none',                                                                                                                                                  size:'auto',    pos:'',         label:'Blue',   type:'solid'},
-  grid:    {color:'#F8F6F2',      image:'linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px)',                                       size:'22px 22px',pos:'',        label:'Grid',   type:'pattern'},
-  dots:    {color:'#F8F6F2',      image:'radial-gradient(circle,#C8C5BC 1.5px,transparent 1.5px)',                                                                                               size:'16px 16px',pos:'',        label:'Dots',   type:'pattern'},
-  checker: {color:'#FFFFFF',      image:'linear-gradient(45deg,#e0e0de 25%,transparent 25%,transparent 75%,#e0e0de 75%),linear-gradient(45deg,#e0e0de 25%,transparent 25%,transparent 75%,#e0e0de 75%)',size:'16px 16px',pos:'0 0,8px 8px',label:'Check',type:'pattern'},
-  marble:  {color:'#F5F3EE',      image:'repeating-linear-gradient(135deg,rgba(180,170,160,.12) 0,transparent 1px,transparent 8px,rgba(190,180,168,.09) 9px,transparent 10px)',                 size:'auto',    pos:'',         label:'Marble', type:'pattern'},
-  fabric:  {color:'#EDE8E0',      image:'repeating-linear-gradient(0deg,rgba(0,0,0,.04) 0,rgba(0,0,0,.04) 1px,transparent 0,transparent 4px),repeating-linear-gradient(90deg,rgba(0,0,0,.03) 0,rgba(0,0,0,.03) 1px,transparent 0,transparent 4px)',size:'4px 4px',pos:'',label:'Fabric',type:'pattern'},
+  // ── Solid colors ──
+  white:   {color:'#FFFFFF',      image:'none', size:'auto', pos:'', label:'White',     type:'solid'},
+  beige:   {color:'#F5F0E8',      image:'none', size:'auto', pos:'', label:'Beige',     type:'solid'},
+  cream:   {color:'#FAF7F0',      image:'none', size:'auto', pos:'', label:'Cream',     type:'solid'},
+  blush:   {color:'#F5E6E8',      image:'none', size:'auto', pos:'', label:'Blush',     type:'solid'},
+  rose:    {color:'#E8C4C4',      image:'none', size:'auto', pos:'', label:'Rose',      type:'solid'},
+  lavender:{color:'#E8E4F0',      image:'none', size:'auto', pos:'', label:'Lavender',  type:'solid'},
+  sage:    {color:'#E0EBE4',      image:'none', size:'auto', pos:'', label:'Sage',      type:'solid'},
+  ltblue:  {color:'#E8EEF6',      image:'none', size:'auto', pos:'', label:'Blue',      type:'solid'},
+  sky:     {color:'#D6E8F5',      image:'none', size:'auto', pos:'', label:'Sky',       type:'solid'},
+  sand:    {color:'#EDE0C8',      image:'none', size:'auto', pos:'', label:'Sand',      type:'solid'},
+  terracotta:{color:'#E8D4C8',    image:'none', size:'auto', pos:'', label:'Terra',     type:'solid'},
+  mauve:   {color:'#E0D0D8',      image:'none', size:'auto', pos:'', label:'Mauve',     type:'solid'},
+  grey:    {color:'#E8E8E6',      image:'none', size:'auto', pos:'', label:'Grey',      type:'solid'},
+  charcoal:{color:'#404040',      image:'none', size:'auto', pos:'', label:'Charcoal',  type:'solid'},
+  navy:    {color:'#1C2B4A',      image:'none', size:'auto', pos:'', label:'Navy',      type:'solid'},
+  black:   {color:'#1A1916',      image:'none', size:'auto', pos:'', label:'Black',     type:'solid'},
+  // ── Patterns ──
+  grid:    {color:'#F8F6F2', image:'linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px)',                                                                              size:'22px 22px', pos:'',           label:'Grid',    type:'pattern'},
+  dots:    {color:'#F8F6F2', image:'radial-gradient(circle,#C8C5BC 1.5px,transparent 1.5px)',                                                                                                                                        size:'16px 16px', pos:'',           label:'Dots',    type:'pattern'},
+  checker: {color:'#FFFFFF', image:'linear-gradient(45deg,#e0e0de 25%,transparent 25%,transparent 75%,#e0e0de 75%),linear-gradient(45deg,#e0e0de 25%,transparent 25%,transparent 75%,#e0e0de 75%)',                                  size:'16px 16px', pos:'0 0,8px 8px',label:'Check',   type:'pattern'},
+  stripe:  {color:'#F8F6F2', image:'repeating-linear-gradient(0deg,transparent,transparent 10px,rgba(0,0,0,.06) 10px,rgba(0,0,0,.06) 11px)',                                                                                         size:'auto',      pos:'',           label:'Stripe',  type:'pattern'},
+  diag:    {color:'#F5F0E8', image:'repeating-linear-gradient(45deg,rgba(0,0,0,.05) 0,rgba(0,0,0,.05) 1px,transparent 0,transparent 50%)',                                                                                           size:'10px 10px', pos:'',           label:'Diagonal',type:'pattern'},
+  marble:  {color:'#F5F3EE', image:'repeating-linear-gradient(135deg,rgba(180,170,160,.12) 0,transparent 1px,transparent 8px,rgba(190,180,168,.09) 9px,transparent 10px)',                                                           size:'auto',      pos:'',           label:'Marble',  type:'pattern'},
+  linen:   {color:'#EDE8DC', image:'repeating-linear-gradient(0deg,rgba(139,120,90,.07) 0,rgba(139,120,90,.07) 1px,transparent 0,transparent 3px),repeating-linear-gradient(90deg,rgba(139,120,90,.05) 0,rgba(139,120,90,.05) 1px,transparent 0,transparent 3px)', size:'3px 3px', pos:'', label:'Linen', type:'pattern'},
+  fabric:  {color:'#EDE8E0', image:'repeating-linear-gradient(0deg,rgba(0,0,0,.04) 0,rgba(0,0,0,.04) 1px,transparent 0,transparent 4px),repeating-linear-gradient(90deg,rgba(0,0,0,.03) 0,rgba(0,0,0,.03) 1px,transparent 0,transparent 4px)', size:'4px 4px', pos:'', label:'Fabric', type:'pattern'},
+  denim:   {color:'#C8D8E8', image:'repeating-linear-gradient(30deg,rgba(255,255,255,.12) 0,rgba(255,255,255,.12) 1px,transparent 0,transparent 8px),repeating-linear-gradient(150deg,rgba(255,255,255,.08) 0,rgba(255,255,255,.08) 1px,transparent 0,transparent 8px)', size:'8px 8px', pos:'', label:'Denim', type:'pattern'},
+  floral:  {color:'#FDF0F2', image:'radial-gradient(ellipse 4px 5px at 50% 50%,rgba(230,130,140,.35) 0%,transparent 100%),radial-gradient(ellipse 3px 3px at 20% 20%,rgba(200,160,180,.25) 0%,transparent 100%)',                   size:'18px 18px', pos:'',           label:'Floral',  type:'pattern'},
 };
 const SNAP_DIST = 9; // px — how close to snap to centre guide
 
@@ -1861,6 +1901,7 @@ let pendingImg = null;
 let builderCanvas = []; // [{itemId, el, rot, sz, scalePct}]
 let selectedCI = null;  // itemId of canvas item currently selected
 let boardBg = 'beige';  // current canvas background key
+let outfitBowEnabled = false; // bow decoration on outfit canvas
 let editOutfitId = null; // id of outfit being edited (null = creating new)
 
 // Edit-item state
@@ -2006,9 +2047,14 @@ function outfitPreviewHTML(o){
   const small=items.filter(i=>['shoes','bags','accessories'].includes(i.category));
 
   // Bow overlay for wrapped gifts
-  const showBow=o.isGift&&o.giftStatus!=='unwrapped'&&o.giftStatus!=='wrapping';
-  const bowLayer=showBow
+  const showGiftBow=o.isGift&&o.giftStatus!=='unwrapped'&&o.giftStatus!=='wrapping';
+  const bowLayer=showGiftBow
     ?`<div class="gift-bow-overlay" id="bow-${o.id}" onclick="event.stopPropagation();unwrapGift('${o.id}')">${bowSVG(o.giftColor||'gold')}<div class="gift-bow-hint">Tap to unwrap</div></div>`
+    :'';
+
+  // Szafa signature bow decoration (user-enabled, top-right corner)
+  const decorBow=(!showGiftBow && o.hasBow)
+    ?`<div style="position:absolute;top:6px;right:7px;width:36px;height:26px;pointer-events:none;z-index:5"><svg width="36" height="26" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="#F5A8BE"/><path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="#E07898" opacity=".38"/><path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/><circle cx="5.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/><circle cx="7.2" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/><circle cx="4.8" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/><path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="#F5A8BE"/><path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="#E07898" opacity=".38"/><path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/><circle cx="18.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/><circle cx="16.8" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/><circle cx="19.2" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/><path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round"/><path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round"/><ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="#D56080"/><ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="#A84058" opacity=".65"/></svg></div>`
     :'';
 
   // oc-few: scale up slots for outfits with 1–2 items total
@@ -2029,7 +2075,7 @@ function outfitPreviewHTML(o){
     <div class="oc-zone oc-zone-upper">${upper.slice(0,2).map(i=>slot(i,'upper')).join('')}</div>
     <div class="oc-zone oc-zone-lower">${lower.slice(0,2).map(i=>slot(i,'lower')).join('')}</div>
     <div class="oc-zone oc-zone-small">${small.slice(0,3).map(i=>slot(i,'small')).join('')}</div>
-    ${bowLayer}
+    ${bowLayer}${decorBow}
   </div>`;
 }
 
@@ -2499,6 +2545,7 @@ function openBuilder(preId, editId=null){
   document.querySelectorAll('.btray-fpill').forEach((p,i)=>p.classList.toggle('on',i===0));
   // Reset gift mode
   isGiftMode=false; giftBowColor='gold';
+  setOutfitBow(false);
   const gmb=document.getElementById('gift-mode-btn');
   if(gmb) gmb.classList.remove('on');
   const bp=document.getElementById('bow-picker');
@@ -2520,6 +2567,7 @@ function openBuilder(preId, editId=null){
       document.getElementById('outfit-name').value=o.name||'';
       boardBg=o.boardBg||'beige';
       applyBoardBg(boardBg);
+      setOutfitBow(o.hasBow||false);
       if(saveBtn){ saveBtn.textContent='Save Changes'; saveBtn.style.background='#2A5E38'; }
       if(badge) badge.style.display='flex';
       document.getElementById('btray-lbl').textContent='Edit · tap tray to add · select item to reposition';
@@ -2610,10 +2658,10 @@ function openBgPanel(){
 function closeBgPanel(){ document.getElementById('bg-panel').classList.remove('on'); }
 
 function renderBgSwatches(){
-  const solids=['white','beige','grey','black','ltblue'];
-  const patterns=['grid','dots','checker','marble','fabric'];
+  const solids=['white','cream','beige','blush','rose','lavender','sage','ltblue','sky','sand','terracotta','mauve','grey','charcoal','navy','black'];
+  const patterns=['grid','dots','checker','stripe','diag','marble','linen','fabric','denim','floral'];
   function mk(key){
-    const s=BG_STYLES[key];
+    const s=BG_STYLES[key]; if(!s) return '';
     return `<div class="bg-sw ${key===boardBg?'on':''}" data-key="${key}" onclick="setBoardBg('${key}')">
       <div class="bg-sw-inner" style="background-color:${s.color};background-image:${s.image==='none'?'none':s.image};background-size:${s.size||'auto'};background-position:${s.pos||''};background-repeat:repeat"></div>
       <div class="bg-sw-lbl">${s.label}</div>
@@ -2621,6 +2669,23 @@ function renderBgSwatches(){
   }
   document.getElementById('bg-swatches-solid').innerHTML=solids.map(mk).join('');
   document.getElementById('bg-swatches-pattern').innerHTML=patterns.map(mk).join('');
+}
+
+// ── Outfit bow decoration ────────────────────────────────
+function toggleOutfitBow(){
+  outfitBowEnabled=!outfitBowEnabled;
+  const overlay=document.getElementById('outfit-bow-overlay');
+  const btn=document.getElementById('outfit-bow-btn');
+  if(overlay) overlay.style.display=outfitBowEnabled?'block':'none';
+  if(btn) btn.style.background=outfitBowEnabled?'rgba(245,168,190,.25)':'';
+}
+
+function setOutfitBow(enabled){
+  outfitBowEnabled=!!enabled;
+  const overlay=document.getElementById('outfit-bow-overlay');
+  const btn=document.getElementById('outfit-bow-btn');
+  if(overlay) overlay.style.display=outfitBowEnabled?'block':'none';
+  if(btn) btn.style.background=outfitBowEnabled?'rgba(245,168,190,.25)':'';
 }
 
 // ── Canvas item dimensions ──────────────────────────────
@@ -2838,8 +2903,7 @@ function saveOutfit(){
 
   if(editOutfitId){
     S.outfits=S.outfits.map(o=> o.id===editOutfitId
-      ? {...o, name, canvasItems, items:canvasItems.map(ci=>ci.itemId), boardBg,
-         // preserve gift flags when editing
+      ? {...o, name, canvasItems, items:canvasItems.map(ci=>ci.itemId), boardBg, hasBow:outfitBowEnabled,
          isGift:o.isGift, giftColor:o.giftColor, giftStatus:o.giftStatus,
          giftFrom:o.giftFrom, giftDbId:o.giftDbId, updatedAt:Date.now()}
       : o
@@ -2850,11 +2914,10 @@ function saveOutfit(){
     const newId = uid();
     const outfit = {
       id:newId, name, canvasItems, items:canvasItems.map(ci=>ci.itemId),
-      boardBg, savedAt:Date.now(),
-      // Gift fields
+      boardBg, hasBow:outfitBowEnabled, savedAt:Date.now(),
       isGift:     isGiftMode,
       giftColor:  isGiftMode ? giftBowColor : null,
-      giftStatus: isGiftMode ? 'wrapping' : null,  // 'wrapping' = created as gift, not yet sent
+      giftStatus: isGiftMode ? 'wrapping' : null,
     };
     S.outfits.unshift(outfit);
     saveS(); closeBuilder();

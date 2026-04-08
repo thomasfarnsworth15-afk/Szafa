@@ -5024,49 +5024,33 @@ async function onSignedIn(user){
   };
   currentStorageKey = SK + '_' + user.id;
 
-  // Show the app shell — let splash animation finish first
+  // Prepare the app shell behind the splash — still hidden from user
   hideAuthScreen();
-  hideSplashAfterDelay();
   document.querySelectorAll('.sc.on').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('#ni0,#ni1,#ni2,#ni3,#ni4').forEach(n => n.classList.remove('on'));
   const s0 = document.getElementById('s0'); if(s0) s0.classList.add('on');
   const ni0 = document.getElementById('ni0'); if(ni0) ni0.classList.add('on');
   curScreen = 0;
 
-  // Show a loading skeleton in home while we fetch from the database
-  const hb = document.getElementById('home-body');
-  if(hb) hb.innerHTML =
-    '<div class="db-load-screen">' +
-      '<div class="db-load-spinner"></div>' +
-      '<div class="db-load-text">Loading your wardrobe…</div>' +
-    '</div>';
-
-  // ── Data priority: Supabase → localStorage → seed ─────────────
-  // By this point getSession() in initAuth has already refreshed the token,
-  // so dbLoad() will always have a valid JWT. No retry needed.
+  // Load data silently behind the splash
   const fromDB = await dbLoad();
 
   if(!fromDB){
-    // DB had no row for this user yet (first login).
-    // Check localStorage — covers users who had local data before sync was added.
     let hasLocal = false;
     try{
       const raw = localStorage.getItem(currentStorageKey);
       if(raw){ S = JSON.parse(raw); hasLocal = true; }
     }catch(e){}
-
-    if(!hasLocal){
-      // Truly brand-new user — seed demo data and write to DB for the first time
-      seed();
-      dbSave();
-    }
-    // If we had local data: show it but don't push to DB (may be stale)
+    if(!hasLocal){ seed(); dbSave(); }
   }
 
-  // Keep localStorage in sync with whatever we loaded
   try{ localStorage.setItem(currentStorageKey, JSON.stringify(S)); }catch(e){}
 
+  // Render everything before the splash lifts — user sees a fully loaded home screen
   renderHome(); renderCloset(); renderOutfits(); renderProfile();
+
+  // Now dismiss the splash — animation has been playing, data is ready
+  hideSplashAfterDelay();
   renderSocial(); // pre-load the Explore feed in the background
   loadNotifications(); // load notification badge count
   loadWatches();       // load watched item ids

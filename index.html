@@ -310,14 +310,26 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .out-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px 14px 28px}
 
 /* Profile */
-.splash{position:absolute;inset:0;background:var(--w);z-index:1001;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .28s ease}
+.splash{position:absolute;inset:0;background:var(--w);z-index:1001;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .5s cubic-bezier(.4,0,.2,1)}
 .splash.hidden{opacity:0;pointer-events:none}
-.splash-logo{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:52px;letter-spacing:.2em;color:var(--ink)}
-.splash-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:splashPulse 1.2s ease-in-out infinite}
-.splash-dot:nth-child(2){animation-delay:.2s}
-.splash-dot:nth-child(3){animation-delay:.4s}
-.splash-dots{display:flex;gap:8px}
-@keyframes splashPulse{0%,100%{opacity:.25;transform:scale(.75)}50%{opacity:1;transform:scale(1)}}
+/* Individual letter animation */
+.splash-word{display:flex;align-items:baseline;gap:0;font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:54px;letter-spacing:.22em;color:var(--ink)}
+.splash-letter{display:inline-block;opacity:0;transform:translateY(18px);animation:splashLetterIn .6s cubic-bezier(.22,1,.36,1) forwards}
+.splash-letter:nth-child(1){animation-delay:.08s}
+.splash-letter:nth-child(2){animation-delay:.18s}
+.splash-letter:nth-child(3){animation-delay:.28s}
+.splash-letter:nth-child(4){animation-delay:.38s} /* f-with-bow */
+.splash-letter:nth-child(5){animation-delay:.48s}
+@keyframes splashLetterIn{to{opacity:1;transform:translateY(0)}}
+/* Bow on the f */
+.splash-f{position:relative;display:inline-block}
+.splash-bow{position:absolute;top:.04em;right:-.2em;width:.42em;height:.32em;opacity:0;animation:splashBowIn .5s cubic-bezier(.22,1,.36,1) .72s forwards;transform-origin:center 45%}
+@keyframes splashBowIn{from{opacity:0;transform:scale(.4) rotate(-12deg)}to{opacity:1;transform:scale(1) rotate(-5deg)}}
+/* Tagline fades in after letters */
+.splash-tag{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--dim);opacity:0;animation:splashTagIn .5s ease .96s forwards}
+@keyframes splashTagIn{to{opacity:1}}
+/* Subtle shimmer line */
+.splash-line{width:32px;height:1px;background:linear-gradient(90deg,transparent,var(--dim),transparent);opacity:0;animation:splashTagIn .5s ease 1.1s forwards}
 .p-screen-hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;background:var(--w);border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:10}
 .p-screen-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink)}
 .p-gear-btn{width:36px;height:36px;border-radius:50%;background:var(--tag);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;border:none}
@@ -788,14 +800,36 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div class="phone">
   <div class="notch"></div>
 
-  <!-- ══ SPLASH — shown during auth check, prevents login flash ══ -->
+  <!-- ══ SPLASH — branded intro animation ══ -->
   <div class="splash" id="splash-screen">
-    <div class="splash-logo">szafa</div>
-    <div class="splash-dots">
-      <div class="splash-dot"></div>
-      <div class="splash-dot"></div>
-      <div class="splash-dot"></div>
+    <div class="splash-word">
+      <span class="splash-letter">s</span>
+      <span class="splash-letter">z</span>
+      <span class="splash-letter">a</span>
+      <span class="splash-letter splash-f">f
+        <svg class="splash-bow" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="#F5A8BE"/>
+          <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="#E07898" opacity=".38"/>
+          <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
+          <circle cx="5.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
+          <circle cx="7.2" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
+          <circle cx="4.8" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
+          <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="#F5A8BE"/>
+          <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="#E07898" opacity=".38"/>
+          <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
+          <circle cx="18.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
+          <circle cx="16.8" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
+          <circle cx="19.2" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
+          <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+          <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+          <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="#D56080"/>
+          <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="#A84058" opacity=".65"/>
+        </svg>
+      </span>
+      <span class="splash-letter">a</span>
     </div>
+    <div class="splash-line"></div>
+    <div class="splash-tag">your digital wardrobe</div>
   </div>
 
   <!-- ══ AUTH SCREEN — starts hidden, only shown if no session found ══ -->
@@ -4990,8 +5024,9 @@ async function onSignedIn(user){
   };
   currentStorageKey = SK + '_' + user.id;
 
-  // Show the app shell immediately so the transition feels instant
+  // Show the app shell — let splash animation finish first
   hideAuthScreen();
+  hideSplashAfterDelay();
   document.querySelectorAll('.sc.on').forEach(s => s.classList.remove('on'));
   document.querySelectorAll('#ni0,#ni1,#ni2,#ni3,#ni4').forEach(n => n.classList.remove('on'));
   const s0 = document.getElementById('s0'); if(s0) s0.classList.add('on');
@@ -5220,16 +5255,29 @@ function continueAsGuest(){
 
 // ── Auth UI helpers ─────────────────────────────────────
 function showAuthScreen(){
-  // Hide splash first, then reveal auth screen
   const splash = document.getElementById('splash-screen');
-  if(splash) splash.classList.add('hidden');
-  document.getElementById('auth-screen').classList.remove('hidden');
+  const elapsed = Date.now() - _splashStart;
+  const remaining = Math.max(0, 1500 - elapsed);
+  setTimeout(() => {
+    if(splash) splash.classList.add('hidden');
+    document.getElementById('auth-screen').classList.remove('hidden');
+  }, remaining);
 }
 function hideAuthScreen(){
   document.getElementById('auth-screen').classList.add('hidden');
   const splash = document.getElementById('splash-screen');
   if(splash) splash.classList.add('hidden');
 }
+// Ensures splash animation plays fully before the app appears
+function hideSplashAfterDelay(){
+  const splash = document.getElementById('splash-screen');
+  if(!splash) return;
+  // Animation completes at ~1.3s — wait 1.5s then fade out over .5s
+  const elapsed = Date.now() - _splashStart;
+  const remaining = Math.max(0, 1500 - elapsed);
+  setTimeout(() => splash.classList.add('hidden'), remaining);
+}
+const _splashStart = Date.now();
 function clearAuthError(){ document.getElementById('auth-error').textContent = ''; }
 function setAuthError(msg){ document.getElementById('auth-error').textContent = msg; }
 

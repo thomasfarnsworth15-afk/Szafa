@@ -220,8 +220,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .h-tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:4px 14px 28px}
 
 /* ── Outfits-tab grid card (2-column grid, 148px preview) ── */
-.out-card{background:var(--w);border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid var(--ln);box-shadow:0 2px 12px rgba(26,25,22,.07);transition:transform .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent}
+.out-card{background:var(--w);border-radius:16px;overflow:hidden;cursor:pointer;border:1px solid var(--ln);box-shadow:0 2px 12px rgba(26,25,22,.07);transition:transform .15s,box-shadow .15s;-webkit-tap-highlight-color:transparent;position:relative}
 .out-card:active{transform:scale(.97);box-shadow:0 1px 4px rgba(26,25,22,.04)}
+/* Gift-wrapped card — ribbon crosses the card container */
+.out-card.gift-wrapped{border-width:2px}
+.out-card.gift-wrapped .card-ribbon-h{position:absolute;left:0;right:0;top:50%;height:9px;transform:translateY(-50%);pointer-events:none;z-index:20;opacity:.55}
+.out-card.gift-wrapped .card-ribbon-v{position:absolute;top:0;bottom:0;left:50%;width:9px;transform:translateX(-50%);pointer-events:none;z-index:20;opacity:.55}
+.out-card.gift-wrapped .card-ribbon-bow{position:absolute;top:calc(50% - 14px);left:50%;transform:translateX(-50%);z-index:21;pointer-events:none;width:28px;height:20px}
 /* Grid card: scaled-down zones summing to 148px */
 .out-card .oc-preview{height:148px;grid-template-rows:72px 48px 28px}
 .out-card .oc-slot-upper{width:50px;height:62px}
@@ -813,8 +818,10 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div class="phone">
   <div class="notch"></div>
 
+  <!-- Hide splash immediately on refresh (before CSS loads) -->
+  <script>if(sessionStorage.getItem('szafa_splash_played')==='1'){document.documentElement.style.setProperty('--splash-display','none');}</script>
   <!-- ══ SPLASH — branded intro animation ══ -->
-  <div class="splash" id="splash-screen">
+  <div class="splash" id="splash-screen" style="display:var(--splash-display,flex)">
     <div class="splash-word">
       <span class="splash-letter">s</span>
       <span class="splash-letter">z</span>
@@ -1251,7 +1258,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.2.2</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.2.3</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2028,11 +2035,8 @@ function outfitPreviewHTML(o){
   const lower=items.filter(i=>i.category==='bottoms');
   const small=items.filter(i=>['shoes','bags','accessories'].includes(i.category));
 
-  // Gift ribbon wrap overlay on outfit cards
-  const showRibbon=o.isGift&&o.giftStatus!=='unwrapped'&&o.giftStatus!=='wrapping';
-  const bowLayer=showRibbon
-    ?`<div class="gift-ribbon-overlay tappable" id="bow-${o.id}" onclick="event.stopPropagation();unwrapGift('${o.id}')">${giftRibbonHTML(o.giftColor||'gold','full',true)}</div>`
-    :'';
+  // No ribbon overlay inside the preview — ribbon is applied at the card level
+  const bowLayer = '';
 
 
   // oc-few: scale up slots for outfits with 1–2 items total
@@ -2099,10 +2103,14 @@ function renderHome(){
       const ids=[...new Set(((o.canvasItems||[]).map(ci=>ci.itemId)).concat(o.items||[]))];
       const ct=ids.length;
       const isWrapped = o.isGift && o.giftStatus !== 'unwrapped';
+      const ribbonColor = o.giftColor || 'gold';
+      const rc2 = isWrapped ? (RIBBON_COLORS[ribbonColor] || RIBBON_COLORS.gold) : null;
       const heartFilled=`<svg width="14" height="13" viewBox="0 0 14 13" fill="#D46A5A"><path d="M7 12L1.3 6.3C.5 5.5.5 4.2 1.3 3.4 2 2.5 3.3 2.5 4.2 3.4L7 6.2 9.8 3.4C10.7 2.5 12 2.5 12.7 3.4 13.5 4.2 13.5 5.5 12.7 6.3L7 12Z"/></svg>`;
       const heartEmpty=`<svg width="14" height="13" viewBox="0 0 14 13" fill="none" stroke="var(--dim)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 12L1.3 6.3C.5 5.5.5 4.2 1.3 3.4 2 2.5 3.3 2.5 4.2 3.4L7 6.2 9.8 3.4C10.7 2.5 12 2.5 12.7 3.4 13.5 4.2 13.5 5.5 12.7 6.3Z"/></svg>`;
-      return `<div class="outfit-card" onclick="openOutfitDetail('${o.id}')">
+      return `<div class="outfit-card${isWrapped?' gift-wrapped':''}" ${isWrapped?`style="border-color:${rc2.border};border-width:2px"`:''}
+        onclick="openOutfitDetail('${o.id}')">
         ${outfitPreviewHTML(o)}
+        ${isWrapped ? cardRibbonHTML(ribbonColor) : ''}
         <div class="oc-info">
           <div class="oc-name">${o.name}</div>
           <div class="oc-bottom">
@@ -3033,10 +3041,14 @@ function renderOutfits(){
     const ids=(o.canvasItems||[]).map(ci=>ci.itemId).concat(o.items||[]);
     const ct=[...new Set(ids)].length;
     const isWrapped = o.isGift && o.giftStatus !== 'unwrapped';
+    const ribbonColor = o.giftColor || 'gold';
+    const rc = isWrapped ? (RIBBON_COLORS[ribbonColor] || RIBBON_COLORS.gold) : null;
     const heartFilled=`<svg width="13" height="12" viewBox="0 0 13 12" fill="#D46A5A"><path d="M6.5 11L1.3 5.8C.5 5 .5 3.8 1.3 3 2 2.2 3.2 2.2 4 3L6.5 5.5 9 3C9.8 2.2 11 2.2 11.7 3 12.5 3.8 12.5 5 11.7 5.8L6.5 11Z"/></svg>`;
     const heartEmpty=`<svg width="13" height="12" viewBox="0 0 13 12" fill="none" stroke="var(--dim)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 11L1.3 5.8C.5 5 .5 3.8 1.3 3 2 2.2 3.2 2.2 4 3L6.5 5.5 9 3C9.8 2.2 11 2.2 11.7 3 12.5 3.8 12.5 5 11.7 5.8Z"/></svg>`;
-    return `<div class="out-card" onclick="openOutfitDetail('${o.id}')">
+    return `<div class="out-card${isWrapped?' gift-wrapped':''}" ${isWrapped?`style="border-color:${rc.border}"`:''}
+      onclick="openOutfitDetail('${o.id}')">
       ${outfitPreviewHTML(o)}
+      ${isWrapped ? cardRibbonHTML(ribbonColor) : ''}
       <div class="out-card-info">
         <div class="out-card-name">${o.name}</div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px">
@@ -4581,12 +4593,30 @@ function bowSVG(colorKey, size=62){
 
 // ── Gift ribbon wrap visual ──────────────────────────────
 const RIBBON_COLORS = {
-  gold:  { ribbon:'rgba(192,146,88,.55)',  band:'rgba(212,166,108,.35)', bow:'#C09258' },
-  pink:  { ribbon:'rgba(232,128,168,.55)', band:'rgba(245,168,190,.35)', bow:'#E880A8' },
-  red:   { ribbon:'rgba(196,88,88,.55)',   band:'rgba(220,110,110,.35)', bow:'#C45858' },
-  black: { ribbon:'rgba(42,40,37,.55)',    band:'rgba(42,40,37,.30)',    bow:'#2A2825' },
-  cream: { ribbon:'rgba(200,190,170,.55)', band:'rgba(220,210,190,.35)', bow:'#D4C8B0' },
+  gold:  { band:'rgba(192,146,88,.82)',  border:'rgba(192,146,88,.6)',  bow:'#C09258' },
+  pink:  { band:'rgba(232,128,168,.82)', border:'rgba(232,128,168,.6)', bow:'#E880A8' },
+  red:   { band:'rgba(196,88,88,.82)',   border:'rgba(196,88,88,.6)',   bow:'#C45858' },
+  black: { band:'rgba(42,40,37,.7)',     border:'rgba(42,40,37,.5)',    bow:'#2A2825' },
+  cream: { band:'rgba(185,170,148,.82)', border:'rgba(185,170,148,.6)', bow:'#B8A880' },
 };
+
+// Card-level ribbon: thin bands + small bow rendered inside the out-card container
+function cardRibbonHTML(colorKey){
+  const c = RIBBON_COLORS[colorKey] || RIBBON_COLORS.gold;
+  const bowSvg = `<svg viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="20">
+    <path d="M14 10C11.5 7 6 6.5 6 9.5C6 12.5 11.5 11.5 14 10Z" fill="${c.bow}"/>
+    <path d="M14 10C16.5 7 22 6.5 22 9.5C22 12.5 16.5 11.5 14 10Z" fill="${c.bow}"/>
+    <path d="M11 10.5C9 12.5 8 15.5 7.5 18" stroke="${c.bow}" stroke-width="1.3" stroke-linecap="round"/>
+    <path d="M17 10.5C19 12.5 20 15.5 20.5 18" stroke="${c.bow}" stroke-width="1.3" stroke-linecap="round"/>
+    <ellipse cx="14" cy="10" rx="3" ry="2.2" fill="${c.bow}"/>
+    <ellipse cx="14" cy="9.2" rx="1.6" ry="1" fill="rgba(255,255,255,.32)"/>
+    <path d="M8.5 7.5C9.5 6.5 11.5 7 14 10" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1" stroke-linecap="round"/>
+    <path d="M19.5 7.5C18.5 6.5 16.5 7 14 10" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="1" stroke-linecap="round"/>
+  </svg>`;
+  return `<div class="card-ribbon-h" style="background:${c.band}"></div>
+    <div class="card-ribbon-v" style="background:${c.band}"></div>
+    <div class="card-ribbon-bow">${bowSvg}</div>`;
+}
 
 function giftRibbonHTML(colorKey, size='full', tappable=false){
   const c = RIBBON_COLORS[colorKey] || RIBBON_COLORS.gold;
@@ -5346,10 +5376,14 @@ function continueAsGuest(){
 }
 
 // ── Auth UI helpers ─────────────────────────────────────
+// ── Splash: only plays on first launch per session, not on refresh ──
+const _splashAlreadyPlayed = sessionStorage.getItem('szafa_splash_played') === '1';
+const _splashStart = Date.now();
+
 function showAuthScreen(){
   const splash = document.getElementById('splash-screen');
   const elapsed = Date.now() - _splashStart;
-  const remaining = Math.max(0, 1500 - elapsed);
+  const remaining = _splashAlreadyPlayed ? 0 : Math.max(0, 1500 - elapsed);
   setTimeout(() => {
     if(splash) splash.classList.add('hidden');
     document.getElementById('auth-screen').classList.remove('hidden');
@@ -5357,18 +5391,17 @@ function showAuthScreen(){
 }
 function hideAuthScreen(){
   document.getElementById('auth-screen').classList.add('hidden');
-  // Do NOT touch the splash here — it's controlled exclusively by hideSplashAfterDelay()
 }
-// Ensures splash animation plays fully before the app appears
 function hideSplashAfterDelay(){
   const splash = document.getElementById('splash-screen');
   if(!splash) return;
-  // Animation completes at ~1.3s — wait 1.5s then fade out over .5s
   const elapsed = Date.now() - _splashStart;
-  const remaining = Math.max(0, 1500 - elapsed);
-  setTimeout(() => splash.classList.add('hidden'), remaining);
+  const remaining = _splashAlreadyPlayed ? 0 : Math.max(0, 1500 - elapsed);
+  setTimeout(() => {
+    splash.classList.add('hidden');
+    sessionStorage.setItem('szafa_splash_played', '1');
+  }, remaining);
 }
-const _splashStart = Date.now();
 function clearAuthError(){ document.getElementById('auth-error').textContent = ''; }
 function setAuthError(msg){ document.getElementById('auth-error').textContent = msg; }
 

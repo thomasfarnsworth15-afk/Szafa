@@ -310,7 +310,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .out-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:10px 14px 28px}
 
 /* Profile */
-.p-screen-hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;background:var(--w);border-bottom:1px solid var(--ln)}
+.splash{position:absolute;inset:0;background:var(--w);z-index:1001;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;transition:opacity .28s ease}
+.splash.hidden{opacity:0;pointer-events:none}
+.splash-logo{font-family:'Cormorant Garamond',Georgia,serif;font-weight:400;font-size:52px;letter-spacing:.2em;color:var(--ink)}
+.splash-dot{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:splashPulse 1.2s ease-in-out infinite}
+.splash-dot:nth-child(2){animation-delay:.2s}
+.splash-dot:nth-child(3){animation-delay:.4s}
+.splash-dots{display:flex;gap:8px}
+@keyframes splashPulse{0%,100%{opacity:.25;transform:scale(.75)}50%{opacity:1;transform:scale(1)}}
+.p-screen-hdr{height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;background:var(--w);border-bottom:1px solid var(--ln);position:sticky;top:0;z-index:10}
 .p-screen-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink)}
 .p-gear-btn{width:36px;height:36px;border-radius:50%;background:var(--tag);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;border:none}
 .p-gear-btn:active{background:var(--ln)}
@@ -756,11 +764,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   .shdr{padding-top:env(safe-area-inset-top,0px)}
   .add-hdr{padding-top:calc(14px + env(safe-area-inset-top,0px))}
 
-  /* ── Profile cover extends into safe area ── */
-  .p-hero{padding-top:calc(28px + env(safe-area-inset-top,0px))}
+  /* ── Profile: sticky header absorbs safe area, hero needs no extra push ── */
+  .p-screen-hdr{padding-top:env(safe-area-inset-top,0px);height:calc(52px + env(safe-area-inset-top,0px))}
+  .p-hero{padding-top:28px}
 
   /* ── Auth screen ── */
   .auth-body{padding-top:max(44px,calc(20px + env(safe-area-inset-top,0px)))}
+
+  /* ── Splash safe area ── */
+  .splash{padding-top:env(safe-area-inset-top,0px)}
 
   /* ── Pull-to-refresh: lifted 10px vs last version ───────────────────────
      offset changed from -52px → -62px so final position is 10px higher.
@@ -776,8 +788,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 <div class="phone">
   <div class="notch"></div>
 
-  <!-- ══ AUTH SCREEN — covers app until user signs in ══ -->
-  <div class="auth-screen" id="auth-screen">
+  <!-- ══ SPLASH — shown during auth check, prevents login flash ══ -->
+  <div class="splash" id="splash-screen">
+    <div class="splash-logo">szafa</div>
+    <div class="splash-dots">
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+    </div>
+  </div>
+
+  <!-- ══ AUTH SCREEN — starts hidden, only shown if no session found ══ -->
+  <div class="auth-screen hidden" id="auth-screen">
     <div class="auth-body">
       <div class="auth-logo">szafa</div>
       <div class="auth-tag">Your digital wardrobe</div>
@@ -5197,8 +5219,17 @@ function continueAsGuest(){
 }
 
 // ── Auth UI helpers ─────────────────────────────────────
-function showAuthScreen(){ document.getElementById('auth-screen').classList.remove('hidden'); }
-function hideAuthScreen(){ document.getElementById('auth-screen').classList.add('hidden'); }
+function showAuthScreen(){
+  // Hide splash first, then reveal auth screen
+  const splash = document.getElementById('splash-screen');
+  if(splash) splash.classList.add('hidden');
+  document.getElementById('auth-screen').classList.remove('hidden');
+}
+function hideAuthScreen(){
+  document.getElementById('auth-screen').classList.add('hidden');
+  const splash = document.getElementById('splash-screen');
+  if(splash) splash.classList.add('hidden');
+}
 function clearAuthError(){ document.getElementById('auth-error').textContent = ''; }
 function setAuthError(msg){ document.getElementById('auth-error').textContent = msg; }
 
@@ -5804,8 +5835,8 @@ loadS();
 initPWA();           // ← sets up manifest, icon, SW, install banner
 initPullToRefresh(); // ← pull-to-refresh gesture on touch devices
 checkProSuccess();   // ← detect ?pro=1 redirect back from Stripe
-// Show auth screen immediately; initAuth() will hide it if a session exists
-showAuthScreen();
+// Splash is visible by default. initAuth() resolves the session then either
+// goes straight to Home (session exists) or shows the auth screen (no session).
 initAuth();
 </script>
 </body>

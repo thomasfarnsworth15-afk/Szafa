@@ -1219,7 +1219,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.3.3</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.3.4</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2644,17 +2644,17 @@ function renderCloset(){
         <span style="font-size:10px;font-weight:500;color:rgba(245,168,190,.9);letter-spacing:.04em;text-align:center;line-height:1.3">See All</span>
       </div>
     </div>`;
+    const favItemsHtml=favItems.map(it=>{
+      return '<div onclick="openDetail(\''+it.id+'\')" style="flex-shrink:0;width:88px;cursor:pointer;-webkit-tap-highlight-color:transparent">'
+        +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba(245,168,190,.45);box-shadow:0 2px 10px rgba(245,168,190,.25)">'
+        +art(it,108)+'</div>'
+        +'<div style="font-size:11px;font-weight:500;color:var(--ink);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+it.name+'</div>'
+        +'</div>';
+    }).join('');
     favHtml=`<div style="padding:12px 0 0">
       <div style="padding:0 20px 8px;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--mid)">Favourites</div>
       <div style="display:flex;gap:10px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch" class="fav-scroll">
-        ${favItems.map(it=>`
-          <div onclick="openDetail('${it.id}')" style="flex-shrink:0;width:88px;cursor:pointer;-webkit-tap-highlight-color:transparent">
-            <div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba(245,168,190,.45);box-shadow:0 2px 10px rgba(245,168,190,.25)">
-              ${art(it,108)}
-            </div>
-            <div style="font-size:11px;font-weight:500;color:var(--ink);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${it.name}</div>
-          </div>`).join('')}
-        ${seeAllBtn}
+        ${favItemsHtml}${seeAllBtn}
       </div>
       <div style="height:1px;background:var(--ln);margin:0 0 12px"></div>
     </div>`;

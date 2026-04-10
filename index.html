@@ -801,22 +801,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <span class="splash-letter">a</span>
       <span class="splash-letter splash-f">f
         <svg class="splash-bow" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="#F5A8BE"/>
-          <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="#E07898" opacity=".38"/>
-          <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
-          <circle cx="5.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
-          <circle cx="7.2" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
-          <circle cx="4.8" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
-          <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="#F5A8BE"/>
-          <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="#E07898" opacity=".38"/>
-          <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
-          <circle cx="18.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
-          <circle cx="16.8" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
-          <circle cx="19.2" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
-          <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-          <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-          <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="#D56080"/>
-          <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="#A84058" opacity=".65"/>
+          <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="var(--bow-main)"/>
+          <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
+          <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
+          <circle cx="5.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <circle cx="7.2" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <circle cx="4.8" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="var(--bow-main)"/>
+          <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
+          <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
+          <circle cx="18.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <circle cx="16.8" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <circle cx="19.2" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="var(--bow-main)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+          <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="var(--bow-main)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+          <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="var(--bow-knot)"/>
+          <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="var(--bow-knothi)" opacity=".65"/>
         </svg>
       </span>
       <span class="splash-letter">a</span>
@@ -920,29 +920,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div class="home-hdr">
           <span class="logo">sza<span class="logo-f">f<svg class="logo-bow" width="8" height="6" viewBox="0 0 24 18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <!-- ── LEFT WING ── -->
-            <!-- base: soft pink, pointed toward knot, rounded tip at left -->
-            <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="#F5A8BE"/>
-            <!-- shadow fold along lower inner edge for depth -->
-            <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="#E07898" opacity=".38"/>
-            <!-- highlight on top outer curve (light catches here) -->
-            <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
-            <!-- blue dots — texture / pattern -->
-            <circle cx="5.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
-            <circle cx="7.2" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
-            <circle cx="4.8" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
+            <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="var(--bow-main)"/>
+            <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
+            <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
+            <circle cx="5.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <circle cx="7.2" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <circle cx="4.8" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
             <!-- ── RIGHT WING ── -->
-            <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="#F5A8BE"/>
-            <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="#E07898" opacity=".38"/>
-            <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
-            <circle cx="18.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
-            <circle cx="16.8" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
-            <circle cx="19.2" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
-            <!-- ── RIBBON TAILS ── hang below the knot -->
-            <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-            <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round" fill="none"/>
-            <!-- ── KNOT — centre pinch ── -->
-            <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="#D56080"/>
-            <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="#A84058" opacity=".65"/>
+            <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="var(--bow-main)"/>
+            <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
+            <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
+            <circle cx="18.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <circle cx="16.8" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <circle cx="19.2" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <!-- ── RIBBON TAILS ── -->
+            <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="var(--bow-main)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+            <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="var(--bow-main)" stroke-width="1.1" stroke-linecap="round" fill="none"/>
+            <!-- ── KNOT ── -->
+            <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="var(--bow-knot)"/>
+            <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="var(--bow-knothi)" opacity=".65"/>
           </svg></span>a</span>
           <div style="display:flex;align-items:center;gap:8px">
             <div class="home-bell" id="notif-bell" onclick="openNotifSheet()" title="Notifications" style="position:relative">
@@ -1009,23 +1005,23 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
             <!-- Soft background shapes -->
             <ellipse cx="110" cy="60" rx="98" ry="48" fill="#FFF0F5" opacity=".5"/>
             <!-- Left bow wing -->
-            <path d="M110 60 C90 44 52 38 42 52 C32 66 54 76 110 60Z" fill="#F5A8BE" opacity=".9"/>
+            <path d="M110 60 C90 44 52 38 42 52 C32 66 54 76 110 60Z" fill="var(--bow-main)" opacity=".9"/>
             <!-- Right bow wing -->
-            <path d="M110 60 C130 44 168 38 178 52 C188 66 166 76 110 60Z" fill="#F5A8BE" opacity=".9"/>
+            <path d="M110 60 C130 44 168 38 178 52 C188 66 166 76 110 60Z" fill="var(--bow-main)" opacity=".9"/>
             <!-- Wing shading -->
-            <path d="M110 60 C96 48 65 44 52 52 C44 58 56 72 110 60Z" fill="#D56080" opacity=".2"/>
-            <path d="M110 60 C124 48 155 44 168 52 C176 58 164 72 110 60Z" fill="#D56080" opacity=".2"/>
+            <path d="M110 60 C96 48 65 44 52 52 C44 58 56 72 110 60Z" fill="var(--bow-knot)" opacity=".2"/>
+            <path d="M110 60 C124 48 155 44 168 52 C176 58 164 72 110 60Z" fill="var(--bow-knot)" opacity=".2"/>
             <!-- Knot -->
-            <ellipse cx="110" cy="60" rx="11" ry="9" fill="#D56080" opacity=".92"/>
+            <ellipse cx="110" cy="60" rx="11" ry="9" fill="var(--bow-knot)" opacity=".92"/>
             <ellipse cx="110" cy="60" rx="5.5" ry="4.5" fill="#A83050" opacity=".55"/>
             <!-- Blue accent dots -->
-            <circle cx="78" cy="52" r="3.5" fill="#6898CC" opacity=".85"/>
-            <circle cx="142" cy="52" r="3.5" fill="#6898CC" opacity=".85"/>
-            <circle cx="84" cy="68" r="2.5" fill="#6898CC" opacity=".65"/>
-            <circle cx="136" cy="68" r="2.5" fill="#6898CC" opacity=".65"/>
+            <circle cx="78" cy="52" r="3.5" fill="var(--bow-dot)" opacity=".85"/>
+            <circle cx="142" cy="52" r="3.5" fill="var(--bow-dot)" opacity=".85"/>
+            <circle cx="84" cy="68" r="2.5" fill="var(--bow-dot)" opacity=".65"/>
+            <circle cx="136" cy="68" r="2.5" fill="var(--bow-dot)" opacity=".65"/>
             <!-- Ribbon tails -->
-            <path d="M104 68 C98 80 92 94 95 104 C97 110 100 104 102 98 L110 68Z" fill="#F5A8BE" opacity=".72"/>
-            <path d="M116 68 C122 80 128 94 125 104 C123 110 120 104 118 98 L110 68Z" fill="#F5A8BE" opacity=".72"/>
+            <path d="M104 68 C98 80 92 94 95 104 C97 110 100 104 102 98 L110 68Z" fill="var(--bow-main)" opacity=".72"/>
+            <path d="M116 68 C122 80 128 94 125 104 C123 110 120 104 118 98 L110 68Z" fill="var(--bow-main)" opacity=".72"/>
             <!-- Decorative floating link icon -->
             <circle cx="172" cy="32" r="14" fill="#FAF9F6" stroke="#EDE9E3" stroke-width="1"/>
             <path d="M168 36 L176 28" stroke="#C09258" stroke-width="1.6" stroke-linecap="round"/>
@@ -1256,7 +1252,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.0</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.1</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -1333,22 +1329,22 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <!-- Bow icon -->
         <div style="margin:8px auto 18px;width:52px;height:38px">
           <svg width="52" height="38" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="#F5A8BE"/>
-            <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="#E07898" opacity=".38"/>
-            <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
-            <circle cx="5.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
-            <circle cx="7.2" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
-            <circle cx="4.8" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
-            <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="#F5A8BE"/>
-            <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="#E07898" opacity=".38"/>
-            <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
-            <circle cx="18.5" cy="5.8" r="1.2" fill="#6898CC" opacity=".82"/>
-            <circle cx="16.8" cy="8.2" r="1.2" fill="#6898CC" opacity=".82"/>
-            <circle cx="19.2" cy="8.4" r="1.2" fill="#6898CC" opacity=".82"/>
-            <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round"/>
-            <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="#F0A0B8" stroke-width="1.1" stroke-linecap="round"/>
-            <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="#D56080"/>
-            <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="#A84058" opacity=".65"/>
+            <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="var(--bow-main)"/>
+            <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
+            <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
+            <circle cx="5.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <circle cx="7.2" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <circle cx="4.8" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="var(--bow-main)"/>
+            <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
+            <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
+            <circle cx="18.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <circle cx="16.8" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <circle cx="19.2" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+            <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="var(--bow-main)" stroke-width="1.1" stroke-linecap="round"/>
+            <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="var(--bow-main)" stroke-width="1.1" stroke-linecap="round"/>
+            <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="var(--bow-knot)"/>
+            <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="var(--bow-knothi)" opacity=".65"/>
           </svg>
         </div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--ink);margin-bottom:6px">Szafa Pro</div>
@@ -2863,7 +2859,7 @@ function renderCloset(){
     </div>`;
     const favItemsHtml=favItems.map(it=>{
       return '<div onclick="openDetail(\''+it.id+'\')" style="flex-shrink:0;width:88px;cursor:pointer;-webkit-tap-highlight-color:transparent">'
-        +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba(245,168,190,.45);box-shadow:0 2px 10px rgba('+(AP_GLOW.find(x=>x.key===currentAppearance.glow)||AP_GLOW[0]).rgb+',.3)">'
+        +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba('+(AP_GLOW.find(x=>x.key===currentAppearance.glow)||AP_GLOW[0]).rgb+',.35);box-shadow:0 2px 10px rgba('+(AP_GLOW.find(x=>x.key===currentAppearance.glow)||AP_GLOW[0]).rgb+',.25)">'
         +art(it,108)+'</div>'
         +'<div style="font-size:11px;font-weight:500;color:var(--ink);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+it.name+'</div>'
         +'</div>';
@@ -4729,8 +4725,8 @@ const _ONB_SLIDES = [
     <line x1="143" y1="41" x2="142" y2="148" stroke="#3A5070" stroke-width="1" opacity=".5"/>
     <line x1="172" y1="41" x2="173" y2="148" stroke="#3A5070" stroke-width="1" opacity=".5"/>
     <!-- Small bow bottom-right (app signature) -->
-    <path d="M196 140 C188 132 174 128 170 136 C166 144 178 150 196 140Z" fill="#F5A8BE" opacity=".85"/>
-    <path d="M196 140 C204 132 218 128 222 136 C226 144 214 150 196 140Z" fill="#F5A8BE" opacity=".85"/>
+    <path d="M196 140 C188 132 174 128 170 136 C166 144 178 150 196 140Z" fill="var(--bow-main)" opacity=".85"/>
+    <path d="M196 140 C204 132 218 128 222 136 C226 144 214 150 196 140Z" fill="var(--bow-main)" opacity=".85"/>
     <circle cx="196" cy="140" r="5" fill="#E8609A"/>
   </svg></div>
   <div class="onb-logo">szafa</div>
@@ -4775,9 +4771,9 @@ const _ONB_SLIDES = [
     <!-- Tile 3: pink dress -->
     <rect x="126" y="92" width="38" height="54" rx="7" fill="#EDE9E3" stroke="#C4C0BA" stroke-width="1"/>
     <path d="M134 138 L132 116 Q134 108 143 105 Q152 108 154 116 L152 138 Z"
-          fill="#F5A8BE" stroke="#1A1916" stroke-width="1.5" stroke-linejoin="round"/>
-    <path d="M132 116 L127 104 L131 100 L134 108" fill="#F5A8BE" stroke="#1A1916" stroke-width="1.3"/>
-    <path d="M154 116 L159 104 L155 100 L152 108" fill="#F5A8BE" stroke="#1A1916" stroke-width="1.3"/>
+          fill="var(--bow-main)" stroke="#1A1916" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M132 116 L127 104 L131 100 L134 108" fill="var(--bow-main)" stroke="#1A1916" stroke-width="1.3"/>
+    <path d="M154 116 L159 104 L155 100 L152 108" fill="var(--bow-main)" stroke="#1A1916" stroke-width="1.3"/>
     <!-- Tile 4: empty + add -->
     <rect x="170" y="92" width="38" height="54" rx="7" fill="none" stroke="#C4C0BA" stroke-width="1.5" stroke-dasharray="4 2"/>
     <line x1="189" y1="111" x2="189" y2="127" stroke="#C4C0BA" stroke-width="2.5" stroke-linecap="round"/>
@@ -4865,22 +4861,22 @@ const _ONB_SLIDES = [
     <line x1="154" y1="124" x2="154" y2="134" stroke="#C4C0BA" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
     <line x1="149" y1="129" x2="159" y2="129" stroke="#C4C0BA" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
     <!-- Bow — left wing -->
-    <path d="M100 75 C83 60 50 50 40 66 C30 82 56 94 100 75Z" fill="#F5A8BE" opacity=".92"/>
+    <path d="M100 75 C83 60 50 50 40 66 C30 82 56 94 100 75Z" fill="var(--bow-main)" opacity=".92"/>
     <!-- Bow — right wing -->
-    <path d="M100 75 C117 60 150 50 160 66 C170 82 144 94 100 75Z" fill="#F5A8BE" opacity=".92"/>
+    <path d="M100 75 C117 60 150 50 160 66 C170 82 144 94 100 75Z" fill="var(--bow-main)" opacity=".92"/>
     <!-- Shading on wings -->
-    <path d="M100 75 C88 63 63 57 50 66 C42 72 54 88 100 75Z" fill="#D56080" opacity=".25"/>
-    <path d="M100 75 C112 63 137 57 150 66 C158 72 146 88 100 75Z" fill="#D56080" opacity=".25"/>
+    <path d="M100 75 C88 63 63 57 50 66 C42 72 54 88 100 75Z" fill="var(--bow-knot)" opacity=".25"/>
+    <path d="M100 75 C112 63 137 57 150 66 C158 72 146 88 100 75Z" fill="var(--bow-knot)" opacity=".25"/>
     <!-- Knot -->
-    <ellipse cx="100" cy="75" rx="12" ry="10" fill="#D56080" opacity=".94"/>
+    <ellipse cx="100" cy="75" rx="12" ry="10" fill="var(--bow-knot)" opacity=".94"/>
     <!-- Blue dots -->
-    <circle cx="68" cy="65" r="3.5" fill="#6898CC" opacity=".88"/>
-    <circle cx="132" cy="65" r="3.5" fill="#6898CC" opacity=".88"/>
-    <circle cx="76" cy="85" r="2.5" fill="#6898CC" opacity=".68"/>
-    <circle cx="124" cy="85" r="2.5" fill="#6898CC" opacity=".68"/>
+    <circle cx="68" cy="65" r="3.5" fill="var(--bow-dot)" opacity=".88"/>
+    <circle cx="132" cy="65" r="3.5" fill="var(--bow-dot)" opacity=".88"/>
+    <circle cx="76" cy="85" r="2.5" fill="var(--bow-dot)" opacity=".68"/>
+    <circle cx="124" cy="85" r="2.5" fill="var(--bow-dot)" opacity=".68"/>
     <!-- Ribbon tails -->
-    <path d="M94 84 C88 94 82 107 85 119 C88 125 91 118 93 112 L100 84Z" fill="#F5A8BE" opacity=".74"/>
-    <path d="M106 84 C112 94 118 107 115 119 C112 125 109 118 107 112 L100 84Z" fill="#F5A8BE" opacity=".74"/>
+    <path d="M94 84 C88 94 82 107 85 119 C88 125 91 118 93 112 L100 84Z" fill="var(--bow-main)" opacity=".74"/>
+    <path d="M106 84 C112 94 118 107 115 119 C112 125 109 118 107 112 L100 84Z" fill="var(--bow-main)" opacity=".74"/>
   </svg></div>
   <div class="onb-h" style="font-size:21px;line-height:1.35">Your closet, your style,<br>your Szafa.</div>
   <div class="onb-p">You're all set. Start by adding a piece you love and build your first outfit.</div>`,

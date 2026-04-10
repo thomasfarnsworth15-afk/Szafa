@@ -26,6 +26,8 @@
 :root{
   --bg:#F6F4F1;--w:#FFFFFF;--ink:#1A1916;--mid:#8A8680;--dim:#C4C0BA;--ln:#ECEAE5;
   --tag:#F2EFE9;--red:#C45858;--green:#2A5E38;--accent:#C09258;
+  --glow-color:rgba(245,168,190,;
+  --bow-main:#F5A8BE;--bow-dark:#E07898;--bow-light:#FFE0EC;--bow-dot:#6898CC;--bow-knot:#D56080;--bow-knothi:#A84058;
   /* Safe-area insets — real iPhones/Android resolve these; 0px in desktop shell */
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bot:env(safe-area-inset-bottom,0px);
@@ -370,6 +372,15 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .p-grid-thumb{width:100%;aspect-ratio:3/4;background:var(--tag);overflow:hidden;position:relative}
 .p-grid-info{position:absolute;bottom:0;left:0;right:0;padding:8px 10px;background:linear-gradient(transparent,rgba(26,25,22,.5));display:flex;align-items:center;justify-content:flex-end;gap:4px}
 .p-grid-likes{font-size:11px;color:rgba(255,255,255,.92);display:flex;align-items:center;gap:3px}
+/* ── Appearance customization panel ── */
+.ap-section{padding:20px 20px 4px}
+.ap-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:14px}
+.ap-swatches{display:flex;flex-wrap:wrap;gap:10px}
+.ap-swatch{width:36px;height:36px;border-radius:50%;cursor:pointer;position:relative;transition:transform .15s;-webkit-tap-highlight-color:transparent;flex-shrink:0;border:2.5px solid transparent}
+.ap-swatch:active{transform:scale(.88)}
+.ap-swatch.on{box-shadow:0 0 0 2.5px var(--w),0 0 0 4.5px rgba(26,25,22,.55)}
+.ap-reset{margin:18px 20px 8px;padding:11px;border-radius:12px;border:1.5px solid var(--ln);background:var(--w);font-size:13px;font-weight:500;color:var(--mid);cursor:pointer;font-family:'Jost',sans-serif;width:calc(100% - 40px);-webkit-tap-highlight-color:transparent;transition:background .15s;display:block}
+.ap-reset:active{background:var(--tag)}
 .p-settings-overlay{position:absolute;top:0;bottom:0;left:0;right:0;background:var(--bg);z-index:160;transform:translateX(100%);transition:transform .3s cubic-bezier(.32,1,.45,1);overflow-y:auto;scrollbar-width:none}
 .p-settings-overlay.open{transform:none}
 .p-settings-overlay::-webkit-scrollbar{display:none}
@@ -1198,6 +1209,31 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
       <span style="flex:1;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);font-weight:400">Settings</span>
     </div>
+    <!-- Appearance -->
+    <div class="p-sec">Appearance</div>
+
+    <!-- Background color -->
+    <div class="ap-section">
+      <div class="ap-label">Background</div>
+      <div class="ap-swatches" id="ap-bg-swatches"></div>
+    </div>
+
+    <!-- Glow color -->
+    <div class="ap-section" style="padding-top:16px">
+      <div class="ap-label">Favorite Glow</div>
+      <div class="ap-swatches" id="ap-glow-swatches"></div>
+    </div>
+
+    <!-- Bow color -->
+    <div class="ap-section" style="padding-top:16px;padding-bottom:16px">
+      <div class="ap-label">Bow Color</div>
+      <div class="ap-swatches" id="ap-bow-swatches"></div>
+    </div>
+
+    <button class="ap-reset" onclick="resetAppearance()">↺ Reset to Default</button>
+
+    <div style="height:1px;background:var(--ln);margin:8px 0"></div>
+
     <!-- Account -->
     <div class="p-sec">Account</div>
     <div class="p-row" onclick="openEditProfile()"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--mid)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="6" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg></div><span class="p-rt">Edit Profile</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
@@ -1219,7 +1255,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.3.6</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.3.7</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2104,8 +2140,153 @@ async function loadFollowCounts(){
 }
 
 // ─── SETTINGS ─────────────────────────────────────────────
+// ─── APPEARANCE ───────────────────────────────────────────
+const AP_DEFAULTS = { bg:'cream', glow:'pink', bow:'pink' };
+
+const AP_BG = [
+  {key:'cream',   color:'#F6F4F1', label:'Cream'},
+  {key:'white',   color:'#FFFFFF', label:'White'},
+  {key:'warm',    color:'#F0EBE3', label:'Warm'},
+  {key:'blush',   color:'#F5ECEC', label:'Blush'},
+  {key:'rose',    color:'#F0E4E8', label:'Rose'},
+  {key:'lavender',color:'#EDE8F5', label:'Lavender'},
+  {key:'sage',    color:'#E8F0EA', label:'Sage'},
+  {key:'sky',     color:'#E8EFF8', label:'Sky'},
+  {key:'sand',    color:'#EDE6D8', label:'Sand'},
+  {key:'charcoal',color:'#2A2826', label:'Charcoal'},
+];
+
+const AP_GLOW = [
+  {key:'pink',    color:'rgba(245,168,190,1)', css:'rgba(245,168,190,', label:'Pink'},
+  {key:'peach',   color:'rgba(255,190,150,1)', css:'rgba(255,190,150,', label:'Peach'},
+  {key:'lilac',   color:'rgba(196,168,232,1)', css:'rgba(196,168,232,', label:'Lilac'},
+  {key:'mint',    color:'rgba(140,210,180,1)', css:'rgba(140,210,180,', label:'Mint'},
+  {key:'gold',    color:'rgba(210,175,100,1)', css:'rgba(210,175,100,', label:'Gold'},
+  {key:'blue',    color:'rgba(130,175,230,1)', css:'rgba(130,175,230,', label:'Blue'},
+  {key:'coral',   color:'rgba(240,140,130,1)', css:'rgba(240,140,130,', label:'Coral'},
+  {key:'white',   color:'rgba(230,230,230,1)', css:'rgba(230,230,230,', label:'White'},
+];
+
+const AP_BOW = [
+  {key:'pink',    main:'#F5A8BE', dark:'#E07898', light:'#FFE0EC', dot:'#6898CC', knot:'#D56080', knothi:'#A84058'},
+  {key:'gold',    main:'#F5CFA8', dark:'#C09258', light:'#FFF3E0', dot:'#8AA0CC', knot:'#B07040', knothi:'#906030'},
+  {key:'lilac',   main:'#D4A8F5', dark:'#9870C0', light:'#F0E0FF', dot:'#98A8CC', knot:'#8060B0', knothi:'#604090'},
+  {key:'mint',    main:'#A8F5D4', dark:'#50C090', light:'#E0FFF3', dot:'#70A8CC', knot:'#40A070', knothi:'#208050'},
+  {key:'rose',    main:'#F5A8C8', dark:'#D05080', light:'#FFE0EC', dot:'#8890CC', knot:'#C04070', knothi:'#A02050'},
+  {key:'peach',   main:'#F5C8A8', dark:'#D08050', light:'#FFF0E0', dot:'#A09060', knot:'#C07040', knothi:'#A05020'},
+  {key:'sky',     main:'#A8D4F5', dark:'#5090C8', light:'#E0F3FF', dot:'#8898CC', knot:'#4080C0', knothi:'#2060A0'},
+  {key:'ink',     main:'#8A8680', dark:'#4A4640', light:'#D0CCC8', dot:'#6A6660', knot:'#3A3630', knothi:'#2A2620'},
+];
+
+let currentAppearance = {...AP_DEFAULTS};
+
+function loadAppearance(saved){
+  if(!saved) return;
+  try{
+    const a = typeof saved === 'string' ? JSON.parse(saved) : saved;
+    if(a.bg)   currentAppearance.bg   = a.bg;
+    if(a.glow) currentAppearance.glow = a.glow;
+    if(a.bow)  currentAppearance.bow  = a.bow;
+    applyAppearance();
+  }catch(e){}
+}
+
+function applyAppearance(){
+  const bg   = AP_BG.find(x=>x.key===currentAppearance.bg)   || AP_BG[0];
+  const glow = AP_GLOW.find(x=>x.key===currentAppearance.glow)|| AP_GLOW[0];
+  const bow  = AP_BOW.find(x=>x.key===currentAppearance.bow) || AP_BOW[0];
+  const root = document.documentElement;
+  // Background
+  root.style.setProperty('--bg', bg.color);
+  // For dark background, adjust text colours
+  if(bg.key==='charcoal'){
+    root.style.setProperty('--w','#2A2826');
+    root.style.setProperty('--tag','#3A3836');
+    root.style.setProperty('--ln','#4A4846');
+    root.style.setProperty('--ink','#F6F4F1');
+    root.style.setProperty('--mid','#A0A09C');
+    root.style.setProperty('--dim','#6A6660');
+  } else {
+    root.style.setProperty('--w','#FFFFFF');
+    root.style.setProperty('--tag','#F2EFE9');
+    root.style.setProperty('--ln','#ECEAE5');
+    root.style.setProperty('--ink','#1A1916');
+    root.style.setProperty('--mid','#8A8680');
+    root.style.setProperty('--dim','#C4C0BA');
+  }
+  // Glow — store as CSS variable so renderCloset can use it
+  root.style.setProperty('--glow-color', glow.css);
+  // Bow — store component colours as CSS variables
+  root.style.setProperty('--bow-main',  bow.main);
+  root.style.setProperty('--bow-dark',  bow.dark);
+  root.style.setProperty('--bow-light', bow.light);
+  root.style.setProperty('--bow-dot',   bow.dot);
+  root.style.setProperty('--bow-knot',  bow.knot);
+  root.style.setProperty('--bow-knothi',bow.knothi);
+  // Re-render bow-bearing screens live
+  if(curScreen===1) renderCloset();
+}
+
+function renderApSwatches(){
+  function mk(list, current, fn){
+    return list.map(item=>{
+      const on = item.key===current ? ' on' : '';
+      return `<div class="ap-swatch${on}" style="background:${item.color}" onclick="${fn}('${item.key}')" title="${item.label}"></div>`;
+    }).join('');
+  }
+  const bgEl = document.getElementById('ap-bg-swatches');
+  const glEl = document.getElementById('ap-glow-swatches');
+  const bwEl = document.getElementById('ap-bow-swatches');
+  if(bgEl) bgEl.innerHTML = mk(AP_BG,   currentAppearance.bg,   'setApBg');
+  if(glEl) glEl.innerHTML = mk(AP_GLOW, currentAppearance.glow, 'setApGlow');
+  if(bwEl) bwEl.innerHTML = mk(AP_BOW,  currentAppearance.bow,  'setApBow');
+}
+
+function setApBg(key){
+  currentAppearance.bg=key;
+  applyAppearance();
+  renderApSwatches();
+  saveAppearance();
+}
+function setApGlow(key){
+  currentAppearance.glow=key;
+  applyAppearance();
+  renderApSwatches();
+  saveAppearance();
+}
+function setApBow(key){
+  currentAppearance.bow=key;
+  applyAppearance();
+  renderApSwatches();
+  saveAppearance();
+  // Re-render splash bow and logo bow live via CSS vars (they use var(--bow-main) etc)
+  updateLogoBow();
+}
+
+function updateLogoBow(){
+  // The logo bow and icard bows use inline SVG — re-render any visible bows
+  if(curScreen===1) renderCloset();
+}
+
+function resetAppearance(){
+  currentAppearance={...AP_DEFAULTS};
+  applyAppearance();
+  renderApSwatches();
+  saveAppearance();
+  showToast('Appearance reset to default');
+}
+
+async function saveAppearance(){
+  const sb=getSb();
+  if(!sb||!currentUser||currentUser.id==='guest') return;
+  try{
+    await sb.from('users').update({appearance:currentAppearance}).eq('id',currentUser.id);
+  }catch(e){}
+}
+
 function openSettings(){
   updatePrivacyToggleUI();
+  renderApSwatches();
   document.getElementById('p-settings-overlay').classList.add('open');
 }
 function closeSettings(){
@@ -2646,7 +2827,7 @@ function renderCloset(){
     </div>`;
     const favItemsHtml=favItems.map(it=>{
       return '<div onclick="openDetail(\''+it.id+'\')" style="flex-shrink:0;width:88px;cursor:pointer;-webkit-tap-highlight-color:transparent">'
-        +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba(245,168,190,.45);box-shadow:0 2px 10px rgba(245,168,190,.25)">'
+        +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba(245,168,190,.45);box-shadow:0 2px 10px '+(getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim()||'rgba(245,168,190,')+'0.3)">'
         +art(it,108)+'</div>'
         +'<div style="font-size:11px;font-weight:500;color:var(--ink);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+it.name+'</div>'
         +'</div>';
@@ -2665,28 +2846,34 @@ function renderCloset(){
     return;
   }
   const Hs=[148,172,138,190,162,164,150,180,145,168];
-  // Unfavorited bow — plain thin pink outline bow
+  // Unfavorited bow — plain outline using current bow color
+  const bowMain=getComputedStyle(document.documentElement).getPropertyValue('--bow-main').trim()||'#F5A8BE';
   const bowEmpty=`<svg viewBox="0 0 24 18" width="20" height="15" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 8C10 5.5 3.5 4.5 3.5 7.5C3.5 10.5 10 9.5 12 8Z" fill="none" stroke="#F5A8BE" stroke-width="1.3" stroke-linejoin="round"/>
-    <path d="M12 8C14 5.5 20.5 4.5 20.5 7.5C20.5 10.5 14 9.5 12 8Z" fill="none" stroke="#F5A8BE" stroke-width="1.3" stroke-linejoin="round"/>
-    <ellipse cx="12" cy="8" rx="1.8" ry="1.4" fill="none" stroke="#F5A8BE" stroke-width="1.1"/>
+    <path d="M12 8C10 5.5 3.5 4.5 3.5 7.5C3.5 10.5 10 9.5 12 8Z" fill="none" stroke="${bowMain}" stroke-width="1.3" stroke-linejoin="round"/>
+    <path d="M12 8C14 5.5 20.5 4.5 20.5 7.5C20.5 10.5 14 9.5 12 8Z" fill="none" stroke="${bowMain}" stroke-width="1.3" stroke-linejoin="round"/>
+    <ellipse cx="12" cy="8" rx="1.8" ry="1.4" fill="none" stroke="${bowMain}" stroke-width="1.1"/>
   </svg>`;
-  // Favourited bow — exact signature Szafa bow (matches logo/splash)
+  // Favorited bow — full signature Szafa bow using current bow color
+  const bowDark=getComputedStyle(document.documentElement).getPropertyValue('--bow-dark').trim()||'#E07898';
+  const bowLight=getComputedStyle(document.documentElement).getPropertyValue('--bow-light').trim()||'#FFE0EC';
+  const bowDot=getComputedStyle(document.documentElement).getPropertyValue('--bow-dot').trim()||'#6898CC';
+  const bowKnot=getComputedStyle(document.documentElement).getPropertyValue('--bow-knot').trim()||'#D56080';
+  const bowKnothi=getComputedStyle(document.documentElement).getPropertyValue('--bow-knothi').trim()||'#A84058';
   const bowFav=`<svg viewBox="0 0 24 18" width="20" height="15" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="#F5A8BE"/>
-    <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="#E07898" opacity=".38"/>
-    <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
-    <circle cx="5.5" cy="5.8" r="1.1" fill="#6898CC" opacity=".82"/>
-    <circle cx="7.2" cy="8.2" r="1.1" fill="#6898CC" opacity=".82"/>
-    <circle cx="4.8" cy="8.4" r="1.1" fill="#6898CC" opacity=".82"/>
-    <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="#F5A8BE"/>
-    <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="#E07898" opacity=".38"/>
-    <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="#FFE0EC" opacity=".55"/>
-    <circle cx="18.5" cy="5.8" r="1.1" fill="#6898CC" opacity=".82"/>
-    <circle cx="16.8" cy="8.2" r="1.1" fill="#6898CC" opacity=".82"/>
-    <circle cx="19.2" cy="8.4" r="1.1" fill="#6898CC" opacity=".82"/>
-    <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="#D56080"/>
-    <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="#A84058" opacity=".65"/>
+    <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="${bowMain}"/>
+    <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="${bowDark}" opacity=".38"/>
+    <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="${bowLight}" opacity=".55"/>
+    <circle cx="5.5" cy="5.8" r="1.1" fill="${bowDot}" opacity=".82"/>
+    <circle cx="7.2" cy="8.2" r="1.1" fill="${bowDot}" opacity=".82"/>
+    <circle cx="4.8" cy="8.4" r="1.1" fill="${bowDot}" opacity=".82"/>
+    <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="${bowMain}"/>
+    <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="${bowDark}" opacity=".38"/>
+    <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="${bowLight}" opacity=".55"/>
+    <circle cx="18.5" cy="5.8" r="1.1" fill="${bowDot}" opacity=".82"/>
+    <circle cx="16.8" cy="8.2" r="1.1" fill="${bowDot}" opacity=".82"/>
+    <circle cx="19.2" cy="8.4" r="1.1" fill="${bowDot}" opacity=".82"/>
+    <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="${bowKnot}"/>
+    <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="${bowKnothi}" opacity=".65"/>
   </svg>`;
   const cardHtml=(it,i)=>{
     const h=Hs[i%Hs.length];
@@ -3387,6 +3574,7 @@ async function dbLoad(){
     isPrivateAccount = udata?.is_private !== false; // default true
     if(udata?.bio) currentUser.bio = udata.bio;
     if(udata?.username) currentUser.username = udata.username;
+    if(udata?.appearance) loadAppearance(udata.appearance);
 
     return true;
   } catch(e){

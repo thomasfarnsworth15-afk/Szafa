@@ -26,7 +26,7 @@
 :root{
   --bg:#F6F4F1;--w:#FFFFFF;--ink:#1A1916;--mid:#8A8680;--dim:#C4C0BA;--ln:#ECEAE5;
   --tag:#F2EFE9;--red:#C45858;--green:#2A5E38;--accent:#C09258;
-  --glow-color:rgba(245,168,190,;
+  --glow-rgb:245,168,190;
   --bow-main:#F5A8BE;--bow-dark:#E07898;--bow-light:#FFE0EC;--bow-dot:#6898CC;--bow-knot:#D56080;--bow-knothi:#A84058;
   /* Safe-area insets — real iPhones/Android resolve these; 0px in desktop shell */
   --safe-top:env(safe-area-inset-top,0px);
@@ -1255,7 +1255,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.3.7</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.3.8</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2153,18 +2153,17 @@ const AP_BG = [
   {key:'sage',    color:'#E8F0EA', label:'Sage'},
   {key:'sky',     color:'#E8EFF8', label:'Sky'},
   {key:'sand',    color:'#EDE6D8', label:'Sand'},
-  {key:'charcoal',color:'#2A2826', label:'Charcoal'},
 ];
 
 const AP_GLOW = [
-  {key:'pink',    color:'rgba(245,168,190,1)', css:'rgba(245,168,190,', label:'Pink'},
-  {key:'peach',   color:'rgba(255,190,150,1)', css:'rgba(255,190,150,', label:'Peach'},
-  {key:'lilac',   color:'rgba(196,168,232,1)', css:'rgba(196,168,232,', label:'Lilac'},
-  {key:'mint',    color:'rgba(140,210,180,1)', css:'rgba(140,210,180,', label:'Mint'},
-  {key:'gold',    color:'rgba(210,175,100,1)', css:'rgba(210,175,100,', label:'Gold'},
-  {key:'blue',    color:'rgba(130,175,230,1)', css:'rgba(130,175,230,', label:'Blue'},
-  {key:'coral',   color:'rgba(240,140,130,1)', css:'rgba(240,140,130,', label:'Coral'},
-  {key:'white',   color:'rgba(230,230,230,1)', css:'rgba(230,230,230,', label:'White'},
+  {key:'pink',    color:'#F5A8BE', rgb:'245,168,190', label:'Pink'},
+  {key:'peach',   color:'#FFBE96', rgb:'255,190,150', label:'Peach'},
+  {key:'lilac',   color:'#C4A8E8', rgb:'196,168,232', label:'Lilac'},
+  {key:'mint',    color:'#8CD2B4', rgb:'140,210,180', label:'Mint'},
+  {key:'gold',    color:'#D2AF64', rgb:'210,175,100', label:'Gold'},
+  {key:'blue',    color:'#82AFE6', rgb:'130,175,230', label:'Blue'},
+  {key:'coral',   color:'#F08C82', rgb:'240,140,130', label:'Coral'},
+  {key:'white',   color:'#E6E6E6', rgb:'230,230,230', label:'White'},
 ];
 
 const AP_BOW = [
@@ -2196,34 +2195,17 @@ function applyAppearance(){
   const glow = AP_GLOW.find(x=>x.key===currentAppearance.glow)|| AP_GLOW[0];
   const bow  = AP_BOW.find(x=>x.key===currentAppearance.bow) || AP_BOW[0];
   const root = document.documentElement;
-  // Background
+  // Only change --bg, never touch core UI vars (--w, --ink, --tag etc.)
   root.style.setProperty('--bg', bg.color);
-  // For dark background, adjust text colours
-  if(bg.key==='charcoal'){
-    root.style.setProperty('--w','#2A2826');
-    root.style.setProperty('--tag','#3A3836');
-    root.style.setProperty('--ln','#4A4846');
-    root.style.setProperty('--ink','#F6F4F1');
-    root.style.setProperty('--mid','#A0A09C');
-    root.style.setProperty('--dim','#6A6660');
-  } else {
-    root.style.setProperty('--w','#FFFFFF');
-    root.style.setProperty('--tag','#F2EFE9');
-    root.style.setProperty('--ln','#ECEAE5');
-    root.style.setProperty('--ink','#1A1916');
-    root.style.setProperty('--mid','#8A8680');
-    root.style.setProperty('--dim','#C4C0BA');
-  }
-  // Glow — store as CSS variable so renderCloset can use it
-  root.style.setProperty('--glow-color', glow.css);
-  // Bow — store component colours as CSS variables
-  root.style.setProperty('--bow-main',  bow.main);
-  root.style.setProperty('--bow-dark',  bow.dark);
-  root.style.setProperty('--bow-light', bow.light);
-  root.style.setProperty('--bow-dot',   bow.dot);
-  root.style.setProperty('--bow-knot',  bow.knot);
-  root.style.setProperty('--bow-knothi',bow.knothi);
-  // Re-render bow-bearing screens live
+  // Glow as rgb triplet
+  root.style.setProperty('--glow-rgb', glow.rgb);
+  // Bow component colors
+  root.style.setProperty('--bow-main',   bow.main);
+  root.style.setProperty('--bow-dark',   bow.dark);
+  root.style.setProperty('--bow-light',  bow.light);
+  root.style.setProperty('--bow-dot',    bow.dot);
+  root.style.setProperty('--bow-knot',   bow.knot);
+  root.style.setProperty('--bow-knothi', bow.knothi);
   if(curScreen===1) renderCloset();
 }
 
@@ -2827,7 +2809,7 @@ function renderCloset(){
     </div>`;
     const favItemsHtml=favItems.map(it=>{
       return '<div onclick="openDetail(\''+it.id+'\')" style="flex-shrink:0;width:88px;cursor:pointer;-webkit-tap-highlight-color:transparent">'
-        +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba(245,168,190,.45);box-shadow:0 2px 10px '+(getComputedStyle(document.documentElement).getPropertyValue('--glow-color').trim()||'rgba(245,168,190,')+'0.3)">'
+        +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba(245,168,190,.45);box-shadow:0 2px 10px rgba('+getComputedStyle(document.documentElement).getPropertyValue('--glow-rgb').trim()+',.3)">'
         +art(it,108)+'</div>'
         +'<div style="font-size:11px;font-weight:500;color:var(--ink);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+it.name+'</div>'
         +'</div>';

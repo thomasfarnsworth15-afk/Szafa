@@ -28,6 +28,7 @@
   --tag:#F2EFE9;--red:#C45858;--green:#2A5E38;--accent:#C09258;
   --glow-rgb:245,168,190;
   --bow-main:#F5A8BE;--bow-dark:#E07898;--bow-light:#FFE0EC;--bow-dot:#6898CC;--bow-knot:#D56080;--bow-knothi:#A84058;
+  --bg-pattern:none;--bg-pattern-size:auto;
   /* Safe-area insets — real iPhones/Android resolve these; 0px in desktop shell */
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bot:env(safe-area-inset-bottom,0px);
@@ -47,7 +48,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sbar-i{display:flex;gap:5px;align-items:center}
 
 .scs{flex:1;position:relative;overflow:hidden}
-.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .22s,transform .22s;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background-color:var(--bg);background-image:var(--bg-pattern,none);background-size:var(--bg-pattern-size,auto);opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .22s,transform .22s;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .sc::-webkit-scrollbar{display:none}
 .sc.on{opacity:1;pointer-events:auto;transform:none}
 
@@ -1215,6 +1216,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="ap-swatches" id="ap-bg-swatches"></div>
     </div>
 
+    <!-- Background pattern -->
+    <div class="ap-section" style="padding-top:16px">
+      <div class="ap-label">Pattern</div>
+      <div class="ap-swatches" id="ap-pattern-swatches" style="gap:8px"></div>
+    </div>
+
     <!-- Glow color -->
     <div class="ap-section" style="padding-top:16px">
       <div class="ap-label">Favorite Glow</div>
@@ -1252,7 +1259,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.1</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.2</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2138,7 +2145,7 @@ async function loadFollowCounts(){
 
 // ─── SETTINGS ─────────────────────────────────────────────
 // ─── APPEARANCE ───────────────────────────────────────────
-const AP_DEFAULTS = { bg:'cream', glow:'pink', bow:'pink' };
+const AP_DEFAULTS = { bg:'cream', glow:'pink', bow:'pink', pattern:'none' };
 
 const AP_BG = [
   {key:'cream',   color:'#F6F4F1', label:'Cream'},
@@ -2150,6 +2157,23 @@ const AP_BG = [
   {key:'sage',    color:'#E8F0EA', label:'Sage'},
   {key:'sky',     color:'#E8EFF8', label:'Sky'},
   {key:'sand',    color:'#EDE6D8', label:'Sand'},
+];
+
+// Each pattern uses rgba(0,0,0,N) lines so they always stay low-contrast over any bg color
+const AP_PATTERN = [
+  {key:'none',    label:'Solid',   image:'none',  size:'auto'},
+  {key:'grid',    label:'Grid',
+    image:"linear-gradient(rgba(0,0,0,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.055) 1px,transparent 1px)",
+    size:'22px 22px'},
+  {key:'dots',    label:'Dots',
+    image:"radial-gradient(circle,rgba(0,0,0,.09) 1px,transparent 1px)",
+    size:'16px 16px'},
+  {key:'checker', label:'Checker',
+    image:"conic-gradient(rgba(0,0,0,.045) 90deg,transparent 90deg)",
+    size:'20px 20px'},
+  {key:'stripe',  label:'Stripe',
+    image:"repeating-linear-gradient(45deg,transparent,transparent 9px,rgba(0,0,0,.05) 9px,rgba(0,0,0,.05) 10px)",
+    size:'auto'},
 ];
 
 const AP_GLOW = [
@@ -2179,9 +2203,10 @@ function loadAppearance(saved){
   if(!saved) return;
   try{
     const a = typeof saved === 'string' ? JSON.parse(saved) : saved;
-    if(a.bg)   currentAppearance.bg   = a.bg;
-    if(a.glow) currentAppearance.glow = a.glow;
-    if(a.bow)  currentAppearance.bow  = a.bow;
+    if(a.bg)      currentAppearance.bg      = a.bg;
+    if(a.glow)    currentAppearance.glow    = a.glow;
+    if(a.bow)     currentAppearance.bow     = a.bow;
+    if(a.pattern) currentAppearance.pattern = a.pattern;
     applyAppearance();
   }catch(e){}
 }
@@ -2215,35 +2240,44 @@ function getBowSVG(w,h,filled){
 }
 
 function applyAppearance(){
-  const bg   = AP_BG.find(x=>x.key===currentAppearance.bg)   || AP_BG[0];
-  const glow = AP_GLOW.find(x=>x.key===currentAppearance.glow)|| AP_GLOW[0];
-  const root = document.documentElement;
-  // Background
+  const bg      = AP_BG.find(x=>x.key===currentAppearance.bg)          || AP_BG[0];
+  const glow    = AP_GLOW.find(x=>x.key===currentAppearance.glow)      || AP_GLOW[0];
+  const pattern = AP_PATTERN.find(x=>x.key===currentAppearance.pattern)|| AP_PATTERN[0];
+  const bow     = AP_BOW.find(x=>x.key===currentAppearance.bow)        || AP_BOW[0];
+  const root    = document.documentElement;
   root.style.setProperty('--bg', bg.color);
-  // Glow — CSS custom property cascades to .liked-item and .icard-bow.fav svg instantly
   root.style.setProperty('--glow-rgb', glow.rgb);
-  // Bow CSS vars (for any CSS-driven bow elements)
-  const bow = AP_BOW.find(x=>x.key===currentAppearance.bow) || AP_BOW[0];
+  root.style.setProperty('--bg-pattern', pattern.image);
+  root.style.setProperty('--bg-pattern-size', pattern.size);
   root.style.setProperty('--bow-main',   bow.main);
   root.style.setProperty('--bow-dark',   bow.dark);
   root.style.setProperty('--bow-light',  bow.light);
   root.style.setProperty('--bow-dot',    bow.dot);
   root.style.setProperty('--bow-knot',   bow.knot);
   root.style.setProperty('--bow-knothi', bow.knothi);
-  // Bow SVGs are inline HTML — must re-render to update
-  // Only re-render if closet DOM is populated (items exist)
   if(S.items.length) renderCloset();
 }
 
 function renderApSwatches(){
-  // Background swatches — plain color circles
+  const bgColor = (AP_BG.find(x=>x.key===currentAppearance.bg)||AP_BG[0]).color;
+  // Background color circles
   function mkColor(list, current, fn){
     return list.map(item=>{
       const on = item.key===current ? ' on' : '';
       return `<div class="ap-swatch${on}" style="background:${item.color}" onclick="${fn}('${item.key}')" title="${item.label}"></div>`;
     }).join('');
   }
-  // Bow swatches — actual mini bow SVG on a light background
+  // Pattern tiles — show the pattern visually over current bg color
+  function mkPattern(list, current){
+    return list.map(item=>{
+      const on = item.key===current ? ' on' : '';
+      const patStyle = item.image==='none'
+        ? 'background-color:'+bgColor
+        : 'background-color:'+bgColor+';background-image:'+item.image+';background-size:'+item.size;
+      return `<div class="ap-swatch${on}" style="${patStyle};width:44px;height:44px;border-radius:10px" onclick="setApPattern('${item.key}')" title="${item.label}"></div>`;
+    }).join('');
+  }
+  // Bow swatches — actual mini bow SVG
   function mkBow(list, current){
     return list.map(item=>{
       const on = item.key===current ? ' on' : '';
@@ -2267,29 +2301,37 @@ function renderApSwatches(){
     }).join('');
   }
   const bgEl = document.getElementById('ap-bg-swatches');
+  const ptEl = document.getElementById('ap-pattern-swatches');
   const glEl = document.getElementById('ap-glow-swatches');
   const bwEl = document.getElementById('ap-bow-swatches');
-  if(bgEl) bgEl.innerHTML = mkColor(AP_BG,   currentAppearance.bg,   'setApBg');
-  if(glEl) glEl.innerHTML = mkColor(AP_GLOW, currentAppearance.glow, 'setApGlow');
-  if(bwEl) bwEl.innerHTML = mkBow(AP_BOW,   currentAppearance.bow);
+  if(bgEl) bgEl.innerHTML = mkColor(AP_BG,      currentAppearance.bg,      'setApBg');
+  if(ptEl) ptEl.innerHTML = mkPattern(AP_PATTERN, currentAppearance.pattern);
+  if(glEl) glEl.innerHTML = mkColor(AP_GLOW,    currentAppearance.glow,    'setApGlow');
+  if(bwEl) bwEl.innerHTML = mkBow(AP_BOW,       currentAppearance.bow);
 }
 
 function setApBg(key){
   currentAppearance.bg=key;
   document.documentElement.style.setProperty('--bg', (AP_BG.find(x=>x.key===key)||AP_BG[0]).color);
+  renderApSwatches(); // re-render so pattern tiles update their bg preview
+  saveAppearance();
+}
+function setApPattern(key){
+  currentAppearance.pattern=key;
+  const p = AP_PATTERN.find(x=>x.key===key)||AP_PATTERN[0];
+  document.documentElement.style.setProperty('--bg-pattern', p.image);
+  document.documentElement.style.setProperty('--bg-pattern-size', p.size);
   renderApSwatches();
   saveAppearance();
 }
 function setApGlow(key){
   currentAppearance.glow=key;
-  // CSS custom property cascades instantly — no re-render needed
   document.documentElement.style.setProperty('--glow-rgb', (AP_GLOW.find(x=>x.key===key)||AP_GLOW[0]).rgb);
   renderApSwatches();
   saveAppearance();
 }
 function setApBow(key){
   currentAppearance.bow=key;
-  // Bow SVGs are inline — must re-render closet to update them
   if(S.items.length) renderCloset();
   renderApSwatches();
   saveAppearance();
@@ -2847,16 +2889,10 @@ function renderCloset(){
     return;
   }
 
-  // ── Favorites strip — horizontal scroll at top, "See All" as last item after scrolling ──
+  // ── Favorites strip — horizontal scroll at top, "See All" inline in header ──
   const favItems=S.items.filter(i=>i.liked);
   let favHtml='';
   if(favItems.length && activeFilter==='all' && !closetSearch){
-    const seeAllBtn=`<div style="flex-shrink:0;width:72px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent" onclick="filterCloset('__fav__',document.querySelector('#closet-pills .pill:last-child'))">
-      <div style="width:72px;height:108px;border-radius:12px;background:linear-gradient(135deg,rgba(245,168,190,.15),rgba(104,152,204,.1));border:1.5px dashed rgba(245,168,190,.6);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="rgba(245,168,190,.9)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="8"/><path d="M7 10h6M13 10l-2.5-2.5M13 10l-2.5 2.5"/></svg>
-        <span style="font-size:10px;font-weight:500;color:rgba(245,168,190,.9);letter-spacing:.04em;text-align:center;line-height:1.3">See All</span>
-      </div>
-    </div>`;
     const favItemsHtml=favItems.map(it=>{
       return '<div onclick="openDetail(\''+it.id+'\')" style="flex-shrink:0;width:88px;cursor:pointer;-webkit-tap-highlight-color:transparent">'
         +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba('+(AP_GLOW.find(x=>x.key===currentAppearance.glow)||AP_GLOW[0]).rgb+',.35);box-shadow:0 2px 10px rgba('+(AP_GLOW.find(x=>x.key===currentAppearance.glow)||AP_GLOW[0]).rgb+',.25)">'
@@ -2865,9 +2901,12 @@ function renderCloset(){
         +'</div>';
     }).join('');
     favHtml=`<div style="padding:12px 0 0">
-      <div style="padding:0 20px 8px;font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--mid)">Favorites</div>
+      <div style="padding:0 20px 8px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--mid)">Favorites</span>
+        <span onclick="filterCloset('__fav__',document.querySelector('#closet-pills .pill:last-child'))" style="font-size:11px;color:var(--dim);cursor:pointer;-webkit-tap-highlight-color:transparent">See All</span>
+      </div>
       <div style="display:flex;gap:10px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch" class="fav-scroll">
-        ${favItemsHtml}${seeAllBtn}
+        ${favItemsHtml}
       </div>
       <div style="height:1px;background:var(--ln);margin:0 0 12px"></div>
     </div>`;

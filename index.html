@@ -1259,7 +1259,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.9</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.0</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2160,48 +2160,33 @@ const AP_BG = [
 ];
 
 const AP_PATTERN = [
-  {key:'none',       label:'Solid',       bgColor:null,      pos:'0 0',
+  {key:'none',       label:'Solid',    bgColor:null,      pos:'0 0',
     image:'none', size:'auto'},
 
-  // ── Victorian Harlequin floor — cream & black diagonal diamonds ──
-  {key:'harlequin',  label:'Harlequin',   bgColor:'#F5F0E8', pos:'0 0,0 14px,14px -14px,-14px 0',
-    image:"linear-gradient(45deg,#1A1916 25%,transparent 25%),linear-gradient(-45deg,#1A1916 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1A1916 75%),linear-gradient(-45deg,transparent 75%,#1A1916 75%)",
-    size:'28px 28px'},
+  // ── Harlequin — warm charcoal & cream, 64px inner-diamond tile ──
+  {key:'harlequin',  label:'Harlequin', bgColor:'#F5EFE4', pos:'0 0',
+    image:'url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23F5EFE4%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2232%2C0%2064%2C32%2032%2C64%200%2C32%22%20fill%3D%22%232A211A%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2232%2C9%2055%2C32%2032%2C55%209%2C32%22%20fill%3D%22%23F5EFE4%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2232%2C16%2048%2C32%2032%2C48%2016%2C32%22%20fill%3D%22none%22%20stroke%3D%22%23C8BCA8%22%20stroke-width%3D%220.6%22%20opacity%3D%220.7%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2232%2C21%2043%2C32%2032%2C43%2021%2C32%22%20fill%3D%22%232A211A%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%223%22%20fill%3D%22%23F5EFE4%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%221.2%22%20fill%3D%22%23C8BCA8%22%20opacity%3D%220.8%22%2F%3E%0A%3C%2Fsvg%3E")',
+    size:'64px 64px'},
 
-  // ── Navy & Gold tile — navy field, gold grid lines + accent dots ──
-  {key:'navygold',   label:'Navy & Gold', bgColor:'#1B2A4A', pos:'15px 15px,0 0,0 0',
-    image:"radial-gradient(circle,rgba(212,175,55,.55) 2px,transparent 2px),linear-gradient(rgba(212,175,55,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,.2) 1px,transparent 1px)",
-    size:'30px 30px'},
+  // ── Navy & Gold — 52px ornate bordered tile with inner diamond ──
+  {key:'navygold',   label:'Navy & Gold', bgColor:'#1B2A4A', pos:'0 0',
+    image:'url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2252%22%20height%3D%2252%22%3E%0A%20%20%3Crect%20width%3D%2252%22%20height%3D%2252%22%20fill%3D%22%231B2A4A%22%2F%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2248%22%20height%3D%2248%22%20fill%3D%22none%22%20stroke%3D%22%23D4AF37%22%20stroke-width%3D%220.8%22%20opacity%3D%220.45%22%2F%3E%0A%20%20%3Crect%20x%3D%225.5%22%20y%3D%225.5%22%20width%3D%2241%22%20height%3D%2241%22%20fill%3D%22none%22%20stroke%3D%22%23D4AF37%22%20stroke-width%3D%220.4%22%20opacity%3D%220.28%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2226%2C12%2040%2C26%2026%2C40%2012%2C26%22%20fill%3D%22none%22%20stroke%3D%22%23D4AF37%22%20stroke-width%3D%220.8%22%20opacity%3D%220.45%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2226%2C18%2034%2C26%2026%2C34%2018%2C26%22%20fill%3D%22none%22%20stroke%3D%22%23D4AF37%22%20stroke-width%3D%220.5%22%20opacity%3D%220.32%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2226%22%20cy%3D%2226%22%20r%3D%222.2%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.45%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%222%22%20cy%3D%222%22%20r%3D%221.3%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2250%22%20cy%3D%222%22%20r%3D%221.3%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%222%22%20cy%3D%2250%22%20r%3D%221.3%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%221.3%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.4%22%2F%3E%0A%3C%2Fsvg%3E")',
+    size:'52px 52px'},
 
-  // ── Encaustic terracotta — bold warm tile with cream inner circle ──
-  {key:'encaustic',  label:'Encaustic',   bgColor:'#B85C40', pos:'0 0,14px 14px',
-    image:"conic-gradient(rgba(245,230,218,.14) 90deg,transparent 90deg),radial-gradient(circle,rgba(245,230,218,.28) 28%,transparent 29%)",
-    size:'28px 28px'},
+  // ── Encaustic — 56px terracotta/cream nested-diamond star tile ──
+  {key:'encaustic',  label:'Encaustic', bgColor:'#B05038', pos:'0 0',
+    image:'url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2256%22%20height%3D%2256%22%3E%0A%20%20%3Crect%20width%3D%2256%22%20height%3D%2256%22%20fill%3D%22%23B05038%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2228%2C4%2052%2C28%2028%2C52%204%2C28%22%20fill%3D%22%23EDE0D0%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2228%2C12%2044%2C28%2028%2C44%2012%2C28%22%20fill%3D%22%23B05038%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2228%2C18%2038%2C28%2028%2C38%2018%2C28%22%20fill%3D%22%23EDE0D0%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2228%2C23%2033%2C28%2028%2C33%2023%2C28%22%20fill%3D%22%23B05038%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2228%22%20cy%3D%2228%22%20r%3D%222%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.9%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%220%2C0%2010%2C0%200%2C10%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2256%2C0%2056%2C10%2046%2C0%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%220%2C56%2010%2C56%200%2C46%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2256%2C56%2056%2C46%2046%2C56%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.35%22%2F%3E%0A%3C%2Fsvg%3E")',
+    size:'56px 56px'},
 
-  // ── Blush scallop — overlapping arcs, like Victorian fish-scale tile ──
-  {key:'scallop',    label:'Scallop',     bgColor:'#F2E8EE', pos:'0 0,15px 0,0 15px,15px 15px',
-    image:"radial-gradient(circle at 50% 100%,rgba(192,120,160,.32) 35%,transparent 36%),radial-gradient(circle at 100% 50%,rgba(192,120,160,.22) 35%,transparent 36%),radial-gradient(circle at 0% 50%,rgba(192,120,160,.22) 35%,transparent 36%),radial-gradient(circle at 50% 0%,rgba(192,120,160,.32) 35%,transparent 36%)",
-    size:'30px 30px'},
+  // ── Scallop — blush overlapping arcs, 44px tile ──
+  {key:'scallop',    label:'Scallop',   bgColor:'#F2E6EE', pos:'0 0,22px 22px,0 22px,22px 0',
+    image:"radial-gradient(circle at 50% 0%,transparent 30%,rgba(178,108,152,.28) 30%,rgba(178,108,152,.28) 34%,transparent 34%),radial-gradient(circle at 100% 50%,transparent 30%,rgba(178,108,152,.18) 30%,rgba(178,108,152,.18) 34%,transparent 34%),radial-gradient(circle at 0% 50%,transparent 30%,rgba(178,108,152,.18) 30%,rgba(178,108,152,.18) 34%,transparent 34%),radial-gradient(circle at 50% 100%,transparent 30%,rgba(178,108,152,.28) 30%,rgba(178,108,152,.28) 34%,transparent 34%)",
+    size:'44px 44px'},
 
-  // ── Tartan — deep forest green plaid with gold hairlines ──
-  {key:'tartan',     label:'Tartan',      bgColor:'#1A3828', pos:'0 0',
-    image:"repeating-linear-gradient(transparent 0,transparent 23px,rgba(255,255,255,.09) 23px,rgba(255,255,255,.09) 25px,transparent 25px,transparent 48px),repeating-linear-gradient(90deg,transparent 0,transparent 23px,rgba(255,255,255,.09) 23px,rgba(255,255,255,.09) 25px,transparent 25px,transparent 48px),repeating-linear-gradient(rgba(212,175,55,.12) 0,rgba(212,175,55,.12) 1px,transparent 1px,transparent 12px),repeating-linear-gradient(90deg,rgba(212,175,55,.12) 0,rgba(212,175,55,.12) 1px,transparent 1px,transparent 12px)",
+  // ── Tartan — deep forest green, wider stripes, gold hairlines ──
+  {key:'tartan',     label:'Tartan',    bgColor:'#1A3828', pos:'0 0',
+    image:"repeating-linear-gradient(transparent 0,transparent 34px,rgba(255,255,255,.07) 34px,rgba(255,255,255,.07) 37px,transparent 37px,transparent 71px),repeating-linear-gradient(90deg,transparent 0,transparent 34px,rgba(255,255,255,.07) 34px,rgba(255,255,255,.07) 37px,transparent 37px,transparent 71px),repeating-linear-gradient(rgba(212,175,55,.1) 0,rgba(212,175,55,.1) 1px,transparent 1px,transparent 17px),repeating-linear-gradient(90deg,rgba(212,175,55,.1) 0,rgba(212,175,55,.1) 1px,transparent 1px,transparent 17px)",
     size:'auto'},
-
-  // ── Herringbone — warm parchment with tan brick zigzag ──
-  {key:'herringbone',label:'Herringbone', bgColor:'#EDE4D4', pos:'0 0,10px 0,-10px 0,0 20px',
-    image:"linear-gradient(135deg,rgba(139,100,60,.22) 25%,transparent 25%),linear-gradient(225deg,rgba(139,100,60,.22) 25%,transparent 25%),linear-gradient(315deg,rgba(139,100,60,.22) 25%,transparent 25%),linear-gradient(45deg,rgba(139,100,60,.22) 25%,transparent 25%)",
-    size:'20px 20px'},
-
-  // ── Rose & Gold ornamental — blush field, gold filigree grid ──
-  {key:'rosegold',   label:'Rose & Gold', bgColor:'#F0E4EA', pos:'16px 16px,0 0,0 0',
-    image:"radial-gradient(circle,rgba(192,146,88,.38) 2px,transparent 2px),linear-gradient(rgba(192,146,88,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(192,146,88,.12) 1px,transparent 1px)",
-    size:'32px 32px'},
-
-  // ── Sage Trellis — soft green diamond lattice ──
-  {key:'trellis',    label:'Trellis',     bgColor:'#EDF3EB', pos:'0 0',
-    image:"linear-gradient(45deg,rgba(80,120,80,.22) 1.5px,transparent 1.5px),linear-gradient(-45deg,rgba(80,120,80,.22) 1.5px,transparent 1.5px)",
-    size:'24px 24px'},
 ];
 
 const AP_GLOW = [

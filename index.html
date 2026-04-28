@@ -28,7 +28,7 @@
   --tag:#F2EFE9;--red:#C45858;--green:#2A5E38;--accent:#C09258;
   --glow-rgb:245,168,190;
   --bow-main:#F5A8BE;--bow-dark:#E07898;--bow-light:#FFE0EC;--bow-dot:#6898CC;--bow-knot:#D56080;--bow-knothi:#A84058;
-  --bg-pattern:none;--bg-pattern-size:auto;
+  --bg-pattern:none;--bg-pattern-size:auto;--bg-pattern-pos:0 0;
   /* Safe-area insets — real iPhones/Android resolve these; 0px in desktop shell */
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bot:env(safe-area-inset-bottom,0px);
@@ -39,7 +39,7 @@ html,body{height:100%;background:#DDD9D0;font-family:'Jost',sans-serif;overflow-
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 80% 10%,rgba(192,146,88,.06) 0,transparent 60%),radial-gradient(ellipse at 10% 90%,rgba(170,136,152,.05) 0,transparent 55%);pointer-events:none;z-index:0}
 .page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px 44px;position:relative;z-index:1}
 
-.phone{width:390px;height:844px;background:var(--bg);border-radius:52px;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1;box-shadow:0 0 0 11px #1A1916,0 0 0 13px #333,0 40px 110px rgba(0,0,0,.52),0 10px 36px rgba(0,0,0,.28);animation:pIn .6s cubic-bezier(.22,1,.36,1) both}
+.phone{width:390px;height:844px;background-color:var(--bg);background-image:var(--bg-pattern,none);background-size:var(--bg-pattern-size,auto);background-position:var(--bg-pattern-pos,0 0);border-radius:52px;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1;box-shadow:0 0 0 11px #1A1916,0 0 0 13px #333,0 40px 110px rgba(0,0,0,.52),0 10px 36px rgba(0,0,0,.28);animation:pIn .6s cubic-bezier(.22,1,.36,1) both}
 @keyframes pIn{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
 .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:128px;height:34px;background:#0D0D0B;border-radius:20px;z-index:200}
 
@@ -48,7 +48,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sbar-i{display:flex;gap:5px;align-items:center}
 
 .scs{flex:1;position:relative;overflow:hidden}
-.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background-color:var(--bg);background-image:var(--bg-pattern,none);background-size:var(--bg-pattern-size,auto);opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .22s,transform .22s;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background-color:var(--bg);background-image:var(--bg-pattern,none);background-size:var(--bg-pattern-size,auto);background-position:var(--bg-pattern-pos,0 0);opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .22s,transform .22s;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .sc::-webkit-scrollbar{display:none}
 .sc.on{opacity:1;pointer-events:auto;transform:none}
 
@@ -1259,7 +1259,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.8</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.9</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2160,35 +2160,48 @@ const AP_BG = [
 ];
 
 const AP_PATTERN = [
-  {key:'none',     label:'Solid',
+  {key:'none',       label:'Solid',       bgColor:null,      pos:'0 0',
     image:'none', size:'auto'},
-  {key:'checker',  label:'Checker',
-    image:"conic-gradient(rgba(0,0,0,.07) 90deg,transparent 90deg)",
-    size:'18px 18px'},
-  {key:'checker-lg',label:'Checker L',
-    image:"conic-gradient(rgba(0,0,0,.06) 90deg,transparent 90deg)",
-    size:'32px 32px'},
-  {key:'stripe-h', label:'H Stripe',
-    image:"repeating-linear-gradient(0deg,rgba(0,0,0,.07) 0px,rgba(0,0,0,.07) 1px,transparent 1px,transparent 12px)",
+
+  // ── Victorian Harlequin floor — cream & black diagonal diamonds ──
+  {key:'harlequin',  label:'Harlequin',   bgColor:'#F5F0E8', pos:'0 0,0 14px,14px -14px,-14px 0',
+    image:"linear-gradient(45deg,#1A1916 25%,transparent 25%),linear-gradient(-45deg,#1A1916 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1A1916 75%),linear-gradient(-45deg,transparent 75%,#1A1916 75%)",
+    size:'28px 28px'},
+
+  // ── Navy & Gold tile — navy field, gold grid lines + accent dots ──
+  {key:'navygold',   label:'Navy & Gold', bgColor:'#1B2A4A', pos:'15px 15px,0 0,0 0',
+    image:"radial-gradient(circle,rgba(212,175,55,.55) 2px,transparent 2px),linear-gradient(rgba(212,175,55,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(212,175,55,.2) 1px,transparent 1px)",
+    size:'30px 30px'},
+
+  // ── Encaustic terracotta — bold warm tile with cream inner circle ──
+  {key:'encaustic',  label:'Encaustic',   bgColor:'#B85C40', pos:'0 0,14px 14px',
+    image:"conic-gradient(rgba(245,230,218,.14) 90deg,transparent 90deg),radial-gradient(circle,rgba(245,230,218,.28) 28%,transparent 29%)",
+    size:'28px 28px'},
+
+  // ── Blush scallop — overlapping arcs, like Victorian fish-scale tile ──
+  {key:'scallop',    label:'Scallop',     bgColor:'#F2E8EE', pos:'0 0,15px 0,0 15px,15px 15px',
+    image:"radial-gradient(circle at 50% 100%,rgba(192,120,160,.32) 35%,transparent 36%),radial-gradient(circle at 100% 50%,rgba(192,120,160,.22) 35%,transparent 36%),radial-gradient(circle at 0% 50%,rgba(192,120,160,.22) 35%,transparent 36%),radial-gradient(circle at 50% 0%,rgba(192,120,160,.32) 35%,transparent 36%)",
+    size:'30px 30px'},
+
+  // ── Tartan — deep forest green plaid with gold hairlines ──
+  {key:'tartan',     label:'Tartan',      bgColor:'#1A3828', pos:'0 0',
+    image:"repeating-linear-gradient(transparent 0,transparent 23px,rgba(255,255,255,.09) 23px,rgba(255,255,255,.09) 25px,transparent 25px,transparent 48px),repeating-linear-gradient(90deg,transparent 0,transparent 23px,rgba(255,255,255,.09) 23px,rgba(255,255,255,.09) 25px,transparent 25px,transparent 48px),repeating-linear-gradient(rgba(212,175,55,.12) 0,rgba(212,175,55,.12) 1px,transparent 1px,transparent 12px),repeating-linear-gradient(90deg,rgba(212,175,55,.12) 0,rgba(212,175,55,.12) 1px,transparent 1px,transparent 12px)",
     size:'auto'},
-  {key:'stripe-v', label:'V Stripe',
-    image:"repeating-linear-gradient(90deg,rgba(0,0,0,.07) 0px,rgba(0,0,0,.07) 1px,transparent 1px,transparent 12px)",
-    size:'auto'},
-  {key:'stripe-d', label:'Diagonal',
-    image:"repeating-linear-gradient(45deg,rgba(0,0,0,.06) 0px,rgba(0,0,0,.06) 1px,transparent 1px,transparent 10px)",
-    size:'auto'},
-  {key:'grid',     label:'Grid',
-    image:"linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px)",
+
+  // ── Herringbone — warm parchment with tan brick zigzag ──
+  {key:'herringbone',label:'Herringbone', bgColor:'#EDE4D4', pos:'0 0,10px 0,-10px 0,0 20px',
+    image:"linear-gradient(135deg,rgba(139,100,60,.22) 25%,transparent 25%),linear-gradient(225deg,rgba(139,100,60,.22) 25%,transparent 25%),linear-gradient(315deg,rgba(139,100,60,.22) 25%,transparent 25%),linear-gradient(45deg,rgba(139,100,60,.22) 25%,transparent 25%)",
     size:'20px 20px'},
-  {key:'grid-sm',  label:'Fine Grid',
-    image:"linear-gradient(rgba(0,0,0,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.05) 1px,transparent 1px)",
-    size:'10px 10px'},
-  {key:'dots',     label:'Dots',
-    image:"radial-gradient(circle,rgba(0,0,0,.1) 1.2px,transparent 1.2px)",
-    size:'14px 14px'},
-  {key:'dots-lg',  label:'Dots L',
-    image:"radial-gradient(circle,rgba(0,0,0,.08) 2px,transparent 2px)",
-    size:'22px 22px'},
+
+  // ── Rose & Gold ornamental — blush field, gold filigree grid ──
+  {key:'rosegold',   label:'Rose & Gold', bgColor:'#F0E4EA', pos:'16px 16px,0 0,0 0',
+    image:"radial-gradient(circle,rgba(192,146,88,.38) 2px,transparent 2px),linear-gradient(rgba(192,146,88,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(192,146,88,.12) 1px,transparent 1px)",
+    size:'32px 32px'},
+
+  // ── Sage Trellis — soft green diamond lattice ──
+  {key:'trellis',    label:'Trellis',     bgColor:'#EDF3EB', pos:'0 0',
+    image:"linear-gradient(45deg,rgba(80,120,80,.22) 1.5px,transparent 1.5px),linear-gradient(-45deg,rgba(80,120,80,.22) 1.5px,transparent 1.5px)",
+    size:'24px 24px'},
 ];
 
 const AP_GLOW = [
@@ -2261,10 +2274,11 @@ function applyAppearance(){
   const pattern = AP_PATTERN.find(x=>x.key===currentAppearance.pattern)|| AP_PATTERN[0];
   const bow     = AP_BOW.find(x=>x.key===currentAppearance.bow)        || AP_BOW[0];
   const root    = document.documentElement;
-  root.style.setProperty('--bg', bg.color);
+  root.style.setProperty('--bg', pattern.bgColor || bg.color);
   root.style.setProperty('--glow-rgb', glow.rgb);
   root.style.setProperty('--bg-pattern', pattern.image);
   root.style.setProperty('--bg-pattern-size', pattern.size);
+  root.style.setProperty('--bg-pattern-pos', pattern.pos||'0 0');
   root.style.setProperty('--bow-main',   bow.main);
   root.style.setProperty('--bow-dark',   bow.dark);
   root.style.setProperty('--bow-light',  bow.light);
@@ -2283,13 +2297,14 @@ function renderApSwatches(){
       return `<div class="ap-swatch${on}" style="background:${item.color}" onclick="${fn}('${item.key}')" title="${item.label}"></div>`;
     }).join('');
   }
-  // Pattern tiles — show the pattern over the current bg color
+  // Pattern tiles — each shows its own bgColor so you see the real thing
   function mkPattern(list, current){
     return list.map(item=>{
       const on = item.key===current ? ' on' : '';
+      const tileBg = item.bgColor || bgColor;
       const patStyle = item.image==='none'
-        ? 'background-color:'+bgColor
-        : 'background-color:'+bgColor+';background-image:'+item.image+';background-size:'+item.size;
+        ? `background-color:${tileBg}`
+        : `background-color:${tileBg};background-image:${item.image};background-size:${item.size};background-position:${item.pos||'0 0'}`;
       return `<div class="ap-swatch${on}" style="${patStyle};width:44px;height:44px;border-radius:10px" onclick="setApPattern('${item.key}')" title="${item.label}"></div>`;
     }).join('');
   }
@@ -2335,8 +2350,12 @@ function setApBg(key){
 function setApPattern(key){
   currentAppearance.pattern=key;
   const p = AP_PATTERN.find(x=>x.key===key)||AP_PATTERN[0];
-  document.documentElement.style.setProperty('--bg-pattern', p.image);
-  document.documentElement.style.setProperty('--bg-pattern-size', p.size);
+  const bgFallback = (AP_BG.find(x=>x.key===currentAppearance.bg)||AP_BG[0]).color;
+  const root = document.documentElement;
+  root.style.setProperty('--bg', p.bgColor || bgFallback);
+  root.style.setProperty('--bg-pattern', p.image);
+  root.style.setProperty('--bg-pattern-size', p.size);
+  root.style.setProperty('--bg-pattern-pos', p.pos||'0 0');
   renderApSwatches();
   saveAppearance();
 }

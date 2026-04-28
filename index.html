@@ -1259,7 +1259,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.2</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.3</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -3501,23 +3501,31 @@ let ovViewOpts={};
 function openOutfitView(outfit,opts={}){
   if(!outfit) return;
   ovViewOpts=opts;
-  const CPOS_FB=[{l:20,t:18,r:-3,w:110,h:148},{l:108,t:50,r:2,w:110,h:148},{l:32,t:162,r:1,w:110,h:148}];
-  const cis=outfit.canvasItems||(outfit.items||[]).map((id,i)=>{
-    const p=CPOS_FB[i]||{l:20+i*30,t:20+i*20,r:0,w:110,h:148};
-    return{itemId:id,x:p.l,y:p.t,w:p.w,h:p.h,rot:p.r,z:i+1};
-  });
-  const getIt=id=>(opts.embItems||[]).find(x=>x.id===id)||S.items.find(x=>x.id===id);
-  const ov=document.getElementById('outfit-view-overlay');
-  if(!ov) return;
-  const canvas=document.getElementById('ov-canvas');
-  const ovW=canvas?.offsetWidth||362;
-  const scale=ovW/362;
-  if(canvas){
-    canvas.style.cssText=`position:relative;width:100%;padding-top:${Math.round(310*scale*100/ovW)}%;overflow:hidden;`;
-    const inner=document.createElement('div');
-    inner.style.cssText=`position:absolute;top:0;left:0;width:362px;height:310px;transform:scale(${scale});transform-origin:0 0;`;
+
+  const ov=document.getElementById('outfit-view'); if(!ov) return;
+
+  // ── Canvas ────────────────────────────────────────────────
+  const board=document.getElementById('ov-canvas-board');
+  if(board){
+    const CPOS_FB=[{l:20,t:18,r:-3,w:110,h:148},{l:108,t:50,r:2,w:110,h:148},{l:32,t:162,r:1,w:110,h:148}];
+    const cis=outfit.canvasItems||(outfit.items||[]).map((id,i)=>{
+      const p=CPOS_FB[i]||{l:20+i*30,t:20+i*20,r:0,w:110,h:148};
+      return{itemId:id,x:p.l,y:p.t,w:p.w,h:p.h,rot:p.r||0,z:i+1};
+    });
+    const getIt=id=>(opts.embItems||[]).find(x=>x.id===id)||S.items.find(x=>x.id===id);
+
+    // Scale canvas to fit phone width
+    const viewCanvas=document.getElementById('ov-view-canvas');
+    const availW=(viewCanvas?.offsetWidth||340)-24;
+    const BOARD_W=362, BOARD_H=310;
+    const scale=Math.min(1, availW/BOARD_W);
+    board.style.cssText=`width:${BOARD_W}px;height:${BOARD_H}px;transform:scale(${scale});transform-origin:top left;position:relative;border-radius:14px;overflow:hidden;`;
+    if(viewCanvas) viewCanvas.style.height=Math.round(BOARD_H*scale+24)+'px';
+
+    // Apply board background
     const bgStyle=getBgInlineStyle(outfit.boardBg||'beige');
-    inner.style.cssText+=bgStyle;
+    board.setAttribute('style', board.style.cssText+';'+bgStyle);
+    board.innerHTML='';
     cis.forEach(ci=>{
       const it=getIt(ci.itemId); if(!it) return;
       const el=document.createElement('div');
@@ -3526,48 +3534,67 @@ function openOutfitView(outfit,opts={}){
       el.innerHTML=it.image
         ?`<img src="${it.image}" style="width:100%;height:100%;object-fit:contain">`
         :`<div style="width:100%;height:100%;background:${c1}"></div>`;
-      inner.appendChild(el);
+      board.appendChild(el);
     });
-    canvas.innerHTML=''; canvas.appendChild(inner);
+
+    // ── Items list ─────────────────────────────────────────
+    const listHdr=document.getElementById('ov-view-list-hdr');
+    const listItems=document.getElementById('ov-view-list-items');
+    if(listHdr) listHdr.textContent='Pieces';
+    if(listItems){
+      const items=[...new Set(cis.map(ci=>ci.itemId))].map(id=>getIt(id)).filter(Boolean);
+      listItems.innerHTML=items.map(it=>`
+        <div class="oi-row">
+          <div class="oi-thumb">${art(it,52)}</div>
+          <div class="oi-info">
+            <div class="oi-iname">${it.name}</div>
+            <div class="oi-sub">${it.store||''}${it.price?' · $'+it.price:''}</div>
+          </div>
+          ${it.url?`<a class="oi-buy" href="${it.url}" target="_blank" rel="noopener">Buy</a>`:''}
+        </div>`).join('');
+    }
   }
-  // Outfit name
-  const nameEl=document.getElementById('ov-outfit-name');
-  if(nameEl) nameEl.textContent=outfit.name||'Untitled';
-  // Items list
-  const itemsEl=document.getElementById('ov-items-list');
-  if(itemsEl){
-    const items=[...new Set(cis.map(ci=>ci.itemId))].map(id=>getIt(id)).filter(Boolean);
-    itemsEl.innerHTML=items.map(it=>`
-      <div class="oi-row">
-        <div class="oi-thumb">${art(it,58)}</div>
-        <div class="oi-info">
-          <div class="oi-iname">${it.name}</div>
-          <div class="oi-sub">${it.store||''}${it.price?' · $'+it.price:''}</div>
-        </div>
-        ${it.url?`<a class="oi-buy" href="${it.url}" target="_blank" rel="noopener">Buy</a>`:''}
-      </div>`).join('');
+
+  // ── Title ─────────────────────────────────────────────────
+  const titleEl=document.getElementById('ov-view-title');
+  if(titleEl) titleEl.textContent=outfit.name||'Outfit';
+
+  // ── Action buttons ────────────────────────────────────────
+  const acts=document.getElementById('ov-view-acts');
+  if(acts){
+    if(opts.isOwn){
+      acts.innerHTML=`
+        <button onclick="editOutfit('${outfit.id}')" style="height:32px;padding:0 12px;border-radius:16px;border:1.5px solid var(--ln);background:var(--tag);font-size:12px;font-weight:500;font-family:'Jost',sans-serif;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent">Edit</button>
+        <button onclick="deleteOutfit('${outfit.id}')" style="height:32px;width:32px;border-radius:50%;border:1.5px solid var(--ln);background:var(--tag);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="var(--mid)" stroke-width="1.6" stroke-linecap="round"><line x1="2" y1="2" x2="11" y2="11"/><line x1="11" y1="2" x2="2" y2="11"/></svg>
+        </button>`;
+    } else {
+      acts.innerHTML='';
+    }
   }
-  // Action buttons
-  const editBtn=document.getElementById('ov-edit-btn');
-  const delBtn=document.getElementById('ov-del-btn');
-  const shareBtn=document.getElementById('ov-share-btn');
-  if(editBtn) editBtn.style.display=opts.isOwn?'flex':'none';
-  if(delBtn)  delBtn.style.display=opts.isOwn?'flex':'none';
-  if(editBtn) editBtn.onclick=()=>editOutfit(outfit.id);
-  if(delBtn)  delBtn.onclick=()=>deleteOutfit(outfit.id);
-  // Social like button
-  const lk=opts.liked||false, lc=opts.likeCount||0, cc=opts.commentCount||0;
-  const hF=`<svg width="16" height="15" viewBox="0 0 16 15" fill="#D46A5A"><path d="M8 14L1.5 7.5C.5 6.5.5 5 1.5 4 2.5 3 4 3 5 4L8 7l3-3C12 3 13.5 3 14.5 4 15.5 5 15.5 6.5 14.5 7.5Z"/></svg>`;
-  const hE=`<svg width="16" height="15" viewBox="0 0 16 15" fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14L1.5 7.5C.5 6.5.5 5 1.5 4 2.5 3 4 3 5 4L8 7l3-3C12 3 13.5 3 14.5 4 15.5 5 15.5 6.5 14.5 7.5Z"/></svg>`;
-  const socLk=document.getElementById('ov-soc-lk');
-  if(socLk){ socLk.className='ov-soc-btn'+(lk?' liked':''); socLk.innerHTML=(lk?hF:hE)+`<span id="ov-soc-lk-n">${lc}</span>`; if(opts.postId) socLk.onclick=()=>ovSocLike(opts.postId); else socLk.onclick=null; }
-  const socCm=document.getElementById('ov-soc-cm');
-  if(socCm){ socCm.innerHTML=`<svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 1H2C1.4 1 1 1.4 1 2v8c0 .6.4 1 1 1h4l2.5 3 2.5-3H13c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1Z"/></svg><span>${cc}</span>`; }
+
+  // ── Social bar ────────────────────────────────────────────
+  const socBar=document.getElementById('ov-soc-bar');
+  if(socBar){
+    if(opts.postId){
+      const lk=opts.liked||false, lc=opts.likeCount||0, cc=opts.commentCount||0;
+      const hF=`<svg width="16" height="15" viewBox="0 0 16 15" fill="#D46A5A"><path d="M8 14L1.5 7.5C.5 6.5.5 5 1.5 4 2.5 3 4 3 5 4L8 7l3-3C12 3 13.5 3 14.5 4 15.5 5 15.5 6.5 14.5 7.5Z"/></svg>`;
+      const hE=`<svg width="16" height="15" viewBox="0 0 16 15" fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14L1.5 7.5C.5 6.5.5 5 1.5 4 2.5 3 4 3 5 4L8 7l3-3C12 3 13.5 3 14.5 4 15.5 5 15.5 6.5 14.5 7.5Z"/></svg>`;
+      socBar.style.display='flex';
+      socBar.innerHTML=`
+        <button id="ov-soc-lk" class="ov-soc-btn${lk?' liked':''}" onclick="ovSocLike('${opts.postId}')" style="display:flex;align-items:center;gap:5px;padding:8px 16px;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;color:var(--mid)">${lk?hF:hE}<span>${lc}</span></button>
+        <button class="ov-soc-btn" style="display:flex;align-items:center;gap:5px;padding:8px 16px;background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-size:13px;color:var(--mid)"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 1H2C1.4 1 1 1.4 1 2v8c0 .6.4 1 1 1h4l2.5 3 2.5-3H13c.6 0 1-.4 1-1V2c0-.6-.4-1-1-1Z"/></svg><span>${cc}</span></button>`;
+    } else {
+      socBar.style.display='none';
+      socBar.innerHTML='';
+    }
+  }
+
   ov.classList.add('open');
 }
 
 function closeOutfitView(){
-  const ov=document.getElementById('outfit-view-overlay');
+  const ov=document.getElementById('outfit-view');
   if(ov) ov.classList.remove('open');
   ovViewOpts={};
 }

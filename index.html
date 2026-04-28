@@ -85,7 +85,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .icard-bow{position:absolute;top:7px;right:7px;width:32px;height:24px;background:rgba(255,255,255,.9);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;backdrop-filter:blur(4px);transition:transform .15s}
 .icard-bow:active{transform:scale(.78)}
 .icard-bow.fav svg{filter:drop-shadow(0 1px 5px rgba(var(--glow-rgb),.55))}
-.icard.liked-item{box-shadow:0 0 0 2px rgba(var(--glow-rgb),.45),0 0 12px 2px rgba(var(--glow-rgb),.18);transition:box-shadow .2s}
 .fav-scroll::-webkit-scrollbar{display:none}
 .stag-grid{display:flex;flex-wrap:wrap;gap:10px;padding:4px 0 16px}
 .stag{padding:9px 16px;border-radius:20px;border:1.5px solid var(--ln);font-size:13px;font-weight:400;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .15s,border-color .15s,color .15s;color:var(--mid);background:var(--w)}
@@ -1260,7 +1259,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.4</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.5</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2216,10 +2215,11 @@ function loadAppearance(saved){
 function getBowSVG(w,h,filled){
   const bow = AP_BOW.find(x=>x.key===currentAppearance.bow) || AP_BOW[0];
   if(!filled){
-    return `<svg viewBox="0 0 24 18" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 8C10 5.5 3.5 4.5 3.5 7.5C3.5 10.5 10 9.5 12 8Z" fill="none" stroke="${bow.main}" stroke-width="1.3" stroke-linejoin="round"/>
-      <path d="M12 8C14 5.5 20.5 4.5 20.5 7.5C20.5 10.5 14 9.5 12 8Z" fill="none" stroke="${bow.main}" stroke-width="1.3" stroke-linejoin="round"/>
-      <ellipse cx="12" cy="8" rx="1.8" ry="1.4" fill="none" stroke="${bow.main}" stroke-width="1.1"/>
+    // Ghosted — same shape as the full bow but at low opacity, no dots
+    return `<svg viewBox="0 0 24 18" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg" opacity=".28">
+      <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="${bow.main}"/>
+      <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="${bow.main}"/>
+      <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="${bow.knot}"/>
     </svg>`;
   }
   return `<svg viewBox="0 0 24 18" width="${w}" height="${h}" xmlns="http://www.w3.org/2000/svg">
@@ -2889,46 +2889,22 @@ function renderCloset(){
     </div>`;
     return;
   }
-
-  // ── Favorites strip — horizontal scroll at top, "See All" inline in header ──
-  const favItems=S.items.filter(i=>i.liked);
-  let favHtml='';
-  if(favItems.length && activeFilter==='all' && !closetSearch){
-    const favItemsHtml=favItems.map(it=>{
-      return '<div onclick="openDetail(\''+it.id+'\')" style="flex-shrink:0;width:88px;cursor:pointer;-webkit-tap-highlight-color:transparent">'
-        +'<div style="width:88px;height:108px;border-radius:12px;overflow:hidden;background:#EDE9E3;border:1.5px solid rgba('+(AP_GLOW.find(x=>x.key===currentAppearance.glow)||AP_GLOW[0]).rgb+',.35);box-shadow:0 2px 10px rgba('+(AP_GLOW.find(x=>x.key===currentAppearance.glow)||AP_GLOW[0]).rgb+',.25)">'
-        +art(it,108)+'</div>'
-        +'<div style="font-size:11px;font-weight:500;color:var(--ink);margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+it.name+'</div>'
-        +'</div>';
-    }).join('');
-    favHtml=`<div style="padding:12px 0 0">
-      <div style="padding:0 20px 8px;display:flex;align-items:center;justify-content:space-between">
-        <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--mid)">Favorites</span>
-        <span onclick="filterCloset('__fav__',document.querySelector('#closet-pills .pill:last-child'))" style="font-size:11px;color:var(--dim);cursor:pointer;-webkit-tap-highlight-color:transparent">See All</span>
-      </div>
-      <div style="display:flex;gap:10px;padding:0 20px 16px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch" class="fav-scroll">
-        ${favItemsHtml}
-      </div>
-      <div style="height:1px;background:var(--ln);margin:0 0 12px"></div>
-    </div>`;
-  }
-
   if(!items.length){
-    b.innerHTML=favHtml+`<div style="padding:36px 20px;text-align:center;color:var(--mid);font-size:14px">${activeFilter==='__fav__'?'No favorited items yet — tap the bow on any item':closetSearch?'No results':'No items in this category'}</div>`;
+    b.innerHTML=`<div style="padding:36px 20px;text-align:center;color:var(--mid);font-size:14px">${activeFilter==='__fav__'?'No favorited items yet — tap the bow on any item':closetSearch?'No results':'No items in this category'}</div>`;
     return;
   }
+
   const Hs=[148,172,138,190,162,164,150,180,145,168];
-  // Use centralized getBowSVG so bow color always matches currentAppearance
+  // Unfavorited: ghosted filled bow at low opacity — feels intentional, not broken
   const bowEmpty = getBowSVG(20,15,false);
   const bowFav   = getBowSVG(20,15,true);
   const cardHtml=(it,i)=>{
     const h=Hs[i%Hs.length];
-    const likedClass=it.liked?' liked-item':'';
-    return `<div class="icard${likedClass}" onclick="openDetail('${it.id}')">${art(it,h)}<button class="icard-edit" onclick="event.stopPropagation();openEditItem('${it.id}')" title="Edit item"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#1A1916" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5L10.5 3.5L3.5 10.5H1.5V8.5L8.5 1.5Z"/></svg></button><div class="icard-bow${it.liked?' fav':''}" id="hrt-${it.id}" onclick="event.stopPropagation();toggleLike('${it.id}')">${it.liked?bowFav:bowEmpty}</div><div class="icard-info"><div class="icard-name">${it.name}</div><div class="icard-sub">${it.store}${it.price?' · $'+it.price:''}</div></div></div>`;
+    return `<div class="icard" onclick="openDetail('${it.id}')">${art(it,h)}<button class="icard-edit" onclick="event.stopPropagation();openEditItem('${it.id}')" title="Edit item"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#1A1916" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 1.5L10.5 3.5L3.5 10.5H1.5V8.5L8.5 1.5Z"/></svg></button><div class="icard-bow${it.liked?' fav':''}" id="hrt-${it.id}" onclick="event.stopPropagation();toggleLike('${it.id}')">${it.liked?bowFav:bowEmpty}</div><div class="icard-info"><div class="icard-name">${it.name}</div><div class="icard-sub">${it.store}${it.price?' · $'+it.price:''}</div></div></div>`;
   };
   const left=items.filter((_,i)=>i%2===0);
   const right=items.filter((_,i)=>i%2===1);
-  b.innerHTML=favHtml+`<div class="mson"><div class="mcol">${left.map((it,i)=>cardHtml(it,i*2)).join('')}</div><div class="mcol">${right.map((it,i)=>cardHtml(it,i*2+1)).join('')}</div></div>`;
+  b.innerHTML=`<div class="mson"><div class="mcol">${left.map((it,i)=>cardHtml(it,i*2)).join('')}</div><div class="mcol">${right.map((it,i)=>cardHtml(it,i*2+1)).join('')}</div></div>`;
 }
 
 function toggleLike(id){

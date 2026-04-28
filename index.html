@@ -659,6 +659,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ov-view-info{flex:1;min-width:0}
 .ov-view-iname{font-size:13px;font-weight:500;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ov-view-isub{font-size:11px;color:var(--mid);margin-top:1px}
+.ov-view-buy{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:14px;background:var(--ink);color:var(--w);font-size:11px;font-weight:500;font-family:'Jost',sans-serif;text-decoration:none;flex-shrink:0;-webkit-tap-highlight-color:transparent;letter-spacing:.03em}
 
 /* ══ SHARE OUTFIT MODAL (lives inside .ov-view stacking context) ══ */
 .share-modal-bg{position:absolute;inset:0;background:rgba(0,0,0,0);z-index:10;pointer-events:none;transition:background .28s}
@@ -1259,7 +1260,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.3</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.4.4</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -3519,23 +3520,30 @@ function openOutfitView(outfit,opts={}){
     const availW=(viewCanvas?.offsetWidth||340)-24;
     const BOARD_W=362, BOARD_H=310;
     const scale=Math.min(1, availW/BOARD_W);
-    board.style.cssText=`width:${BOARD_W}px;height:${BOARD_H}px;transform:scale(${scale});transform-origin:top left;position:relative;border-radius:14px;overflow:hidden;`;
-    if(viewCanvas) viewCanvas.style.height=Math.round(BOARD_H*scale+24)+'px';
-
-    // Apply board background
-    const bgStyle=getBgInlineStyle(outfit.boardBg||'beige');
-    board.setAttribute('style', board.style.cssText+';'+bgStyle);
-    board.innerHTML='';
-    cis.forEach(ci=>{
-      const it=getIt(ci.itemId); if(!it) return;
-      const el=document.createElement('div');
-      el.style.cssText=`position:absolute;left:${ci.x}px;top:${ci.y}px;width:${ci.w}px;height:${ci.h}px;transform:rotate(${ci.rot||0}deg);z-index:${ci.z||1}`;
-      const c1=it.c1||(CAT_PAL[it.category]||CAT_PAL.tops).c1;
-      el.innerHTML=it.image
-        ?`<img src="${it.image}" style="width:100%;height:100%;object-fit:contain">`
-        :`<div style="width:100%;height:100%;background:${c1}"></div>`;
-      board.appendChild(el);
-    });
+    const scaledH=Math.round(BOARD_H*scale);
+    // Wrap board in a centered container
+    if(viewCanvas){
+      viewCanvas.style.height=(scaledH+24)+'px';
+      viewCanvas.innerHTML='';
+      const wrap=document.createElement('div');
+      wrap.style.cssText=`width:${Math.round(BOARD_W*scale)}px;height:${scaledH}px;position:relative;border-radius:14px;overflow:hidden;flex-shrink:0;`;
+      board.style.cssText=`width:${BOARD_W}px;height:${BOARD_H}px;transform:scale(${scale});transform-origin:top left;position:absolute;top:0;left:0;`;
+      const bgStyle=getBgInlineStyle(outfit.boardBg||'beige');
+      board.setAttribute('style', board.style.cssText+bgStyle);
+      board.innerHTML='';
+      cis.forEach(ci=>{
+        const it=getIt(ci.itemId); if(!it) return;
+        const el=document.createElement('div');
+        el.style.cssText=`position:absolute;left:${ci.x}px;top:${ci.y}px;width:${ci.w}px;height:${ci.h}px;transform:rotate(${ci.rot||0}deg);z-index:${ci.z||1}`;
+        const c1=it.c1||(CAT_PAL[it.category]||CAT_PAL.tops).c1;
+        el.innerHTML=it.image
+          ?`<img src="${it.image}" style="width:100%;height:100%;object-fit:contain">`
+          :`<div style="width:100%;height:100%;background:${c1}"></div>`;
+        board.appendChild(el);
+      });
+      wrap.appendChild(board);
+      viewCanvas.appendChild(wrap);
+    }
 
     // ── Items list ─────────────────────────────────────────
     const listHdr=document.getElementById('ov-view-list-hdr');
@@ -3544,13 +3552,13 @@ function openOutfitView(outfit,opts={}){
     if(listItems){
       const items=[...new Set(cis.map(ci=>ci.itemId))].map(id=>getIt(id)).filter(Boolean);
       listItems.innerHTML=items.map(it=>`
-        <div class="oi-row">
-          <div class="oi-thumb">${art(it,52)}</div>
-          <div class="oi-info">
-            <div class="oi-iname">${it.name}</div>
-            <div class="oi-sub">${it.store||''}${it.price?' · $'+it.price:''}</div>
+        <div class="ov-view-row">
+          <div class="ov-view-thumb">${art(it,58)}</div>
+          <div class="ov-view-info">
+            <div class="ov-view-iname">${it.name}</div>
+            <div class="ov-view-isub">${it.store||''}${it.price?' · $'+it.price:''}</div>
           </div>
-          ${it.url?`<a class="oi-buy" href="${it.url}" target="_blank" rel="noopener">Buy</a>`:''}
+          ${it.url?`<a class="ov-view-buy" href="${it.url}" target="_blank" rel="noopener">Buy</a>`:''}
         </div>`).join('');
     }
   }

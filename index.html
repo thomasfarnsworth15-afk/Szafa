@@ -1103,12 +1103,13 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div>
           <div class="field-lbl">Category <span style="color:var(--red)">*</span></div>
           <div class="cat-grid">
-            <div class="cat-chip" data-cat="tops"      onclick="pickCat(this)">Tops</div>
-            <div class="cat-chip" data-cat="bottoms"   onclick="pickCat(this)">Bottoms</div>
-            <div class="cat-chip" data-cat="dresses"   onclick="pickCat(this)">Dresses</div>
-            <div class="cat-chip" data-cat="outerwear" onclick="pickCat(this)">Outerwear</div>
-            <div class="cat-chip" data-cat="shoes"     onclick="pickCat(this)">Shoes</div>
-            <div class="cat-chip" data-cat="bags"      onclick="pickCat(this)">Bags</div>
+            <div class="cat-chip" data-cat="tops"        onclick="pickCat(this)">Tops</div>
+            <div class="cat-chip" data-cat="bottoms"     onclick="pickCat(this)">Bottoms</div>
+            <div class="cat-chip" data-cat="dresses"     onclick="pickCat(this)">Dresses</div>
+            <div class="cat-chip" data-cat="outerwear"   onclick="pickCat(this)">Outerwear</div>
+            <div class="cat-chip" data-cat="shoes"       onclick="pickCat(this)">Shoes</div>
+            <div class="cat-chip" data-cat="bags"        onclick="pickCat(this)">Bags</div>
+            <div class="cat-chip" data-cat="accessories" onclick="pickCat(this)">Accessories</div>
           </div>
         </div>
 
@@ -1254,7 +1255,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.2</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.3</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -3006,12 +3007,40 @@ function setUrlSt(state, msg){
   if(bar) bar.style.borderColor = state==='error'?'var(--red)':state==='ok'?'#5A8A5A':'';
 }
 
-async function scrapeUrlItem(){
-  const url=(document.getElementById('url-input').value||'').trim();
-  if(!url){ setUrlSt('error','Enter a product URL'); return; }
-  setUrlSt('loading','Fetching product…');
+function openAddStage2(){
+  const s1=document.getElementById('add-stage1');
+  const s2=document.getElementById('add-stage2');
+  const bg=document.getElementById('add-s2-bg');
+  if(s2){ s2.style.display='flex'; s2.style.transform='translateY(100%)'; }
+  if(bg){ bg.style.pointerEvents='auto'; }
+  requestAnimationFrame(()=>{
+    if(s2) s2.style.transform='translateY(0)';
+    if(bg) bg.style.background='rgba(0,0,0,.28)';
+    if(s1) s1.classList.add('hidden');
+  });
+  // Show URL in pill
+  const url=(document.getElementById('url-input')?.value||'').trim();
+  const pill=document.getElementById('add-url-pill');
+  if(pill && url){ pill.textContent=url; pill.style.display='block'; }
+  else if(pill){ pill.style.display='none'; }
+}
+
+async function importURL(){
+  const url=(document.getElementById('url-input')?.value||'').trim();
+  if(!url){ setUrlSt('error','Paste a product link first'); return; }
+  // Open the sheet immediately — don't make user wait
+  openAddStage2();
+  // Pre-fill store from URL
   try{
-    // Try OG/meta tags via a simple proxy approach using Microlink
+    const store=new URL(url).hostname.replace('www.','');
+    document.getElementById('m-store').value=store;
+  } catch(e){}
+  // Show loading state in name field
+  const nameEl=document.getElementById('m-name');
+  if(nameEl){ nameEl.placeholder='Fetching name…'; nameEl.value=''; }
+  setUrlSt('loading','');
+  // Fetch metadata in background and fill fields when ready
+  try{
     const api=`https://api.microlink.io/?url=${encodeURIComponent(url)}&meta=true`;
     const res=await fetch(api);
     if(!res.ok) throw new Error('fetch failed');
@@ -3019,32 +3048,22 @@ async function scrapeUrlItem(){
     const d=j.data||{};
     const name=d.title||d['og:title']||'';
     const image=d.image?.url||d['og:image']||null;
-    const price=null; // price extraction needs store-specific logic
     const store=new URL(url).hostname.replace('www.','');
-    if(name){
-      document.getElementById('m-name').value=name;
+    if(name && nameEl) nameEl.value=name;
+    if(nameEl) nameEl.placeholder='e.g. White Linen Shirt';
+    if(document.getElementById('m-store').value==='' || true)
       document.getElementById('m-store').value=store;
-      if(image){
-        pendingImg=image;
-        const prev=document.getElementById('img-preview'), ph=document.getElementById('img-ph');
-        if(prev){prev.src=image;prev.style.display='block';}
-        if(ph) ph.style.display='none';
-      }
-      // Switch to manual tab to let user review/edit
-      const tabs=document.querySelectorAll('.add-tab');
-      if(tabs[1]) switchAddTab(1,tabs[1]);
-      setUrlSt('ok','Product found! Review details below.');
-    } else {
-      setUrlSt('ok','Link saved. Fill in details below.');
-      document.getElementById('m-store').value=new URL(url).hostname.replace('www.','');
-      const tabs=document.querySelectorAll('.add-tab');
-      if(tabs[1]) switchAddTab(1,tabs[1]);
+    if(image){
+      pendingImg=image;
+      const prev=document.getElementById('img-preview'), ph=document.getElementById('img-ph');
+      if(prev){ prev.src=image; prev.style.display='block'; }
+      if(ph) ph.style.display='none';
     }
+    setUrlSt('ok','');
+    saveFormDraft();
   } catch(e){
-    setUrlSt('error','Could not fetch — fill in details manually.');
-    document.getElementById('m-store').value='';
-    const tabs=document.querySelectorAll('.add-tab');
-    if(tabs[1]) switchAddTab(1,tabs[1]);
+    if(nameEl) nameEl.placeholder='e.g. White Linen Shirt';
+    setUrlSt('','');
   }
 }
 

@@ -1067,7 +1067,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         <div>
           <div class="field-lbl">Photo <span style="color:var(--dim);font-size:10px;font-weight:400">optional</span></div>
           <div class="img-upload" id="img-upload-area">
-            <input type="file" accept="image/*" onchange="handleImg(this)">
+            <input type="file" accept="image/*" onchange="handleImgUpload(this)">
             <img class="img-preview" id="img-preview" src="" alt="">
             <div class="img-ph" id="img-ph">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#C4C0BA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -1255,7 +1255,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.3</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.4</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -1455,7 +1455,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div>
         <div class="field-lbl">Photo</div>
         <div class="img-upload" id="edit-img-upload-area">
-          <input type="file" accept="image/*" onchange="handleEditImg(this)">
+          <input type="file" accept="image/*" onchange="handleEditPhoto(this)">
           <img class="img-preview" id="edit-img-preview" src="" alt="">
           <div class="img-ph" id="edit-img-ph">
             <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#C4C0BA" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -2937,11 +2937,11 @@ function openEditItem(id){
   editingItemId=id; editPendingImg=null; editSelectedCat=it.category||null;
   const ov=document.getElementById('edit-item-overlay');
   if(!ov) return;
-  document.getElementById('ei-name').value=it.name||'';
-  document.getElementById('ei-store').value=it.store||'';
-  document.getElementById('ei-price').value=it.price||'';
-  document.getElementById('ei-url').value=it.url||'';
-  const prev=document.getElementById('ei-img-preview'), ph=document.getElementById('ei-img-ph');
+  document.getElementById('edit-name').value=it.name||'';
+  document.getElementById('edit-store').value=it.store||'';
+  document.getElementById('edit-price').value=it.price||'';
+  document.getElementById('edit-url').value=it.url||'';
+  const prev=document.getElementById('edit-img-preview'), ph=document.getElementById('edit-img-ph');
   if(it.image){ if(prev){prev.src=it.image;prev.style.display='block';} if(ph) ph.style.display='none'; }
   else { if(prev){prev.src='';prev.style.display='none';} if(ph) ph.style.display='flex'; }
   document.querySelectorAll('.edit-cat-chip').forEach(c=>c.classList.toggle('on',c.dataset.cat===it.category));
@@ -2967,13 +2967,13 @@ function handleEditPhoto(input){
 }
 
 function saveEditItem(){
-  const name=(document.getElementById('ei-name').value||'').trim();
+  const name=(document.getElementById('edit-name').value||'').trim();
   if(!name){ showToast('Name is required'); return; }
   const it=S.items.find(i=>i.id===editingItemId); if(!it) return;
   it.name=name;
-  it.store=(document.getElementById('ei-store').value||'').trim()||it.store;
-  it.price=parseFloat(document.getElementById('ei-price').value)||it.price||null;
-  it.url=(document.getElementById('ei-url').value||'').trim()||null;
+  it.store=(document.getElementById('edit-store').value||'').trim()||it.store;
+  it.price=parseFloat(document.getElementById('edit-price').value)||it.price||null;
+  it.url=(document.getElementById('edit-url').value||'').trim()||null;
   if(editSelectedCat) it.category=editSelectedCat;
   if(editPendingImg) it.image=editPendingImg;
   saveS();

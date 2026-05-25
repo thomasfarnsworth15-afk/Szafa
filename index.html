@@ -28,7 +28,7 @@
   --tag:#F2EFE9;--red:#C45858;--green:#2A5E38;--accent:#C09258;
   --glow-rgb:245,168,190;
   --bow-main:#F5A8BE;--bow-dark:#E07898;--bow-light:#FFE0EC;--bow-dot:#6898CC;--bow-knot:#D56080;--bow-knothi:#A84058;
-  --bg-pattern:none;--bg-pattern-size:auto;--bg-pattern-pos:0 0;
+  
   /* Safe-area insets — real iPhones/Android resolve these; 0px in desktop shell */
   --safe-top:env(safe-area-inset-top,0px);
   --safe-bot:env(safe-area-inset-bottom,0px);
@@ -39,7 +39,7 @@ html,body{height:100%;background:#DDD9D0;font-family:'Jost',sans-serif;overflow-
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 80% 10%,rgba(192,146,88,.06) 0,transparent 60%),radial-gradient(ellipse at 10% 90%,rgba(170,136,152,.05) 0,transparent 55%);pointer-events:none;z-index:0}
 .page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px 44px;position:relative;z-index:1}
 
-.phone{width:390px;height:844px;background-color:var(--bg);background-image:var(--bg-pattern,none);background-size:var(--bg-pattern-size,auto);background-position:var(--bg-pattern-pos,0 0);border-radius:52px;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1;box-shadow:0 0 0 11px #1A1916,0 0 0 13px #333,0 40px 110px rgba(0,0,0,.52),0 10px 36px rgba(0,0,0,.28);animation:pIn .6s cubic-bezier(.22,1,.36,1) both}
+.phone{width:390px;height:844px;background:var(--bg);border-radius:52px;overflow:hidden;display:flex;flex-direction:column;position:relative;z-index:1;box-shadow:0 0 0 11px #1A1916,0 0 0 13px #333,0 40px 110px rgba(0,0,0,.52),0 10px 36px rgba(0,0,0,.28);animation:pIn .6s cubic-bezier(.22,1,.36,1) both}
 @keyframes pIn{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
 .notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:128px;height:34px;background:#0D0D0B;border-radius:20px;z-index:200}
 
@@ -48,7 +48,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sbar-i{display:flex;gap:5px;align-items:center}
 
 .scs{flex:1;position:relative;overflow:hidden}
-.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background-color:var(--bg);background-image:var(--bg-pattern,none);background-size:var(--bg-pattern-size,auto);background-position:var(--bg-pattern-pos,0 0);opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .22s,transform .22s;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .22s,transform .22s;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .sc::-webkit-scrollbar{display:none}
 .sc.on{opacity:1;pointer-events:auto;transform:none}
 
@@ -1216,11 +1216,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <div class="ap-swatches" id="ap-bg-swatches"></div>
     </div>
 
-    <!-- Background pattern -->
-    <div class="ap-section" style="padding-top:16px">
-      <div class="ap-label">Pattern</div>
-      <div class="ap-swatches" id="ap-pattern-swatches" style="gap:8px"></div>
-    </div>
 
     <!-- Glow color -->
     <div class="ap-section" style="padding-top:16px">
@@ -1259,7 +1254,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.0</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.1</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2145,49 +2140,22 @@ async function loadFollowCounts(){
 
 // ─── SETTINGS ─────────────────────────────────────────────
 // ─── APPEARANCE ───────────────────────────────────────────
-const AP_DEFAULTS = { bg:'cream', glow:'pink', bow:'pink', pattern:'none' };
+const AP_DEFAULTS = { bg:'cream', glow:'pink', bow:'pink' };
 
 const AP_BG = [
-  {key:'cream',   color:'#F6F4F1', label:'Cream'},
-  {key:'white',   color:'#FFFFFF', label:'White'},
-  {key:'warm',    color:'#F0EBE3', label:'Warm'},
-  {key:'blush',   color:'#F5ECEC', label:'Blush'},
-  {key:'rose',    color:'#F0E4E8', label:'Rose'},
-  {key:'lavender',color:'#EDE8F5', label:'Lavender'},
-  {key:'sage',    color:'#E8F0EA', label:'Sage'},
-  {key:'sky',     color:'#E8EFF8', label:'Sky'},
-  {key:'sand',    color:'#EDE6D8', label:'Sand'},
+  {key:'cream',    color:'#F6F4F1', label:'Cream'},
+  {key:'white',    color:'#FFFFFF', label:'White'},
+  {key:'blush',    color:'#FDF0F3', label:'Blush'},
+  {key:'rose',     color:'#FAE8ED', label:'Rose'},
+  {key:'peach',    color:'#FEF0E7', label:'Peach'},
+  {key:'lemon',    color:'#FEFBE8', label:'Lemon'},
+  {key:'mint',     color:'#EDF7F2', label:'Mint'},
+  {key:'sky',      color:'#EBF4FD', label:'Sky'},
+  {key:'lavender', color:'#F2EEFB', label:'Lavender'},
+  {key:'lilac',    color:'#F8F0FB', label:'Lilac'},
 ];
 
-const AP_PATTERN = [
-  {key:'none',       label:'Solid',    bgColor:null,      pos:'0 0',
-    image:'none', size:'auto'},
 
-  // ── Harlequin — warm charcoal & cream, 64px inner-diamond tile ──
-  {key:'harlequin',  label:'Harlequin', bgColor:'#F5EFE4', pos:'0 0',
-    image:'url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2264%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20fill%3D%22%23F5EFE4%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2232%2C0%2064%2C32%2032%2C64%200%2C32%22%20fill%3D%22%232A211A%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2232%2C9%2055%2C32%2032%2C55%209%2C32%22%20fill%3D%22%23F5EFE4%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2232%2C16%2048%2C32%2032%2C48%2016%2C32%22%20fill%3D%22none%22%20stroke%3D%22%23C8BCA8%22%20stroke-width%3D%220.6%22%20opacity%3D%220.7%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2232%2C21%2043%2C32%2032%2C43%2021%2C32%22%20fill%3D%22%232A211A%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%223%22%20fill%3D%22%23F5EFE4%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2232%22%20r%3D%221.2%22%20fill%3D%22%23C8BCA8%22%20opacity%3D%220.8%22%2F%3E%0A%3C%2Fsvg%3E")',
-    size:'64px 64px'},
-
-  // ── Navy & Gold — 52px ornate bordered tile with inner diamond ──
-  {key:'navygold',   label:'Navy & Gold', bgColor:'#1B2A4A', pos:'0 0',
-    image:'url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2252%22%20height%3D%2252%22%3E%0A%20%20%3Crect%20width%3D%2252%22%20height%3D%2252%22%20fill%3D%22%231B2A4A%22%2F%3E%0A%20%20%3Crect%20x%3D%222%22%20y%3D%222%22%20width%3D%2248%22%20height%3D%2248%22%20fill%3D%22none%22%20stroke%3D%22%23D4AF37%22%20stroke-width%3D%220.8%22%20opacity%3D%220.45%22%2F%3E%0A%20%20%3Crect%20x%3D%225.5%22%20y%3D%225.5%22%20width%3D%2241%22%20height%3D%2241%22%20fill%3D%22none%22%20stroke%3D%22%23D4AF37%22%20stroke-width%3D%220.4%22%20opacity%3D%220.28%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2226%2C12%2040%2C26%2026%2C40%2012%2C26%22%20fill%3D%22none%22%20stroke%3D%22%23D4AF37%22%20stroke-width%3D%220.8%22%20opacity%3D%220.45%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2226%2C18%2034%2C26%2026%2C34%2018%2C26%22%20fill%3D%22none%22%20stroke%3D%22%23D4AF37%22%20stroke-width%3D%220.5%22%20opacity%3D%220.32%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2226%22%20cy%3D%2226%22%20r%3D%222.2%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.45%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%222%22%20cy%3D%222%22%20r%3D%221.3%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2250%22%20cy%3D%222%22%20r%3D%221.3%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%222%22%20cy%3D%2250%22%20r%3D%221.3%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.4%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%221.3%22%20fill%3D%22%23D4AF37%22%20opacity%3D%220.4%22%2F%3E%0A%3C%2Fsvg%3E")',
-    size:'52px 52px'},
-
-  // ── Encaustic — 56px terracotta/cream nested-diamond star tile ──
-  {key:'encaustic',  label:'Encaustic', bgColor:'#B05038', pos:'0 0',
-    image:'url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2256%22%20height%3D%2256%22%3E%0A%20%20%3Crect%20width%3D%2256%22%20height%3D%2256%22%20fill%3D%22%23B05038%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2228%2C4%2052%2C28%2028%2C52%204%2C28%22%20fill%3D%22%23EDE0D0%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2228%2C12%2044%2C28%2028%2C44%2012%2C28%22%20fill%3D%22%23B05038%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2228%2C18%2038%2C28%2028%2C38%2018%2C28%22%20fill%3D%22%23EDE0D0%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2228%2C23%2033%2C28%2028%2C33%2023%2C28%22%20fill%3D%22%23B05038%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2228%22%20cy%3D%2228%22%20r%3D%222%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.9%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%220%2C0%2010%2C0%200%2C10%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2256%2C0%2056%2C10%2046%2C0%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%220%2C56%2010%2C56%200%2C46%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.35%22%2F%3E%0A%20%20%3Cpolygon%20points%3D%2256%2C56%2056%2C46%2046%2C56%22%20fill%3D%22%23EDE0D0%22%20opacity%3D%220.35%22%2F%3E%0A%3C%2Fsvg%3E")',
-    size:'56px 56px'},
-
-  // ── Scallop — blush overlapping arcs, 44px tile ──
-  {key:'scallop',    label:'Scallop',   bgColor:'#F2E6EE', pos:'0 0,22px 22px,0 22px,22px 0',
-    image:"radial-gradient(circle at 50% 0%,transparent 30%,rgba(178,108,152,.28) 30%,rgba(178,108,152,.28) 34%,transparent 34%),radial-gradient(circle at 100% 50%,transparent 30%,rgba(178,108,152,.18) 30%,rgba(178,108,152,.18) 34%,transparent 34%),radial-gradient(circle at 0% 50%,transparent 30%,rgba(178,108,152,.18) 30%,rgba(178,108,152,.18) 34%,transparent 34%),radial-gradient(circle at 50% 100%,transparent 30%,rgba(178,108,152,.28) 30%,rgba(178,108,152,.28) 34%,transparent 34%)",
-    size:'44px 44px'},
-
-  // ── Tartan — deep forest green, wider stripes, gold hairlines ──
-  {key:'tartan',     label:'Tartan',    bgColor:'#1A3828', pos:'0 0',
-    image:"repeating-linear-gradient(transparent 0,transparent 34px,rgba(255,255,255,.07) 34px,rgba(255,255,255,.07) 37px,transparent 37px,transparent 71px),repeating-linear-gradient(90deg,transparent 0,transparent 34px,rgba(255,255,255,.07) 34px,rgba(255,255,255,.07) 37px,transparent 37px,transparent 71px),repeating-linear-gradient(rgba(212,175,55,.1) 0,rgba(212,175,55,.1) 1px,transparent 1px,transparent 17px),repeating-linear-gradient(90deg,rgba(212,175,55,.1) 0,rgba(212,175,55,.1) 1px,transparent 1px,transparent 17px)",
-    size:'auto'},
-];
 
 const AP_GLOW = [
   {key:'pink',    color:'#F5A8BE', rgb:'245,168,190', label:'Pink'},
@@ -2219,7 +2187,6 @@ function loadAppearance(saved){
     if(a.bg)      currentAppearance.bg      = a.bg;
     if(a.glow)    currentAppearance.glow    = a.glow;
     if(a.bow)     currentAppearance.bow     = a.bow;
-    if(a.pattern) currentAppearance.pattern = a.pattern;
     applyAppearance();
   }catch(e){}
 }
@@ -2256,14 +2223,10 @@ function getBowSVG(w,h,filled){
 function applyAppearance(){
   const bg      = AP_BG.find(x=>x.key===currentAppearance.bg)          || AP_BG[0];
   const glow    = AP_GLOW.find(x=>x.key===currentAppearance.glow)      || AP_GLOW[0];
-  const pattern = AP_PATTERN.find(x=>x.key===currentAppearance.pattern)|| AP_PATTERN[0];
   const bow     = AP_BOW.find(x=>x.key===currentAppearance.bow)        || AP_BOW[0];
   const root    = document.documentElement;
-  root.style.setProperty('--bg', pattern.bgColor || bg.color);
+  root.style.setProperty('--bg', bg.color);
   root.style.setProperty('--glow-rgb', glow.rgb);
-  root.style.setProperty('--bg-pattern', pattern.image);
-  root.style.setProperty('--bg-pattern-size', pattern.size);
-  root.style.setProperty('--bg-pattern-pos', pattern.pos||'0 0');
   root.style.setProperty('--bow-main',   bow.main);
   root.style.setProperty('--bow-dark',   bow.dark);
   root.style.setProperty('--bow-light',  bow.light);
@@ -2280,17 +2243,6 @@ function renderApSwatches(){
     return list.map(item=>{
       const on = item.key===current ? ' on' : '';
       return `<div class="ap-swatch${on}" style="background:${item.color}" onclick="${fn}('${item.key}')" title="${item.label}"></div>`;
-    }).join('');
-  }
-  // Pattern tiles — each shows its own bgColor so you see the real thing
-  function mkPattern(list, current){
-    return list.map(item=>{
-      const on = item.key===current ? ' on' : '';
-      const tileBg = item.bgColor || bgColor;
-      const patStyle = item.image==='none'
-        ? `background-color:${tileBg}`
-        : `background-color:${tileBg};background-image:${item.image};background-size:${item.size};background-position:${item.pos||'0 0'}`;
-      return `<div class="ap-swatch${on}" style="${patStyle};width:44px;height:44px;border-radius:10px" onclick="setApPattern('${item.key}')" title="${item.label}"></div>`;
     }).join('');
   }
   // Bow swatches — actual mini bow SVG
@@ -2317,11 +2269,9 @@ function renderApSwatches(){
     }).join('');
   }
   const bgEl = document.getElementById('ap-bg-swatches');
-  const ptEl = document.getElementById('ap-pattern-swatches');
   const glEl = document.getElementById('ap-glow-swatches');
   const bwEl = document.getElementById('ap-bow-swatches');
   if(bgEl) bgEl.innerHTML = mkColor(AP_BG,      currentAppearance.bg,      'setApBg');
-  if(ptEl) ptEl.innerHTML = mkPattern(AP_PATTERN, currentAppearance.pattern);
   if(glEl) glEl.innerHTML = mkColor(AP_GLOW,    currentAppearance.glow,    'setApGlow');
   if(bwEl) bwEl.innerHTML = mkBow(AP_BOW,       currentAppearance.bow);
 }
@@ -2332,18 +2282,7 @@ function setApBg(key){
   renderApSwatches(); // re-render so pattern tiles update their bg preview
   saveAppearance();
 }
-function setApPattern(key){
-  currentAppearance.pattern=key;
-  const p = AP_PATTERN.find(x=>x.key===key)||AP_PATTERN[0];
-  const bgFallback = (AP_BG.find(x=>x.key===currentAppearance.bg)||AP_BG[0]).color;
-  const root = document.documentElement;
-  root.style.setProperty('--bg', p.bgColor || bgFallback);
-  root.style.setProperty('--bg-pattern', p.image);
-  root.style.setProperty('--bg-pattern-size', p.size);
-  root.style.setProperty('--bg-pattern-pos', p.pos||'0 0');
-  renderApSwatches();
-  saveAppearance();
-}
+
 function setApGlow(key){
   currentAppearance.glow=key;
   document.documentElement.style.setProperty('--glow-rgb', (AP_GLOW.find(x=>x.key===key)||AP_GLOW[0]).rgb);

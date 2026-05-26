@@ -1282,7 +1282,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.7</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.8</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2195,33 +2195,44 @@ async function openPubProfile(usernameOrId){
   const sb=getSb(); if(!sb){ body.innerHTML='<div style="padding:40px;text-align:center;color:var(--mid)">Could not load profile.</div>'; return; }
 
   try{
-    // First try username match, then try id match separately to avoid UUID cast errors
-    let u = null;
-    const {data:byUsername} = await sb.from('users')
+    // First try username match
+    const res1 = await sb.from('users')
       .select('id,display_name,username,bio,avatar_url,avatar_color,avatar_initials,is_private,style_tags')
       .eq('username', usernameOrId)
       .limit(1);
-    u = byUsername?.[0];
+
+    let u = Array.isArray(res1.data) ? res1.data[0] : null;
 
     // If not found by username, try by UUID id (only if it looks like a UUID)
     if(!u && /^[0-9a-f-]{36}$/i.test(usernameOrId)){
-      const {data:byId} = await sb.from('users')
+      const res2 = await sb.from('users')
         .select('id,display_name,username,bio,avatar_url,avatar_color,avatar_initials,is_private,style_tags')
         .eq('id', usernameOrId)
         .limit(1);
-      u = byId?.[0];
+      u = Array.isArray(res2.data) ? res2.data[0] : null;
+    }
+
+    if(res1.error && !u){
+      body.innerHTML=`<div style="padding:40px;text-align:center;color:var(--mid)">Could not load profile.<br><small style="color:var(--dim);font-size:10px">${res1.error.message}</small></div>`;
+      return;
     }
     if(!u){ body.innerHTML='<div style="padding:60px 20px;text-align:center;color:var(--mid)"><div style="font-size:32px;margin-bottom:12px">👗</div><div style="font-size:15px;font-weight:500;color:var(--ink);margin-bottom:6px">Profile not found</div><div style="font-size:13px">This user may not exist or their account is private.</div></div>'; return; }
     if(u.is_private && u.id!==currentUser?.id){ body.innerHTML='<div style="padding:60px 20px;text-align:center;color:var(--mid)"><div style="font-size:32px;margin-bottom:12px">🔒</div><div style="font-size:15px;font-weight:500;color:var(--ink);margin-bottom:6px">This account is private</div><div style="font-size:13px">Follow to see their closet and outfits.</div></div>'; hdrName.textContent=u.display_name||u.username||''; renderPubProfileHero(u,body,true); return; }
 
     // Load wardrobe
-    const {data:wdata}=await sb.from('user_wardrobe').select('outfits,items').eq('user_id',u.id).single();
+    const wres = await sb.from('user_wardrobe').select('outfits,items').eq('user_id',u.id).limit(1);
+    const wdata = Array.isArray(wres.data) ? wres.data[0] : null;
     const outfits=(wdata?.outfits||[]);
     const items=(wdata?.items||[]);
 
-    // Follow counts
-    const {count:fwers}=await sb.from('follows').select('*',{count:'exact',head:true}).eq('following_id',u.id);
-    const {count:fwing}=await sb.from('follows').select('*',{count:'exact',head:true}).eq('follower_id',u.id);
+    // Follow counts — use maybeSingle pattern via limit
+    let fwers=0, fwing=0;
+    try{
+      const r1=await sb.from('follows').select('follower_id').eq('following_id',u.id);
+      fwers=(r1.data||[]).length;
+      const r2=await sb.from('follows').select('following_id').eq('follower_id',u.id);
+      fwing=(r2.data||[]).length;
+    }catch(e){}
 
     pubProfileData={user:u, outfits, items, followerCount:fwers||0, followingCount:fwing||0};
     hdrName.textContent=u.display_name||u.username||'';
@@ -2337,11 +2348,11 @@ function sharePubProfile(){
   }
 }
 
-// Check for ?u= param on load — show public profile if present
+// Check for ?u= param — called after app is fully loaded and auth is resolved
 function checkPublicProfileURL(){
   const params=new URLSearchParams(window.location.search);
   const u=params.get('u');
-  if(u) setTimeout(()=>openPubProfile(u), 600); // slight delay so app is ready
+  if(u) openPubProfile(decodeURIComponent(u));
 }
 const AP_DEFAULTS = { bg:'cream', glow:'pink', bow:'pink' };
 
@@ -4592,13 +4603,11 @@ async function onSignedIn(user){
 
   // Render everything before the splash lifts — user sees a fully loaded home screen
   renderHome(); renderCloset(); renderOutfits(); renderProfile();
-
-  // Now dismiss the splash — animation has been playing, data is ready
   hideSplashAfterDelay();
-  renderSocial(); // pre-load the Explore feed in the background
-  loadNotifications(); // load notification badge count
-  loadWatches();       // load watched item ids
-  checkPublicProfileURL(); // open public profile if ?u= param present
+  renderSocial();
+  loadNotifications();
+  loadWatches();
+  checkPublicProfileURL();
   // Check for gifts addressed to this user (runs async in the background)
   checkIncomingGifts();
   // Show walkthrough for brand-new users (skips automatically for returning users)

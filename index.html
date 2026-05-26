@@ -1147,15 +1147,23 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
     <!-- PROFILE -->
     <div class="sc" id="s5">
-      <!-- Top bar with title + gear -->
+      <!-- Top bar with title + share + gear -->
       <div class="p-screen-hdr">
         <span class="p-screen-title">Profile</span>
-        <button class="p-gear-btn" onclick="openSettings()">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="8" cy="8" r="2.2"/>
-            <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M3.2 12.8l1.1-1.1M11.7 4.3l1.1-1.1"/>
-          </svg>
-        </button>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button class="p-gear-btn" onclick="shareProfile()" title="Share profile">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="3" r="1.5"/><circle cx="12" cy="13" r="1.5"/><circle cx="3" cy="8" r="1.5"/>
+              <line x1="10.6" y1="3.9" x2="4.4" y2="7.1"/><line x1="10.6" y1="12.1" x2="4.4" y2="8.9"/>
+            </svg>
+          </button>
+          <button class="p-gear-btn" onclick="openSettings()">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="8" r="2.2"/>
+              <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M3.2 12.8l1.1-1.1M11.7 4.3l1.1-1.1"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
       <!-- Hero: avatar + name + bio + stats + action button -->
@@ -1197,6 +1205,25 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
         </div>
         <div class="p-grid" id="p-outfits-grid"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- ══ PUBLIC PROFILE OVERLAY ══ -->
+  <div class="overlay" id="pub-profile-overlay" style="z-index:170;display:flex;flex-direction:column">
+    <div class="ov-hdr">
+      <div class="ov-close" onclick="closePubProfile()">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#8A8680" stroke-width="2" stroke-linecap="round"><line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/></svg>
+      </div>
+      <span id="pub-hdr-name" style="flex:1;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);font-weight:400"></span>
+      <button id="pub-share-btn" onclick="sharePubProfile()" style="background:none;border:none;cursor:pointer;padding:4px;-webkit-tap-highlight-color:transparent">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="3" r="1.5"/><circle cx="12" cy="13" r="1.5"/><circle cx="3" cy="8" r="1.5"/>
+          <line x1="10.6" y1="3.9" x2="4.4" y2="7.1"/><line x1="10.6" y1="12.1" x2="4.4" y2="8.9"/>
+        </svg>
+      </button>
+    </div>
+    <div id="pub-profile-body" style="flex:1;overflow-y:auto;scrollbar-width:none">
+      <!-- Populated by renderPubProfile() -->
     </div>
   </div>
 
@@ -1255,7 +1282,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.4</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.5</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2140,7 +2167,169 @@ async function loadFollowCounts(){
 }
 
 // ─── SETTINGS ─────────────────────────────────────────────
-// ─── APPEARANCE ───────────────────────────────────────────
+// ─── PUBLIC PROFILE SHARING ───────────────────────────────
+function shareProfile(){
+  if(!currentUser) return;
+  const handle=(currentUser.username||currentUser.email.split('@')[0]).toLowerCase().replace(/\s+/g,'.');
+  const url=window.location.origin+window.location.pathname+'?u='+encodeURIComponent(handle);
+  if(navigator.share){
+    navigator.share({title:'My Szafa Profile',text:'Check out my closet on Szafa',url}).catch(()=>{});
+  } else {
+    navigator.clipboard?.writeText(url).then(()=>showToast('Profile link copied!')).catch(()=>showToast(url));
+  }
+}
+
+let pubProfileData = null; // {user, outfits, items}
+
+async function openPubProfile(usernameOrId){
+  const ov=document.getElementById('pub-profile-overlay');
+  const body=document.getElementById('pub-profile-body');
+  const hdrName=document.getElementById('pub-hdr-name');
+  if(!ov||!body) return;
+  body.innerHTML='<div style="padding:60px 20px;text-align:center;color:var(--mid);font-size:13px">Loading…</div>';
+  hdrName.textContent='';
+  ov.classList.add('open');
+
+  const sb=getSb(); if(!sb){ body.innerHTML='<div style="padding:40px;text-align:center;color:var(--mid)">Could not load profile.</div>'; return; }
+
+  try{
+    // Find user by username or id
+    const {data:users}=await sb.from('users')
+      .select('id,display_name,username,bio,avatar_url,avatar_color,avatar_initials,is_private,style_tags')
+      .or(`username.eq.${usernameOrId},id.eq.${usernameOrId}`)
+      .limit(1);
+    const u=users?.[0];
+    if(!u){ body.innerHTML='<div style="padding:60px 20px;text-align:center;color:var(--mid)"><div style="font-size:32px;margin-bottom:12px">👗</div><div style="font-size:15px;font-weight:500;color:var(--ink);margin-bottom:6px">Profile not found</div><div style="font-size:13px">This user may not exist or their account is private.</div></div>'; return; }
+    if(u.is_private && u.id!==currentUser?.id){ body.innerHTML='<div style="padding:60px 20px;text-align:center;color:var(--mid)"><div style="font-size:32px;margin-bottom:12px">🔒</div><div style="font-size:15px;font-weight:500;color:var(--ink);margin-bottom:6px">This account is private</div><div style="font-size:13px">Follow to see their closet and outfits.</div></div>'; hdrName.textContent=u.display_name||u.username||''; renderPubProfileHero(u,body,true); return; }
+
+    // Load wardrobe
+    const {data:wdata}=await sb.from('user_wardrobe').select('outfits,items').eq('user_id',u.id).single();
+    const outfits=(wdata?.outfits||[]);
+    const items=(wdata?.items||[]);
+
+    // Follow counts
+    const {count:fwers}=await sb.from('follows').select('*',{count:'exact',head:true}).eq('following_id',u.id);
+    const {count:fwing}=await sb.from('follows').select('*',{count:'exact',head:true}).eq('follower_id',u.id);
+
+    pubProfileData={user:u, outfits, items, followerCount:fwers||0, followingCount:fwing||0};
+    hdrName.textContent=u.display_name||u.username||'';
+    renderPubProfileFull(pubProfileData, body);
+
+    // Update URL for shareability without reload
+    const handle=(u.username||u.id).toLowerCase();
+    window.history.replaceState({pubProfile:handle},'',window.location.pathname+'?u='+encodeURIComponent(handle));
+  } catch(e){
+    body.innerHTML='<div style="padding:40px;text-align:center;color:var(--mid)">Could not load profile.</div>';
+  }
+}
+
+function renderPubProfileFull({user,outfits,items,followerCount,followingCount}, body){
+  const displayName=user.display_name||user.username||'User';
+  const handle=user.username||user.id;
+  const bio=user.bio||'';
+  const tags=(user.style_tags||[]);
+  const isOwn=currentUser&&currentUser.id===user.id;
+  const isFollowing=followingSet.has(user.id);
+
+  // Avatar
+  const bgCol=user.avatar_color||'#9E8B7A';
+  const initials=user.avatar_initials||(displayName.slice(0,2).toUpperCase());
+  const avaHtml=user.avatar_url
+    ?`<div style="width:80px;height:80px;border-radius:50%;overflow:hidden;margin:0 auto 12px"><img src="${user.avatar_url}" style="width:100%;height:100%;object-fit:cover"></div>`
+    :`<div style="width:80px;height:80px;border-radius:50%;background:${bgCol};display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:600;color:#fff;margin:0 auto 12px;letter-spacing:.02em">${initials}</div>`;
+
+  const actionBtn=isOwn
+    ?''
+    :isFollowing
+      ?`<button onclick="unfollowUser('${user.id}')" style="padding:9px 24px;border-radius:20px;border:1.5px solid var(--ln);background:var(--tag);font-size:13px;font-weight:500;font-family:'Jost',sans-serif;color:var(--mid);cursor:pointer;-webkit-tap-highlight-color:transparent">Following</button>`
+      :(currentUser&&currentUser.id!=='guest'
+        ?`<button onclick="followUser('${user.id}')" style="padding:9px 24px;border-radius:20px;border:none;background:var(--ink);font-size:13px;font-weight:500;font-family:'Jost',sans-serif;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent">Follow</button>`
+        :`<button onclick="go(0);closePubProfile();showToast('Sign in to follow')" style="padding:9px 24px;border-radius:20px;border:none;background:var(--ink);font-size:13px;font-weight:500;font-family:'Jost',sans-serif;color:#fff;cursor:pointer">Follow</button>`);
+
+  const outfitGrid=outfits.length
+    ?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px 100px">
+        ${outfits.map(o=>{
+          const bgStyle=getBgInlineStyle(o.boardBg||'beige');
+          const cis=(o.canvasItems||[]).slice(0,3);
+          const previewItems=cis.map(ci=>items.find(x=>x.id===ci.itemId)).filter(Boolean);
+          return `<div class="p-grid-card" onclick="openOutfitView(${JSON.stringify(o).replace(/"/g,'&quot;')},{isOwn:false,embItems:${JSON.stringify(previewItems).replace(/"/g,'&quot;')}})">
+            <div class="p-grid-thumb" style="${bgStyle};position:relative;">
+              ${outfitPreviewHTML(o,items)}
+            </div>
+            <div class="p-grid-info"><span class="p-grid-likes" style="font-size:11px;color:rgba(255,255,255,.9)">${o.name||'Outfit'}</span></div>
+          </div>`;
+        }).join('')}
+      </div>`
+    :`<div style="padding:40px 20px;text-align:center;color:var(--dim);font-size:13px">No outfits yet</div>`;
+
+  body.innerHTML=`
+    <div style="padding:24px 20px 8px;text-align:center">
+      ${avaHtml}
+      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--ink);margin-bottom:2px">${displayName}</div>
+      <div style="font-size:12px;color:var(--dim);margin-bottom:${bio?8:12}px">@${handle}</div>
+      ${bio?`<div style="font-size:13px;color:var(--mid);margin-bottom:12px;line-height:1.55;font-style:italic">${bio}</div>`:''}
+      ${tags.length?`<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:14px">${tags.map(t=>`<span style="background:var(--tag);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--mid)">${t}</span>`).join('')}</div>`:''}
+      <div style="display:flex;gap:0;justify-content:center;margin-bottom:16px">
+        <div style="text-align:center;padding:0 20px;border-right:1px solid var(--ln)"><div style="font-size:18px;font-weight:600;color:var(--ink)">${followerCount}</div><div style="font-size:11px;color:var(--dim)">Followers</div></div>
+        <div style="text-align:center;padding:0 20px;border-right:1px solid var(--ln)"><div style="font-size:18px;font-weight:600;color:var(--ink)">${followingCount}</div><div style="font-size:11px;color:var(--dim)">Following</div></div>
+        <div style="text-align:center;padding:0 20px"><div style="font-size:18px;font-weight:600;color:var(--ink)">${outfits.length}</div><div style="font-size:11px;color:var(--dim)">Outfits</div></div>
+      </div>
+      ${actionBtn?`<div style="margin-bottom:20px">${actionBtn}</div>`:''}
+    </div>
+    <div style="padding:0 20px 10px;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:11px;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--mid)">Outfits</span>
+    </div>
+    ${outfitGrid}`;
+}
+
+async function followUser(userId){
+  if(!currentUser||currentUser.id==='guest') return;
+  const sb=getSb(); if(!sb) return;
+  followingSet.add(userId);
+  try{ await sb.from('follows').insert({follower_id:currentUser.id,following_id:userId}); } catch(e){}
+  // Re-render with updated state
+  if(pubProfileData&&pubProfileData.user.id===userId){
+    pubProfileData.followerCount=(pubProfileData.followerCount||0)+1;
+    renderPubProfileFull(pubProfileData,document.getElementById('pub-profile-body'));
+  }
+  showToast('Following!');
+}
+
+async function unfollowUser(userId){
+  if(!currentUser||currentUser.id==='guest') return;
+  const sb=getSb(); if(!sb) return;
+  followingSet.delete(userId);
+  try{ await sb.from('follows').delete().eq('follower_id',currentUser.id).eq('following_id',userId); } catch(e){}
+  if(pubProfileData&&pubProfileData.user.id===userId){
+    pubProfileData.followerCount=Math.max(0,(pubProfileData.followerCount||1)-1);
+    renderPubProfileFull(pubProfileData,document.getElementById('pub-profile-body'));
+  }
+  showToast('Unfollowed');
+}
+
+function closePubProfile(){
+  document.getElementById('pub-profile-overlay').classList.remove('open');
+  pubProfileData=null;
+  window.history.replaceState({},'',window.location.pathname);
+}
+
+function sharePubProfile(){
+  if(!pubProfileData) return;
+  const handle=(pubProfileData.user.username||pubProfileData.user.id).toLowerCase();
+  const url=window.location.origin+window.location.pathname+'?u='+encodeURIComponent(handle);
+  if(navigator.share){
+    navigator.share({title:pubProfileData.user.display_name+' on Szafa',text:'Check out this closet on Szafa',url}).catch(()=>{});
+  } else {
+    navigator.clipboard?.writeText(url).then(()=>showToast('Link copied!')).catch(()=>showToast(url));
+  }
+}
+
+// Check for ?u= param on load — show public profile if present
+function checkPublicProfileURL(){
+  const params=new URLSearchParams(window.location.search);
+  const u=params.get('u');
+  if(u) setTimeout(()=>openPubProfile(u), 600); // slight delay so app is ready
+}
 const AP_DEFAULTS = { bg:'cream', glow:'pink', bow:'pink' };
 
 const AP_BG = [
@@ -4396,6 +4585,7 @@ async function onSignedIn(user){
   renderSocial(); // pre-load the Explore feed in the background
   loadNotifications(); // load notification badge count
   loadWatches();       // load watched item ids
+  checkPublicProfileURL(); // open public profile if ?u= param present
   // Check for gifts addressed to this user (runs async in the background)
   checkIncomingGifts();
   // Show walkthrough for brand-new users (skips automatically for returning users)
@@ -4576,6 +4766,7 @@ function continueAsGuest(){
   go(0);
   renderHome(); renderCloset(); renderOutfits(); renderProfile();
   renderSocial(); // pre-load Explore so the feed isn't blank when guests browse
+  checkPublicProfileURL();
   setTimeout(showOnboarding, 600);
 }
 

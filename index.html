@@ -1282,7 +1282,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.6</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.5.7</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2231,7 +2231,8 @@ async function openPubProfile(usernameOrId){
     const handle=(u.username||u.id).toLowerCase();
     window.history.replaceState({pubProfile:handle},'',window.location.pathname+'?u='+encodeURIComponent(handle));
   } catch(e){
-    body.innerHTML='<div style="padding:40px;text-align:center;color:var(--mid)">Could not load profile.</div>';
+    console.error('openPubProfile error:', e, 'input:', usernameOrId);
+    body.innerHTML=`<div style="padding:40px;text-align:center;color:var(--mid)">Could not load profile.<br><small style="font-size:10px;color:var(--dim)">${e?.message||e}</small></div>`;
   }
 }
 

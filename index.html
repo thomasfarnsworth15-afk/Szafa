@@ -1282,7 +1282,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.6.0</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.6.1</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -4400,7 +4400,8 @@ class _SbClient {
           // GoTrue returns: { access_token, refresh_token, user, ... }
           const d = await self._authPost('/auth/v1/token?grant_type=password', { email, password });
           self._setSession(d);
-          self._emit('SIGNED_IN', d);
+          // Emit with { user } shape so listeners can do session.user
+          self._emit('SIGNED_IN', { user: d.user, access_token: d.access_token });
           return { data:d, error:null };
         }catch(e){
           return { data:null, error:{
@@ -4417,7 +4418,7 @@ class _SbClient {
           // Auto-confirmed: GoTrue returns tokens directly (same format as token endpoint)
           if(d.access_token){
             self._setSession(d);
-            self._emit('SIGNED_IN', d);
+            self._emit('SIGNED_IN', { user: d.user, access_token: d.access_token });
             return { data:{ user:d.user, session:d }, error:null };
           }
           // Email confirmation required — no tokens yet, just the user object

@@ -1351,7 +1351,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.8</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.9</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -5601,8 +5601,8 @@ checkProSuccess();   // ← detect ?pro=1 redirect back from Stripe
 // goes straight to Home (session exists) or shows the auth screen (no session).
 initAuth();
 </script>
-  <div id="pro-modal-bg" style="position:fixed;top:-100px;left:0;right:0;bottom:-100px;height:calc(100dvh + 200px);z-index:300;background:#0A0A14;opacity:0;pointer-events:none;transition:opacity .3s"></div>
-  <div id="pro-modal-sheet" style="position:fixed;top:-100px;left:0;right:0;bottom:-100px;height:calc(100dvh + 200px);z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);display:flex;flex-direction:column;overflow:hidden;padding-top:100px;padding-bottom:100px;box-sizing:border-box">
+  <div id="pro-modal-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#0A0A14;opacity:0;pointer-events:none;transition:opacity .3s"></div>
+  <div id="pro-modal-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);display:flex;flex-direction:column;overflow:hidden">
 
     <!-- Close -->
     <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">
@@ -5782,7 +5782,7 @@ initAuth();
     </div>
 
     <!-- Nav: Back · dots · Next -->
-    <div style="padding:16px 24px calc(56px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;position:relative">
+    <div style="padding:16px 24px calc(34px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;position:relative;flex-shrink:0">
       <!-- Back -->
       <button id="pro-back-btn" onclick="proPrevSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;visibility:hidden">← Back</button>
       <!-- Centered dots -->

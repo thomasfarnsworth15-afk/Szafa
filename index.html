@@ -36,6 +36,7 @@
   --sbar-h:54px;
 }
 html,body{height:100%;background:#DDD9D0;font-family:'Jost',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;touch-action:manipulation}
+*{touch-action:manipulation}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 80% 10%,rgba(192,146,88,.06) 0,transparent 60%),radial-gradient(ellipse at 10% 90%,rgba(170,136,152,.05) 0,transparent 55%);pointer-events:none;z-index:0}
 .page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px 44px;position:relative;z-index:1}
 
@@ -48,7 +49,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .sbar-i{display:flex;gap:5px;align-items:center}
 
 .scs{flex:1;position:relative;overflow:hidden}
-.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .22s,transform .22s;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.sc{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;background:var(--bg);opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .22s,transform .22s;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-y}
 .sc::-webkit-scrollbar{display:none}
 .sc.on{opacity:1;pointer-events:auto;transform:none}
 
@@ -1351,7 +1352,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.1</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.2</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -5597,10 +5598,22 @@ loadS();
 initPWA();           // ← sets up manifest, icon, SW, install banner
 initPullToRefresh(); // ← pull-to-refresh gesture on touch devices
 checkProSuccess();   // ← detect ?pro=1 redirect back from Stripe
-// ─── Block pinch-gesture zoom (double-tap zoom handled by touch-action:manipulation) ──
+// ─── Block zoom: pinch + double-tap (iOS ignores user-scalable=no) ──────────
 (function(){
+  // Pinch zoom
   document.addEventListener('gesturestart', function(e){ e.preventDefault(); }, { passive:false });
   document.addEventListener('gesturechange', function(e){ e.preventDefault(); }, { passive:false });
+  // Double-tap zoom — block only on non-interactive areas so buttons/fast taps still work
+  let lastTap = 0;
+  document.addEventListener('touchend', function(e){
+    const now = Date.now();
+    const t = e.target;
+    const interactive = t && t.closest && t.closest('button,a,input,textarea,select,[onclick],.ni,.ni-add,.icard,.pro-dot,label');
+    if(now - lastTap <= 320 && !interactive){
+      e.preventDefault();
+    }
+    lastTap = now;
+  }, { passive:false });
 })();
 
 // Splash is visible by default. initAuth() resolves the session then either

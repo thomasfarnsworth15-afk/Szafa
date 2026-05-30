@@ -398,6 +398,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .uc-st1{animation:uc-twinkle 2s ease-in-out infinite}
 .uc-st2{animation:uc-twinkle 3s ease-in-out infinite}
 .uc-st3{animation:uc-twinkle 1.5s ease-in-out infinite}
+/* ── DAY card animations: flying bow-birds + drifting clouds ── */
+@keyframes dc-bird1{0%{transform:translate(-60px,14px) scaleX(1);opacity:0}10%{opacity:1}50%{transform:translate(170px,-6px) scaleX(1);opacity:1}90%{opacity:1}100%{transform:translate(420px,8px) scaleX(1);opacity:0}}
+@keyframes dc-bird2{0%{transform:translate(420px,26px) scaleX(-1);opacity:0}15%{opacity:1}55%{transform:translate(150px,10px) scaleX(-1);opacity:1}90%{opacity:1}100%{transform:translate(-60px,20px) scaleX(-1);opacity:0}}
+@keyframes dc-bird3{0%{transform:translate(-50px,40px) scaleX(1);opacity:0}20%{opacity:.9}60%{transform:translate(220px,22px) scaleX(1);opacity:.9}100%{transform:translate(440px,34px) scaleX(1);opacity:0}}
+@keyframes dc-flap{0%,100%{transform:scaleY(1)}50%{transform:scaleY(.6)}}
+@keyframes dc-cloud{0%{transform:translateX(0)}100%{transform:translateX(30px)}}
+.dc-bird1{position:absolute;top:8px;left:0;animation:dc-bird1 7s ease-in-out infinite}
+.dc-bird2{position:absolute;top:6px;left:0;animation:dc-bird2 9s ease-in-out infinite}
+.dc-bird3{position:absolute;top:4px;left:0;animation:dc-bird3 8s ease-in-out infinite 1.5s}
+.dc-flap{animation:dc-flap .4s ease-in-out infinite;transform-origin:center}
+.dc-cloud1{animation:dc-cloud 6s ease-in-out infinite alternate}
+.dc-cloud2{animation:dc-cloud 8s ease-in-out infinite alternate-reverse}
 .p-settings-overlay{position:absolute;top:0;bottom:0;left:0;right:0;background:var(--bg);z-index:160;transform:translateX(100%);transition:transform .3s cubic-bezier(.32,1,.45,1);overflow-y:auto;scrollbar-width:none}
 .p-settings-overlay.open{transform:none}
 .p-settings-overlay::-webkit-scrollbar{display:none}
@@ -1253,7 +1265,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <span style="flex:1;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);font-weight:400">Settings</span>
     </div>
     <!-- Pro upgrade card — hidden for Pro users -->
-    <div id="pro-upgrade-card" style="margin:4px 16px 16px;border-radius:14px;overflow:hidden;border:0.5px solid #E8DFB8;cursor:pointer;display:none" onclick="openProSlideshow()">
+    <div id="pro-card-night" style="margin:4px 16px 16px;border-radius:14px;overflow:hidden;border:0.5px solid #E8DFB8;cursor:pointer;display:none" onclick="openProSlideshow()">
       <div style="background:#0A0A14;padding:14px 16px;position:relative;overflow:hidden;height:76px;display:flex;align-items:center">
         <!-- Twinkling stars -->
         <div class="uc-st1" style="position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;top:10px;left:30px"></div>
@@ -1305,8 +1317,37 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
     </div>
 
-    <!-- Appearance -->
-    <div class="p-sec">Appearance</div>
+    <!-- Pro upgrade card — DAY (1pm–7pm): sun over hills, bow-birds -->
+    <div id="pro-card-day" style="margin:4px 16px 16px;border-radius:14px;overflow:hidden;border:0.5px solid #CFE4F0;cursor:pointer;display:none" onclick="openProSlideshow()">
+      <div style="position:relative;overflow:hidden;height:76px;background:linear-gradient(180deg,#7FC4E8 0%,#A8D8EE 55%,#BFE5F2 100%)">
+        <!-- Sun -->
+        <div style="position:absolute;left:24px;bottom:-2px;width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF3B0,#FFD84D 60%,#FBC02D);box-shadow:0 0 24px rgba(255,216,77,.7)"></div>
+        <!-- Clouds -->
+        <div class="dc-cloud1" style="position:absolute;top:12px;left:120px;width:40px;height:12px;background:rgba(255,255,255,.85);border-radius:10px"></div>
+        <div class="dc-cloud2" style="position:absolute;top:24px;left:230px;width:52px;height:13px;background:rgba(255,255,255,.75);border-radius:10px"></div>
+        <div class="dc-cloud1" style="position:absolute;top:8px;left:300px;width:32px;height:10px;background:rgba(255,255,255,.7);border-radius:10px"></div>
+        <!-- Hills -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:30px;background:linear-gradient(180deg,#7CB342,#558B2F);border-radius:50% 50% 0 0 / 22px 22px 0 0"></div>
+        <div style="position:absolute;bottom:0;left:-30px;width:200px;height:24px;background:linear-gradient(180deg,#8BC34A,#689F38);border-radius:0 50% 0 0 / 0 20px 0 0"></div>
+        <div style="position:absolute;bottom:18px;left:50px;width:2px;height:8px;background:#558B2F;border-radius:2px"></div>
+        <div style="position:absolute;bottom:18px;left:90px;width:2px;height:6px;background:#558B2F;border-radius:2px"></div>
+        <div style="position:absolute;bottom:16px;left:260px;width:2px;height:7px;background:#558B2F;border-radius:2px"></div>
+        <div style="position:absolute;bottom:16px;left:300px;width:2px;height:6px;background:#558B2F;border-radius:2px"></div>
+        <!-- Bow-birds -->
+        <div class="dc-bird1"><svg width="22" height="14" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E07898"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E07898"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C04870"/></g></svg></div>
+        <div class="dc-bird2"><svg width="20" height="13" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#7BA8E0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#7BA8E0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#5080C8"/></g></svg></div>
+        <div class="dc-bird3"><svg width="16" height="11" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#D4AF37"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#D4AF37"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A07820"/></g></svg></div>
+        <!-- Text -->
+        <div style="position:absolute;right:40px;top:50%;transform:translateY(-50%);text-align:right">
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:19px;font-weight:500;color:#2A3D14;letter-spacing:.04em;line-height:1.1;text-shadow:0 1px 4px rgba(255,255,255,.5)">Upgrade to Pro</div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:13px;font-weight:400;color:#4A6B1E;margin-top:3px;letter-spacing:.06em;font-style:italic;text-shadow:0 1px 3px rgba(255,255,255,.5)">unlimited · $10 once</div>
+        </div>
+        <!-- Arrow -->
+        <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%)">
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="rgba(42,61,20,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg>
+        </div>
+      </div>
+    </div>
 
     <!-- Background color -->
     <div class="ap-section">
@@ -1352,7 +1393,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.2</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.3</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2574,11 +2615,32 @@ async function saveAppearance(){
   }catch(e){}
 }
 
+// Returns the active Pro theme based on time of day (or manual override).
+// Windows: morning 6am–1pm, day 1pm–7pm, evening 7pm–10pm, night 10pm–6am.
+let _proThemeOverride = 'day'; // TEMP: pin to 'day' while building. Set to null for time-based.
+function currentProTheme(){
+  if(_proThemeOverride) return _proThemeOverride;
+  const h = new Date().getHours();
+  if(h >= 6  && h < 13) return 'morning';
+  if(h >= 13 && h < 19) return 'day';
+  if(h >= 19 && h < 22) return 'evening';
+  return 'night';
+}
+
 function openSettings(){
   updatePrivacyToggleUI();
   renderApSwatches();
-  const card=document.getElementById('pro-upgrade-card');
-  if(card) card.style.display=isPro?'none':'block';
+  const theme = currentProTheme();
+  const cards = {
+    night: document.getElementById('pro-card-night'),
+    day:   document.getElementById('pro-card-day'),
+  };
+  // Hide all, then show the active theme's card (unless Pro)
+  Object.values(cards).forEach(c=>{ if(c) c.style.display='none'; });
+  if(!isPro){
+    const active = cards[theme] || cards.night;
+    if(active) active.style.display='block';
+  }
   document.getElementById('p-settings-overlay').classList.add('open');
 }
 function closeSettings(){
@@ -2936,38 +2998,51 @@ function closeProIntro(){
   if(bg){ bg.style.background='rgba(0,0,0,0)'; setTimeout(()=>{ bg.style.pointerEvents='none'; },250); }
 }
 
-// Called by the "Upgrade to Pro" button on the intro sheet
+// Tracks the currently active slideshow sheet element (day or night theme)
+let _activeProSheet = null;
+function _proSheetForTheme(theme){
+  return theme==='day'
+    ? { sheet: document.getElementById('pro-modal-sheet-day'), bg: document.getElementById('pro-modal-bg-day'), dark:false }
+    : { sheet: document.getElementById('pro-modal-sheet'),     bg: document.getElementById('pro-modal-bg'),     dark:true  };
+}
+
+// Called by the "Upgrade to Pro" button / card — opens the themed slideshow
 function openProSlideshow(){
   closeProIntro();
   _proAnimating = false;
   _proSlide = 0;
+  const theme = currentProTheme();
+  const { sheet, bg, dark } = _proSheetForTheme(theme);
+  _activeProSheet = sheet;
+  if(!sheet) return;
+  const wrap = sheet.querySelector('.pro-wrap');
   // Snap to slide 0 instantly without animation
-  const wrap0 = document.getElementById('pro-slides-wrap');
-  if(wrap0){ wrap0.style.transition='none'; wrap0.style.transform='translate3d(0,0,0)'; void wrap0.offsetWidth; wrap0.style.transition=''; }
+  if(wrap){ wrap.style.transition='none'; wrap.style.transform='translate3d(0,0,0)'; void wrap.offsetWidth; wrap.style.transition=''; }
   _proGoToSlide(0);
   // Set reason on final CTA slide
-  const msg = document.getElementById('pro-modal-reason');
-  if(msg) msg.textContent='Unlimited closet space, unlimited outfits, and priority in the Explore feed. Yours forever for $10.';
-  const bg = document.getElementById('pro-modal-bg');
-  const sheet = document.getElementById('pro-modal-sheet');
+  const reason = sheet.querySelector('.pro-reason');
+  if(reason) reason.textContent='Unlimited closet space, unlimited outfits, and priority in the Explore feed. Yours forever for $10.';
   if(bg){ bg.style.pointerEvents='auto'; bg.style.opacity='1'; }
-  if(sheet) setTimeout(()=>{ sheet.style.transform='translateY(0)'; }, 60);
-  // Hide bottom nav so the dark full-screen slides aren't broken by the white bar
+  setTimeout(()=>{ sheet.style.transform='translateY(0)'; }, 60);
+  // Hide bottom nav so the full-screen slides aren't broken by the white bar
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='none';
-  // Dark everything behind the safe areas — body, html, and PWA theme-color
+  // Match safe-area backgrounds and PWA theme-color to the active theme
+  const fill = dark ? '#0A0A14' : '#A8D8EE';
   document.body.classList.add('pro-open');
-  document.body.style.background='#0A0A14';
-  document.documentElement.style.background='#0A0A14';
+  document.body.style.background=fill;
+  document.documentElement.style.background=fill;
   const tc=document.querySelector('meta[name="theme-color"]');
-  if(tc){ tc.setAttribute('data-prev', tc.getAttribute('content')||''); tc.setAttribute('content','#0A0A14'); }
+  if(tc){ tc.setAttribute('data-prev', tc.getAttribute('content')||''); tc.setAttribute('content',fill); }
 }
 
 function closeProModal(){
-  const bg = document.getElementById('pro-modal-bg');
-  const sheet = document.getElementById('pro-modal-sheet');
+  const sheet = _activeProSheet || document.getElementById('pro-modal-sheet');
+  const bg = sheet ? sheet.previousElementSibling : null;
   if(sheet) sheet.style.transform='translateY(100%)';
-  if(bg){ bg.style.opacity='0'; setTimeout(()=>{ bg.style.pointerEvents='none'; },380); }
+  // bg is the matching .pro-bg right before the sheet
+  const bgEl = sheet && sheet.id==='pro-modal-sheet-day' ? document.getElementById('pro-modal-bg-day') : document.getElementById('pro-modal-bg');
+  if(bgEl){ bgEl.style.opacity='0'; setTimeout(()=>{ bgEl.style.pointerEvents='none'; },380); }
   // Restore bottom nav
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='';
@@ -2976,6 +3051,7 @@ function closeProModal(){
   document.documentElement.style.background='';
   const tc=document.querySelector('meta[name="theme-color"]');
   if(tc){ tc.setAttribute('content', tc.getAttribute('data-prev')||'#1A1916'); }
+  _activeProSheet = null;
 }
 
 let _proAnimating = false;
@@ -2990,30 +3066,28 @@ function proPrevSlide(){
 
 function _proGoToSlide(n){
   n = Math.max(0, Math.min(PRO_SLIDE_COUNT - 1, n)); // clamp
-  if(n === _proSlide && document.getElementById('pro-slides-wrap')?.style.transform) {
-    // still update controls but skip if identical
-  }
   _proSlide = n;
-  const wrap = document.getElementById('pro-slides-wrap');
+  const sheet = _activeProSheet || document.getElementById('pro-modal-sheet');
+  if(!sheet) return;
+  const wrap = sheet.querySelector('.pro-wrap');
   if(wrap){
     _proAnimating = true;
     wrap.style.transform = `translate3d(-${n * 100}%,0,0)`;
     clearTimeout(wrap._proTo);
     wrap._proTo = setTimeout(()=>{ _proAnimating = false; }, 400);
   }
-  document.querySelectorAll('.pro-dot').forEach((d,i)=>d.classList.toggle('on',i===n));
-  const nextBtn = document.getElementById('pro-next-btn');
-  const backBtn = document.getElementById('pro-back-btn');
+  sheet.querySelectorAll('.pro-dot').forEach((d,i)=>d.classList.toggle('on',i===n));
+  const nextBtn = sheet.querySelector('.pro-nextbtn');
+  const backBtn = sheet.querySelector('.pro-backbtn');
   if(nextBtn) nextBtn.style.visibility = n === PRO_SLIDE_COUNT - 1 ? 'hidden' : 'visible';
   if(backBtn) backBtn.style.visibility = n === 0 ? 'hidden' : 'visible';
 }
 
-// Touch swipe support for pro slideshow — only when sheet is open
+// Touch swipe support for pro slideshow — only when a sheet is open
 (function(){
   let startX=0, startY=0, dragging=false;
   function sheetOpen(){
-    const s=document.getElementById('pro-modal-sheet');
-    return s && s.style.transform==='translateY(0)';
+    return _activeProSheet && _activeProSheet.style.transform==='translateY(0)';
   }
   document.addEventListener('touchstart',e=>{
     if(!sheetOpen()) return;
@@ -3024,7 +3098,6 @@ function _proGoToSlide(n){
     if(_proAnimating) return;
     const dx=e.changedTouches[0].clientX - startX;
     const dy=e.changedTouches[0].clientY - startY;
-    // Only treat as horizontal swipe if mostly horizontal and past threshold
     if(Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)*1.4) return;
     if(dx < 0 && _proSlide < PRO_SLIDE_COUNT-1) _proGoToSlide(_proSlide+1);
     else if(dx > 0 && _proSlide > 0) _proGoToSlide(_proSlide-1);
@@ -5620,8 +5693,8 @@ checkProSuccess();   // ← detect ?pro=1 redirect back from Stripe
 // goes straight to Home (session exists) or shows the auth screen (no session).
 initAuth();
 </script>
-  <div id="pro-modal-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#0A0A14;opacity:0;pointer-events:none;transition:opacity .3s"></div>
-  <div id="pro-modal-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden;touch-action:manipulation">
+  <div id="pro-modal-bg" class="pro-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#0A0A14;opacity:0;pointer-events:none;transition:opacity .3s"></div>
+  <div id="pro-modal-sheet" class="pro-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden;touch-action:manipulation">
 
     <!-- Close -->
     <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">
@@ -5631,7 +5704,7 @@ initAuth();
     </div>
 
     <!-- Slides container -->
-    <div id="pro-slides-wrap" style="position:absolute;inset:0;display:flex;align-items:stretch;background:#0A0A14;transition:transform .38s cubic-bezier(.32,1,.45,1);will-change:transform">
+    <div id="pro-slides-wrap" class="pro-wrap" style="position:absolute;inset:0;display:flex;align-items:stretch;background:#0A0A14;transition:transform .38s cubic-bezier(.32,1,.45,1);will-change:transform">
 
       <!-- SLIDE 1: Unlimited Closet -->
       <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;background:radial-gradient(ellipse at 30% 18%,#1a1438 0%,#0A0A14 55%)">
@@ -5793,7 +5866,7 @@ initAuth();
         </div>
         <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:38px;font-weight:500;color:#fff;margin-bottom:8px;letter-spacing:.03em">Szafa Pro</div>
         <div style="font-size:12px;color:rgba(212,175,55,.85);letter-spacing:.14em;text-transform:uppercase;margin-bottom:26px;font-style:italic">One time · Forever</div>
-        <div id="pro-modal-reason" style="font-size:13.5px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:30px;max-width:270px"></div>
+        <div id="pro-modal-reason" class="pro-reason" style="font-size:13.5px;color:rgba(255,255,255,.5);line-height:1.6;margin-bottom:30px;max-width:270px"></div>
         <button onclick="goPro()" style="width:100%;max-width:300px;padding:16px;border-radius:14px;border:none;background:#D4AF37;font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-weight:500;color:#0A0A14;cursor:pointer;letter-spacing:.04em;-webkit-tap-highlight-color:transparent;margin-bottom:12px;box-shadow:0 4px 24px rgba(212,175,55,.4)">Unlock Pro · $10</button>
         <button onclick="closeProModal()" style="background:none;border:none;font-size:13px;color:rgba(255,255,255,.3);cursor:pointer;font-family:'Jost',sans-serif;padding:8px;-webkit-tap-highlight-color:transparent">Maybe later</button>
       </div>
@@ -5803,20 +5876,174 @@ initAuth();
     <!-- Nav: Back · dots · Next (absolutely pinned to bottom — cannot shift) -->
     <div style="position:absolute;left:0;right:0;bottom:0;z-index:10;padding:16px 24px calc(34px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;background:#0A0A14">
       <!-- Back -->
-      <button id="pro-back-btn" onclick="proPrevSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;visibility:hidden">← Back</button>
+      <button id="pro-back-btn" class="pro-backbtn" onclick="proPrevSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;visibility:hidden">← Back</button>
       <!-- Centered dots -->
-      <div style="display:flex;gap:6px;align-items:center;position:absolute;left:50%;transform:translateX(-50%)" id="pro-dots">
+      <div class="pro-dotwrap" style="display:flex;gap:6px;align-items:center;position:absolute;left:50%;transform:translateX(-50%)" id="pro-dots">
         <div class="pro-dot on"></div>
         <div class="pro-dot"></div>
         <div class="pro-dot"></div>
         <div class="pro-dot"></div>
       </div>
       <!-- Next -->
-      <button id="pro-next-btn" onclick="proNextSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Next →</button>
+      <button id="pro-next-btn" class="pro-nextbtn" onclick="proNextSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Next →</button>
     </div>
 
   </div>
 
+
+
+  <!-- ══ PRO SLIDESHOW — DAY THEME ══ -->
+  <div id="pro-modal-bg-day" class="pro-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#A8D8EE;opacity:0;pointer-events:none;transition:opacity .3s"></div>
+  <div id="pro-modal-sheet-day" class="pro-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#A8D8EE;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden;touch-action:manipulation">
+
+    <!-- Close -->
+    <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">
+      <button onclick="closeProModal()" style="background:rgba(255,255,255,.5);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#2A3D14" stroke-width="1.8" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+      </button>
+    </div>
+
+    <div class="pro-wrap" style="position:absolute;inset:0;display:flex;align-items:stretch;background:#A8D8EE;transition:transform .38s cubic-bezier(.32,1,.45,1);will-change:transform">
+
+      <!-- DAY SLIDE 1: Unlimited Closet -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;background:linear-gradient(180deg,#6FC0E8 0%,#A8D8EE 60%,#CFEAF5 100%)">
+        
+        <div style="position:absolute;top:36px;right:40px;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#FFF6C0,#FFD84D 60%,#FBC02D);box-shadow:0 0 40px rgba(255,216,77,.6)"></div>
+        <div class="dc-cloud1" style="position:absolute;top:80px;left:30px;width:70px;height:20px;background:rgba(255,255,255,.9);border-radius:14px"></div>
+        <div class="dc-cloud2" style="position:absolute;top:120px;right:24px;width:88px;height:22px;background:rgba(255,255,255,.8);border-radius:16px"></div>
+        <div class="dc-cloud1" style="position:absolute;top:160px;left:60px;width:56px;height:16px;background:rgba(255,255,255,.7);border-radius:12px"></div>
+        <!-- rolling hills at the very bottom -->
+        <div style="position:absolute;bottom:0;left:-40px;right:-40px;height:120px;background:linear-gradient(180deg,#8BC34A,#689F38);border-radius:50% 50% 0 0 / 60px 60px 0 0"></div>
+        <div style="position:absolute;bottom:0;left:-60px;width:60%;height:90px;background:linear-gradient(180deg,#9CCC65,#7CB342);border-radius:0 50% 0 0 / 0 50px 0 0"></div>
+        <div style="position:absolute;bottom:0;right:-60px;width:55%;height:80px;background:linear-gradient(180deg,#AED581,#8BC34A);border-radius:50% 0 0 0 / 44px 0 0 0"></div>
+        
+        <div class="dc-bird1"><svg width="26" height="16" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E07898"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E07898"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C04870"/></g></svg></div>
+        <div class="dc-bird2"><svg width="22" height="14" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#7BA8E0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#7BA8E0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#5080C8"/></g></svg></div>
+        <div class="dc-bird3"><svg width="18" height="12" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#D4AF37"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#D4AF37"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A07820"/></g></svg></div>
+        <div style="width:210px;height:200px;position:relative;margin-bottom:30px;z-index:2">
+          <div style="position:absolute;top:0;left:24px;width:78px;height:96px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF,#F4F8FB);box-shadow:0 8px 24px rgba(80,120,150,.25);border:1px solid rgba(255,255,255,.8);transform:rotate(-6deg);display:flex;align-items:center;justify-content:center">
+            <svg width="40" height="52" viewBox="0 0 40 52"><path d="M14 4 L26 4 L24 12 L32 46 Q20 52 8 46 L16 12 Z" fill="#F5A8BE"/><path d="M14 4 L20 9 L26 4 L24 12 L20 13 L16 12 Z" fill="#E07898"/></svg>
+          </div>
+          <div style="position:absolute;top:14px;right:18px;width:78px;height:90px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF,#F4F8FB);box-shadow:0 8px 24px rgba(80,120,150,.25);border:1px solid rgba(255,255,255,.8);transform:rotate(5deg);display:flex;align-items:center;justify-content:center">
+            <svg width="48" height="44" viewBox="0 0 48 44"><path d="M16 4 L32 4 L44 14 L38 22 L34 18 L34 42 L14 42 L14 18 L10 22 L4 14 Z" fill="#7BA8E0"/><path d="M16 4 L24 12 L32 4 L28 8 L24 14 L20 8 Z" fill="#5080C8"/></svg>
+          </div>
+          <div style="position:absolute;bottom:0;left:8px;width:74px;height:74px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF,#F4F8FB);box-shadow:0 8px 24px rgba(80,120,150,.25);border:1px solid rgba(255,255,255,.8);transform:rotate(4deg);display:flex;align-items:center;justify-content:center">
+            <svg width="46" height="34" viewBox="0 0 46 34"><path d="M4 22 Q4 14 12 14 L20 14 L34 24 L42 26 Q44 30 40 31 L8 31 Q3 30 4 22Z" fill="#D4AF37"/><path d="M20 14 L34 24 L26 24 Z" fill="#A07820"/></svg>
+          </div>
+          <div style="position:absolute;bottom:14px;right:14px;width:72px;height:72px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF,#F4F8FB);box-shadow:0 8px 24px rgba(80,120,150,.25);border:1px solid rgba(255,255,255,.8);transform:rotate(-4deg);display:flex;align-items:center;justify-content:center">
+            <svg width="38" height="40" viewBox="0 0 38 40"><path d="M11 14 Q11 4 19 4 Q27 4 27 14" fill="none" stroke="#C8B8E8" stroke-width="2.5"/><path d="M6 14 L32 14 L34 36 L4 36 Z" fill="#C8B8E8"/><path d="M6 14 L32 14 L31 20 L7 20 Z" fill="#9878C8"/></svg>
+          </div>
+          <div style="position:absolute;top:-6px;right:-6px;background:#FBC02D;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:600;color:#fff;box-shadow:0 4px 16px rgba(251,192,45,.6);z-index:10">∞</div>
+        </div>
+        <div style="z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#1E3A2E;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 6px rgba(255,255,255,.5)">Unlimited<br>Closet Space</div>
+        <div style="z-index:2;font-size:13.5px;color:#2E5340;line-height:1.6;max-width:250px;text-shadow:0 1px 4px rgba(255,255,255,.4)">Free plans hold 20 pieces. With Pro, your entire wardrobe lives in one place — every piece you own.</div>
+      </div>
+      <!-- DAY SLIDE 2: Unlimited Outfits -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;background:linear-gradient(180deg,#6FC0E8 0%,#A8D8EE 60%,#CFEAF5 100%)">
+        
+        <div style="position:absolute;top:36px;right:40px;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#FFF6C0,#FFD84D 60%,#FBC02D);box-shadow:0 0 40px rgba(255,216,77,.6)"></div>
+        <div class="dc-cloud1" style="position:absolute;top:80px;left:30px;width:70px;height:20px;background:rgba(255,255,255,.9);border-radius:14px"></div>
+        <div class="dc-cloud2" style="position:absolute;top:120px;right:24px;width:88px;height:22px;background:rgba(255,255,255,.8);border-radius:16px"></div>
+        <div class="dc-cloud1" style="position:absolute;top:160px;left:60px;width:56px;height:16px;background:rgba(255,255,255,.7);border-radius:12px"></div>
+        <!-- rolling hills at the very bottom -->
+        <div style="position:absolute;bottom:0;left:-40px;right:-40px;height:120px;background:linear-gradient(180deg,#8BC34A,#689F38);border-radius:50% 50% 0 0 / 60px 60px 0 0"></div>
+        <div style="position:absolute;bottom:0;left:-60px;width:60%;height:90px;background:linear-gradient(180deg,#9CCC65,#7CB342);border-radius:0 50% 0 0 / 0 50px 0 0"></div>
+        <div style="position:absolute;bottom:0;right:-60px;width:55%;height:80px;background:linear-gradient(180deg,#AED581,#8BC34A);border-radius:50% 0 0 0 / 44px 0 0 0"></div>
+        
+        <div class="dc-bird1"><svg width="26" height="16" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E07898"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E07898"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C04870"/></g></svg></div>
+        <div class="dc-bird2"><svg width="22" height="14" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#7BA8E0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#7BA8E0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#5080C8"/></g></svg></div>
+        <div class="dc-bird3"><svg width="18" height="12" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#D4AF37"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#D4AF37"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A07820"/></g></svg></div>
+        <div style="width:200px;height:200px;position:relative;margin-bottom:30px;z-index:2">
+          <div style="position:absolute;top:6px;left:30px;width:140px;height:160px;border-radius:16px;background:#FFFFFF;opacity:.5;box-shadow:0 6px 18px rgba(80,120,150,.2);transform:rotate(7deg)"></div>
+          <div style="position:absolute;top:10px;left:18px;width:144px;height:162px;border-radius:16px;background:#FFFFFF;opacity:.75;box-shadow:0 6px 18px rgba(80,120,150,.2);transform:rotate(-4deg)"></div>
+          <div style="position:absolute;top:14px;left:8px;width:150px;height:172px;border-radius:16px;background:linear-gradient(160deg,#FFFFFF,#F4F8FB);box-shadow:0 12px 30px rgba(80,120,150,.3);overflow:hidden">
+            <svg style="position:absolute;top:16px;left:50%;transform:translateX(-50%)" width="56" height="44" viewBox="0 0 56 46"><path d="M18 5 L38 5 L54 15 L48 25 L42 20 L42 44 L14 44 L14 20 L8 25 L2 15 Z" fill="#E8DBC0"/><path d="M18 5 L28 13 L38 5 L33 9 L28 15 L23 9 Z" fill="#D6C5A2"/><line x1="22" y1="24" x2="22" y2="42" stroke="#D6C5A2" stroke-width="1"/><line x1="28" y1="24" x2="28" y2="42" stroke="#D6C5A2" stroke-width="1"/><line x1="34" y1="24" x2="34" y2="42" stroke="#D6C5A2" stroke-width="1"/></svg>
+            <svg style="position:absolute;top:57px;left:50%;transform:translateX(-50%)" width="46" height="56" viewBox="0 0 48 64"><path d="M8 2 L40 2 L40 10 L38 62 L27 62 L24 20 L21 62 L10 62 L8 10 Z" fill="#C49A60"/><line x1="24" y1="12" x2="24" y2="60" stroke="#A87E48" stroke-width="1"/><path d="M8 2 L40 2 L40 8 L8 8 Z" fill="#B0894F"/></svg>
+            <svg style="position:absolute;top:109px;left:50%;transform:translateX(-50%)" width="40" height="25" viewBox="0 0 46 34"><path d="M4 22 Q4 14 12 14 L20 14 L34 24 L42 26 Q44 30 40 31 L8 31 Q3 30 4 22Z" fill="#9C6B3F"/><path d="M40 31 L42 26 L44 30 Z" fill="#7A4F2A"/></svg>
+            <svg style="position:absolute;top:20px;right:8px;transform:rotate(6deg)" width="26" height="28" viewBox="0 0 38 40"><path d="M11 14 Q11 4 19 4 Q27 4 27 14" fill="none" stroke="#8A5A35" stroke-width="2.5"/><path d="M6 14 L32 14 L34 36 L4 36 Z" fill="#A86E3E"/><path d="M6 14 L32 14 L31 19 L7 19 Z" fill="#8A5A35"/><rect x="16" y="22" width="6" height="4" rx="1" fill="#D4AF37"/></svg>
+          </div>
+          <div style="position:absolute;bottom:0;right:2px;background:#FBC02D;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:600;color:#fff;box-shadow:0 4px 16px rgba(251,192,45,.6);z-index:10">∞</div>
+        </div>
+        <div style="z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#1E3A2E;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 6px rgba(255,255,255,.5)">Unlimited<br>Outfit Boards</div>
+        <div style="z-index:2;font-size:13.5px;color:#2E5340;line-height:1.6;max-width:250px;text-shadow:0 1px 4px rgba(255,255,255,.4)">Free plans cap at 6 outfits. Style a complete look for every occasion — travel, events, every season.</div>
+      </div>
+      <!-- DAY SLIDE 3: Feed Boost -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;background:linear-gradient(180deg,#6FC0E8 0%,#A8D8EE 60%,#CFEAF5 100%)">
+        
+        <div style="position:absolute;top:36px;right:40px;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#FFF6C0,#FFD84D 60%,#FBC02D);box-shadow:0 0 40px rgba(255,216,77,.6)"></div>
+        <div class="dc-cloud1" style="position:absolute;top:80px;left:30px;width:70px;height:20px;background:rgba(255,255,255,.9);border-radius:14px"></div>
+        <div class="dc-cloud2" style="position:absolute;top:120px;right:24px;width:88px;height:22px;background:rgba(255,255,255,.8);border-radius:16px"></div>
+        <div class="dc-cloud1" style="position:absolute;top:160px;left:60px;width:56px;height:16px;background:rgba(255,255,255,.7);border-radius:12px"></div>
+        <!-- rolling hills at the very bottom -->
+        <div style="position:absolute;bottom:0;left:-40px;right:-40px;height:120px;background:linear-gradient(180deg,#8BC34A,#689F38);border-radius:50% 50% 0 0 / 60px 60px 0 0"></div>
+        <div style="position:absolute;bottom:0;left:-60px;width:60%;height:90px;background:linear-gradient(180deg,#9CCC65,#7CB342);border-radius:0 50% 0 0 / 0 50px 0 0"></div>
+        <div style="position:absolute;bottom:0;right:-60px;width:55%;height:80px;background:linear-gradient(180deg,#AED581,#8BC34A);border-radius:50% 0 0 0 / 44px 0 0 0"></div>
+        
+        <div class="dc-bird1"><svg width="26" height="16" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E07898"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E07898"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C04870"/></g></svg></div>
+        <div class="dc-bird2"><svg width="22" height="14" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#7BA8E0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#7BA8E0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#5080C8"/></g></svg></div>
+        <div class="dc-bird3"><svg width="18" height="12" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#D4AF37"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#D4AF37"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A07820"/></g></svg></div>
+        <div style="width:200px;position:relative;margin-bottom:30px;z-index:2">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border-radius:13px;background:linear-gradient(135deg,#FFF6D8,#FFFFFF);border:1.5px solid #FBC02D;padding:12px;box-shadow:0 8px 24px rgba(251,192,45,.3)">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+                <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(160deg,#F5A8BE,#E07898);flex-shrink:0"></div>
+                <div style="flex:1;text-align:left"><div style="height:7px;width:64%;border-radius:4px;background:rgba(80,120,150,.3);margin-bottom:5px"></div><div style="height:5px;width:40%;border-radius:4px;background:rgba(80,120,150,.18)"></div></div>
+                <div style="background:#FBC02D;border-radius:5px;padding:3px 8px;font-size:9px;font-weight:600;color:#fff;letter-spacing:.05em;flex-shrink:0">PRO ✦</div>
+              </div>
+              <div style="display:flex;gap:6px;justify-content:center">
+                <div style="width:36px;height:44px;border-radius:6px;background:#F5A8BE"></div>
+                <div style="width:36px;height:44px;border-radius:6px;background:#7BA8E0"></div>
+                <div style="width:36px;height:44px;border-radius:6px;background:#D4AF37"></div>
+              </div>
+            </div>
+            <div style="border-radius:13px;background:rgba(255,255,255,.6);border:0.5px solid rgba(255,255,255,.8);padding:10px 13px;display:flex;align-items:center;gap:9px;opacity:.65">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(104,152,204,.4);flex-shrink:0"></div>
+              <div style="flex:1;text-align:left"><div style="height:6px;width:60%;border-radius:4px;background:rgba(80,120,150,.25);margin-bottom:4px"></div><div style="height:4px;width:40%;border-radius:4px;background:rgba(80,120,150,.15)"></div></div>
+            </div>
+            <div style="border-radius:13px;background:rgba(255,255,255,.6);border:0.5px solid rgba(255,255,255,.8);padding:10px 13px;display:flex;align-items:center;gap:9px;opacity:.4">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(245,168,190,.4);flex-shrink:0"></div>
+              <div style="flex:1;text-align:left"><div style="height:6px;width:50%;border-radius:4px;background:rgba(80,120,150,.25);margin-bottom:4px"></div><div style="height:4px;width:32%;border-radius:4px;background:rgba(80,120,150,.15)"></div></div>
+            </div>
+          </div>
+          <div style="position:absolute;right:-16px;top:-12px;background:#FBC02D;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(251,192,45,.6);z-index:10">
+            <svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11.5V3M3 6.5L7 2.5l4 4"/></svg>
+          </div>
+        </div>
+        <div style="z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#1E3A2E;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 6px rgba(255,255,255,.5)">Feed Boost</div>
+        <div style="z-index:2;font-size:13.5px;color:#2E5340;line-height:1.6;max-width:250px;text-shadow:0 1px 4px rgba(255,255,255,.4)">Your shared outfits rise to the top of Explore — more eyes, more likes, more followers.</div>
+      </div>
+      <!-- DAY SLIDE 4: CTA -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;background:linear-gradient(180deg,#6FC0E8 0%,#A8D8EE 55%,#CFEAF5 100%)">
+        
+        <div style="position:absolute;top:36px;right:40px;width:64px;height:64px;border-radius:50%;background:radial-gradient(circle,#FFF6C0,#FFD84D 60%,#FBC02D);box-shadow:0 0 40px rgba(255,216,77,.6)"></div>
+        <div class="dc-cloud1" style="position:absolute;top:80px;left:30px;width:70px;height:20px;background:rgba(255,255,255,.9);border-radius:14px"></div>
+        <div class="dc-cloud2" style="position:absolute;top:120px;right:24px;width:88px;height:22px;background:rgba(255,255,255,.8);border-radius:16px"></div>
+        <div class="dc-cloud1" style="position:absolute;top:160px;left:60px;width:56px;height:16px;background:rgba(255,255,255,.7);border-radius:12px"></div>
+        <!-- rolling hills at the very bottom -->
+        <div style="position:absolute;bottom:0;left:-40px;right:-40px;height:120px;background:linear-gradient(180deg,#8BC34A,#689F38);border-radius:50% 50% 0 0 / 60px 60px 0 0"></div>
+        <div style="position:absolute;bottom:0;left:-60px;width:60%;height:90px;background:linear-gradient(180deg,#9CCC65,#7CB342);border-radius:0 50% 0 0 / 0 50px 0 0"></div>
+        <div style="position:absolute;bottom:0;right:-60px;width:55%;height:80px;background:linear-gradient(180deg,#AED581,#8BC34A);border-radius:50% 0 0 0 / 44px 0 0 0"></div>
+        
+        <div class="dc-bird1"><svg width="26" height="16" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E07898"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E07898"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C04870"/></g></svg></div>
+        <div class="dc-bird2"><svg width="22" height="14" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#7BA8E0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#7BA8E0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#5080C8"/></g></svg></div>
+        <div class="dc-bird3"><svg width="18" height="12" viewBox="0 0 24 18"><g class="dc-flap"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#D4AF37"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#D4AF37"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A07820"/></g></svg></div>
+        <div style="z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:40px;font-weight:500;color:#1E3A2E;margin-bottom:8px;letter-spacing:.03em;text-shadow:0 1px 8px rgba(255,255,255,.5)">Szafa Pro</div>
+        <div style="z-index:2;font-size:12px;color:#4A6B1E;letter-spacing:.14em;text-transform:uppercase;margin-bottom:26px;font-style:italic">One time · Forever</div>
+        <div class="pro-reason" style="z-index:2;font-size:13.5px;color:#2E5340;line-height:1.6;margin-bottom:30px;max-width:270px"></div>
+        <button onclick="goPro()" style="z-index:2;width:100%;max-width:300px;padding:16px;border-radius:14px;border:none;background:#FBC02D;font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-weight:500;color:#3A2E0A;cursor:pointer;letter-spacing:.04em;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin-bottom:12px;box-shadow:0 6px 24px rgba(251,192,45,.5)">Unlock Pro · $10</button>
+        <button onclick="closeProModal()" style="z-index:2;background:none;border:none;font-size:13px;color:#4A6B1E;cursor:pointer;font-family:'Jost',sans-serif;padding:8px;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Maybe later</button>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:10;padding:16px 24px calc(34px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;background:transparent">
+      <button class="pro-backbtn" onclick="proPrevSlide()" style="background:rgba(255,255,255,.55);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#2A3D14;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;visibility:hidden">← Back</button>
+      <div class="pro-dotwrap" style="display:flex;gap:6px;align-items:center;position:absolute;left:50%;transform:translateX(-50%)">
+        <div class="pro-dot on"></div><div class="pro-dot"></div><div class="pro-dot"></div><div class="pro-dot"></div>
+      </div>
+      <button class="pro-nextbtn" onclick="proNextSlide()" style="background:rgba(255,255,255,.55);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#2A3D14;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Next →</button>
+    </div>
+  </div>
 
   <!-- ══ LIMIT REACHED POPUP (compact, funnels to slideshow) ══ -->
   <div id="pro-intro-bg" onclick="closeProIntro()" style="position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0);pointer-events:none;transition:background .25s;display:flex;align-items:center;justify-content:center;padding:32px">

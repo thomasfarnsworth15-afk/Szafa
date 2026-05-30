@@ -1349,7 +1349,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.3</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.4</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2943,7 +2943,7 @@ function openProSlideshow(){
   if(msg) msg.textContent='Unlimited closet space, unlimited outfits, and priority in the Explore feed. Yours forever for $10.';
   const bg = document.getElementById('pro-modal-bg');
   const sheet = document.getElementById('pro-modal-sheet');
-  if(bg){ bg.style.pointerEvents='auto'; bg.style.background='rgba(0,0,0,.5)'; }
+  if(bg){ bg.style.pointerEvents='auto'; bg.style.opacity='1'; }
   if(sheet) setTimeout(()=>{ sheet.style.transform='translateY(0)'; }, 60);
   // Hide bottom nav so the dark full-screen slides aren't broken by the white bar
   const nav = document.querySelector('.bnav');
@@ -2956,7 +2956,7 @@ function closeProModal(){
   const bg = document.getElementById('pro-modal-bg');
   const sheet = document.getElementById('pro-modal-sheet');
   if(sheet) sheet.style.transform='translateY(100%)';
-  if(bg){ bg.style.background='rgba(0,0,0,0)'; setTimeout(()=>{ bg.style.pointerEvents='none'; },380); }
+  if(bg){ bg.style.opacity='0'; setTimeout(()=>{ bg.style.pointerEvents='none'; },380); }
   // Restore bottom nav
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='';
@@ -5570,8 +5570,8 @@ checkProSuccess();   // ← detect ?pro=1 redirect back from Stripe
 // goes straight to Home (session exists) or shows the auth screen (no session).
 initAuth();
 </script>
-  <div id="pro-modal-bg" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0);pointer-events:none;transition:background .3s"></div>
-  <div id="pro-modal-sheet" style="position:fixed;top:0;left:0;right:0;bottom:0;height:100dvh;z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);display:flex;flex-direction:column;overflow:hidden">
+  <div id="pro-modal-bg" style="position:fixed;top:-100px;left:0;right:0;bottom:-100px;height:calc(100dvh + 200px);z-index:300;background:#0A0A14;opacity:0;pointer-events:none;transition:opacity .3s"></div>
+  <div id="pro-modal-sheet" style="position:fixed;top:-100px;left:0;right:0;bottom:-100px;height:calc(100dvh + 200px);z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);display:flex;flex-direction:column;overflow:hidden;padding-top:100px;padding-bottom:100px;box-sizing:border-box">
 
     <!-- Close -->
     <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">

@@ -410,6 +410,18 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .dc-flap{animation:dc-flap .4s ease-in-out infinite;transform-origin:center}
 .dc-cloud1{animation:dc-cloud 6s ease-in-out infinite alternate}
 .dc-cloud2{animation:dc-cloud 8s ease-in-out infinite alternate-reverse}
+/* ── EVENING card: dusk skyline, window-bow, water ── */
+@keyframes ec-cycle{0%{background:#3A2E50;box-shadow:none}3%{background:#3A2E50;box-shadow:none}22%{background:#FFD45A;box-shadow:0 0 6px 1px rgba(255,212,90,.95)}72%{background:#FFD45A;box-shadow:0 0 6px 1px rgba(255,212,90,.95)}82%{background:#3A2E50;box-shadow:none}100%{background:#3A2E50;box-shadow:none}}
+@keyframes ec-res{0%,100%{opacity:.6}50%{opacity:.42}}
+@keyframes ec-ripple{0%,100%{opacity:.4}50%{opacity:.7}}
+.ec-b{position:absolute;background:#8A6E9E}
+.ec-m{position:absolute;background:#4A3A60}
+.ec-m2{position:absolute;background:#42344F}
+.ec-w{position:absolute;width:2.5px;height:3px;border-radius:.5px;background:#FFE08A}
+.ec-tower{position:absolute;background:#352A48;border-radius:2px 2px 0 0;box-shadow:-3px 0 10px rgba(60,40,80,.35)}
+.ec-bx{position:absolute;width:4.5px;height:4.5px;border-radius:1px;background:#3A2E50;animation:ec-cycle 8s ease-in-out infinite}
+.ec-rs{position:absolute;width:4.5px;height:4.5px;border-radius:1px;background:#FFD45A;box-shadow:0 0 5px 1px rgba(255,212,90,.7);animation:ec-res 5s ease-in-out infinite}
+.ec-rip{position:absolute;height:1px;background:rgba(255,225,180,.25);animation:ec-ripple 4s ease-in-out infinite}
 .p-settings-overlay{position:absolute;top:0;bottom:0;left:0;right:0;background:var(--bg);z-index:160;transform:translateX(100%);transition:transform .3s cubic-bezier(.32,1,.45,1);overflow-y:auto;scrollbar-width:none}
 .p-settings-overlay.open{transform:none}
 .p-settings-overlay::-webkit-scrollbar{display:none}
@@ -1349,6 +1361,78 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
     </div>
 
+    <!-- Pro upgrade card — EVENING (7pm–10pm): dusk waterfront skyline, window-bow -->
+    <div id="pro-card-evening" style="margin:4px 16px 16px;border-radius:14px;overflow:hidden;border:0.5px solid #E0A9B5;cursor:pointer;display:none" onclick="openProSlideshow()">
+      <div style="position:relative;overflow:hidden;height:76px;background:linear-gradient(180deg,#5B6FB5 0%,#9A7FB8 26%,#D98FA8 46%,#F4A98C 62%,#FBC98E 72%)">
+        <div style="position:absolute;top:8px;right:60px;width:100px;height:50px;background:radial-gradient(ellipse,rgba(255,220,150,.55),transparent 70%)"></div>
+        <div style="position:absolute;top:14px;right:92px;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle,#FFF0C8,#FFB870);opacity:.95;box-shadow:0 0 18px rgba(255,200,130,.7)"></div>
+        <div style="position:absolute;top:7px;left:40px;width:1.5px;height:1.5px;background:#fff;border-radius:50%;opacity:.5"></div>
+        <div style="position:absolute;top:10px;left:150px;width:1px;height:1px;background:#fff;border-radius:50%;opacity:.4"></div>
+        <!-- far buildings -->
+        <div style="position:absolute;bottom:24px;left:0;right:0;height:20px;opacity:.5">
+          <div class="ec-b" style="bottom:0;left:0;width:18px;height:14px"></div>
+          <div class="ec-b" style="bottom:0;left:16px;width:22px;height:18px"></div>
+          <div class="ec-b" style="bottom:0;left:40px;width:16px;height:11px"></div>
+          <div class="ec-b" style="bottom:0;left:120px;width:20px;height:15px"></div>
+          <div class="ec-b" style="bottom:0;left:144px;width:24px;height:12px"></div>
+          <div class="ec-b" style="bottom:0;left:172px;width:18px;height:17px"></div>
+          <div class="ec-b" style="bottom:0;left:230px;width:22px;height:13px"></div>
+          <div class="ec-b" style="bottom:0;left:258px;width:20px;height:17px"></div>
+          <div class="ec-b" style="bottom:0;left:300px;width:24px;height:12px"></div>
+          <div class="ec-b" style="bottom:0;left:326px;width:26px;height:15px"></div>
+        </div>
+        <!-- mid buildings -->
+        <div class="ec-m" style="bottom:24px;left:8px;width:22px;height:24px"><i class="ec-w" style="top:5px;left:5px;opacity:.7"></i><i class="ec-w" style="top:5px;left:13px;opacity:.5"></i><i class="ec-w" style="top:13px;left:9px;opacity:.6"></i></div>
+        <div class="ec-m2" style="bottom:24px;left:34px;width:18px;height:18px"><i class="ec-w" style="top:5px;left:6px;opacity:.55"></i><i class="ec-w" style="top:11px;left:10px;opacity:.7"></i></div>
+        <div class="ec-m" style="bottom:24px;left:124px;width:20px;height:30px"><i class="ec-w" style="top:5px;left:5px;opacity:.7"></i><i class="ec-w" style="top:5px;left:12px;opacity:.5"></i><i class="ec-w" style="top:13px;left:9px;opacity:.6"></i><i class="ec-w" style="top:21px;left:5px;opacity:.55"></i></div>
+        <div class="ec-m2" style="bottom:24px;left:148px;width:26px;height:22px"><i class="ec-w" style="top:5px;left:6px;opacity:.6"></i><i class="ec-w" style="top:5px;left:16px;opacity:.7"></i><i class="ec-w" style="top:13px;left:11px;opacity:.5"></i></div>
+        <div class="ec-m" style="bottom:24px;left:178px;width:18px;height:16px"><i class="ec-w" style="top:5px;left:6px;opacity:.6"></i></div>
+        <div class="ec-m2" style="bottom:24px;left:200px;width:24px;height:27px"><i class="ec-w" style="top:5px;left:6px;opacity:.7"></i><i class="ec-w" style="top:5px;left:15px;opacity:.5"></i><i class="ec-w" style="top:14px;left:10px;opacity:.6"></i></div>
+        <div class="ec-m" style="bottom:24px;left:228px;width:20px;height:20px"><i class="ec-w" style="top:5px;left:6px;opacity:.55"></i><i class="ec-w" style="top:12px;left:11px;opacity:.7"></i></div>
+        <div class="ec-m2" style="bottom:24px;left:280px;width:26px;height:25px"><i class="ec-w" style="top:5px;left:6px;opacity:.6"></i><i class="ec-w" style="top:5px;left:16px;opacity:.45"></i><i class="ec-w" style="top:13px;left:11px;opacity:.6"></i></div>
+        <div class="ec-m" style="bottom:24px;left:310px;width:20px;height:32px"><i class="ec-w" style="top:5px;left:5px;opacity:.7"></i><i class="ec-w" style="top:13px;left:11px;opacity:.5"></i><i class="ec-w" style="top:22px;left:6px;opacity:.6"></i></div>
+        <div class="ec-m2" style="bottom:24px;left:334px;width:24px;height:20px"><i class="ec-w" style="top:5px;left:6px;opacity:.55"></i><i class="ec-w" style="top:5px;left:15px;opacity:.7"></i></div>
+        <!-- center tower with window-bow -->
+        <div class="ec-tower" style="bottom:24px;left:66px;width:50px;height:42px">
+          <i class="ec-rs" style="top:11px;left:7px;animation-delay:.2s"></i>
+          <i class="ec-bx" style="top:16px;left:7px;animation-delay:.24s"></i>
+          <i class="ec-bx" style="top:21px;left:7px;animation-delay:.28s"></i>
+          <i class="ec-bx" style="top:14px;left:13px;animation-delay:.16s"></i>
+          <i class="ec-rs" style="top:19px;left:13px;animation-delay:1.1s"></i>
+          <i class="ec-bx" style="top:16px;left:19px;animation-delay:.10s"></i>
+          <i class="ec-bx" style="top:14px;left:23px;width:5px;height:5px;animation-delay:0s"></i>
+          <i class="ec-rs" style="top:19px;left:23px;width:5px;height:5px;animation-delay:.5s"></i>
+          <i class="ec-bx" style="top:16px;left:29px;animation-delay:.10s"></i>
+          <i class="ec-rs" style="top:14px;left:35px;animation-delay:1.6s"></i>
+          <i class="ec-bx" style="top:19px;left:35px;animation-delay:.18s"></i>
+          <i class="ec-bx" style="top:11px;left:41px;animation-delay:.20s"></i>
+          <i class="ec-bx" style="top:16px;left:41px;animation-delay:.24s"></i>
+          <i class="ec-rs" style="top:21px;left:41px;animation-delay:.9s"></i>
+          <i class="ec-bx" style="top:25px;left:20px;animation-delay:.34s"></i>
+          <i class="ec-rs" style="top:30px;left:19px;animation-delay:2.0s"></i>
+          <i class="ec-bx" style="top:25px;left:28px;animation-delay:.34s"></i>
+          <i class="ec-bx" style="top:30px;left:29px;animation-delay:.40s"></i>
+        </div>
+        <!-- water -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:24px;background:linear-gradient(180deg,#B0738A 0%,#7C6090 40%,#574F82 75%,#3E3A68 100%)"></div>
+        <div style="position:absolute;bottom:23px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,225,180,.5),rgba(255,225,180,.3),transparent)"></div>
+        <div style="position:absolute;bottom:0;left:60px;width:60px;height:22px;background:linear-gradient(180deg,rgba(255,212,90,.28),transparent 80%);filter:blur(2px)"></div>
+        <div style="position:absolute;bottom:0;left:255px;width:70px;height:20px;background:linear-gradient(180deg,rgba(255,200,140,.3),transparent 80%);filter:blur(3px)"></div>
+        <i class="ec-rip" style="bottom:18px;left:30px;width:80px;animation-delay:0s"></i>
+        <i class="ec-rip" style="bottom:13px;left:120px;width:120px;animation-delay:1s"></i>
+        <i class="ec-rip" style="bottom:8px;left:40px;width:100px;animation-delay:.5s"></i>
+        <!-- text -->
+        <div style="position:absolute;right:36px;top:40%;transform:translateY(-50%);text-align:right;z-index:5">
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:500;color:#fff;letter-spacing:.04em;line-height:1.1;text-shadow:0 1px 6px rgba(80,40,60,.5)">Upgrade to Pro</div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12.5px;font-weight:400;color:#FFEAD0;margin-top:3px;letter-spacing:.06em;font-style:italic;text-shadow:0 1px 5px rgba(80,40,60,.5)">unlimited &middot; $10 once</div>
+        </div>
+        <div style="position:absolute;right:14px;top:40%;transform:translateY(-50%);z-index:5">
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg>
+        </div>
+      </div>
+    </div>
+
+
     <!-- Background color -->
     <div class="ap-section">
       <div class="ap-label">Background</div>
@@ -1393,7 +1477,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.4</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.5</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2617,7 +2701,7 @@ async function saveAppearance(){
 
 // Returns the active Pro theme based on time of day (or manual override).
 // Windows: morning 6am–1pm, day 1pm–7pm, evening 7pm–10pm, night 10pm–6am.
-let _proThemeOverride = 'day'; // TEMP: pin to 'day' while building. Set to null for time-based.
+let _proThemeOverride = 'evening'; // TEMP: pin while building. Set to null for time-based.
 function currentProTheme(){
   if(_proThemeOverride) return _proThemeOverride;
   const h = new Date().getHours();
@@ -2632,8 +2716,9 @@ function openSettings(){
   renderApSwatches();
   const theme = currentProTheme();
   const cards = {
-    night: document.getElementById('pro-card-night'),
-    day:   document.getElementById('pro-card-day'),
+    night:   document.getElementById('pro-card-night'),
+    day:     document.getElementById('pro-card-day'),
+    evening: document.getElementById('pro-card-evening'),
   };
   // Hide all, then show the active theme's card (unless Pro)
   Object.values(cards).forEach(c=>{ if(c) c.style.display='none'; });
@@ -3000,10 +3085,11 @@ function closeProIntro(){
 
 // Tracks the currently active slideshow sheet element (day or night theme)
 let _activeProSheet = null;
+let _activeProBg = null;
 function _proSheetForTheme(theme){
-  return theme==='day'
-    ? { sheet: document.getElementById('pro-modal-sheet-day'), bg: document.getElementById('pro-modal-bg-day'), dark:false }
-    : { sheet: document.getElementById('pro-modal-sheet'),     bg: document.getElementById('pro-modal-bg'),     dark:true  };
+  if(theme==='day')     return { sheet: document.getElementById('pro-modal-sheet-day'),     bg: document.getElementById('pro-modal-bg-day'),     dark:false, fill:'#689F38' };
+  if(theme==='evening') return { sheet: document.getElementById('pro-modal-sheet-evening'), bg: document.getElementById('pro-modal-bg-evening'), dark:false, fill:'#3E3A68' };
+  return { sheet: document.getElementById('pro-modal-sheet'), bg: document.getElementById('pro-modal-bg'), dark:true, fill:'#0A0A14' };
 }
 
 // Called by the "Upgrade to Pro" button / card — opens the themed slideshow
@@ -3012,8 +3098,9 @@ function openProSlideshow(){
   _proAnimating = false;
   _proSlide = 0;
   const theme = currentProTheme();
-  const { sheet, bg, dark } = _proSheetForTheme(theme);
+  const { sheet, bg, fill } = _proSheetForTheme(theme);
   _activeProSheet = sheet;
+  _activeProBg = bg;
   if(!sheet) return;
   const wrap = sheet.querySelector('.pro-wrap');
   // Snap to slide 0 instantly without animation
@@ -3028,7 +3115,6 @@ function openProSlideshow(){
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='none';
   // Match safe-area backgrounds and PWA theme-color to the active theme
-  const fill = dark ? '#0A0A14' : '#689F38';
   document.body.classList.add('pro-open');
   document.body.style.background=fill;
   document.documentElement.style.background=fill;
@@ -3038,10 +3124,8 @@ function openProSlideshow(){
 
 function closeProModal(){
   const sheet = _activeProSheet || document.getElementById('pro-modal-sheet');
-  const bg = sheet ? sheet.previousElementSibling : null;
   if(sheet) sheet.style.transform='translateY(100%)';
-  // bg is the matching .pro-bg right before the sheet
-  const bgEl = sheet && sheet.id==='pro-modal-sheet-day' ? document.getElementById('pro-modal-bg-day') : document.getElementById('pro-modal-bg');
+  const bgEl = _activeProBg || document.getElementById('pro-modal-bg');
   if(bgEl){ bgEl.style.opacity='0'; setTimeout(()=>{ bgEl.style.pointerEvents='none'; },380); }
   // Restore bottom nav
   const nav = document.querySelector('.bnav');
@@ -6042,6 +6126,193 @@ initAuth();
         <div class="pro-dot on"></div><div class="pro-dot"></div><div class="pro-dot"></div><div class="pro-dot"></div>
       </div>
       <button class="pro-nextbtn" onclick="proNextSlide()" style="background:rgba(255,255,255,.55);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#2A3D14;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Next →</button>
+    </div>
+  </div>
+
+
+  <!-- ══ PRO SLIDESHOW — EVENING THEME ══ -->
+  <div id="pro-modal-bg-evening" class="pro-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#3E3A68;opacity:0;pointer-events:none;transition:opacity .3s"></div>
+  <div id="pro-modal-sheet-evening" class="pro-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#3E3A68;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden;touch-action:manipulation">
+    <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">
+      <button onclick="closeProModal()" style="background:rgba(255,255,255,.18);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+      </button>
+    </div>
+    <div class="pro-wrap" style="position:absolute;inset:0;display:flex;align-items:stretch;background:#3E3A68;transition:transform .38s cubic-bezier(.32,1,.45,1);will-change:transform">
+
+      <!-- EVE SLIDE 1: Unlimited Closet -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;overflow:hidden">
+        
+        <!-- dusk sky + skyline backdrop -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#5B6FB5 0%,#9A7FB8 22%,#D98FA8 42%,#F4A98C 58%,#FBC98E 70%)"></div>
+        <div style="position:absolute;top:30px;right:50px;width:130px;height:70px;background:radial-gradient(ellipse,rgba(255,220,150,.5),transparent 70%)"></div>
+        <div style="position:absolute;top:44px;right:88px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#FFF0C8,#FFB870);opacity:.9;box-shadow:0 0 22px rgba(255,200,130,.6)"></div>
+        <!-- far buildings along a low band -->
+        <div style="position:absolute;bottom:64px;left:0;right:0;height:40px;opacity:.5">
+          <div class="ec-b" style="bottom:0;left:0;width:24px;height:24px"></div>
+          <div class="ec-b" style="bottom:0;left:22px;width:30px;height:32px"></div>
+          <div class="ec-b" style="bottom:0;left:56px;width:22px;height:18px"></div>
+          <div class="ec-b" style="bottom:0;left:300px;width:28px;height:26px"></div>
+          <div class="ec-b" style="bottom:0;left:332px;width:24px;height:34px"></div>
+          <div class="ec-b" style="bottom:0;right:10px;width:30px;height:22px"></div>
+        </div>
+        <div class="ec-m" style="bottom:64px;left:6px;width:30px;height:40px"><i class="ec-w" style="top:6px;left:6px;opacity:.6"></i><i class="ec-w" style="top:6px;left:18px;opacity:.45"></i><i class="ec-w" style="top:16px;left:11px;opacity:.55"></i><i class="ec-w" style="top:28px;left:6px;opacity:.5"></i></div>
+        <div class="ec-m2" style="bottom:64px;left:40px;width:24px;height:30px"><i class="ec-w" style="top:6px;left:6px;opacity:.55"></i><i class="ec-w" style="top:16px;left:13px;opacity:.6"></i></div>
+        <div class="ec-m" style="bottom:64px;right:6px;width:28px;height:44px"><i class="ec-w" style="top:6px;left:6px;opacity:.6"></i><i class="ec-w" style="top:6px;left:17px;opacity:.4"></i><i class="ec-w" style="top:18px;left:11px;opacity:.55"></i></div>
+        <div class="ec-m2" style="bottom:64px;right:38px;width:22px;height:32px"><i class="ec-w" style="top:6px;left:6px;opacity:.55"></i><i class="ec-w" style="top:16px;left:11px;opacity:.6"></i></div>
+        <!-- water at bottom -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:64px;background:linear-gradient(180deg,#B0738A 0%,#7C6090 35%,#574F82 70%,#3E3A68 100%)"></div>
+        <div style="position:absolute;bottom:63px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,225,180,.5),rgba(255,225,180,.25),transparent)"></div>
+        <i class="ec-rip" style="bottom:48px;left:40px;width:120px;animation-delay:0s"></i>
+        <i class="ec-rip" style="bottom:32px;left:120px;width:160px;animation-delay:1s"></i>
+        <i class="ec-rip" style="bottom:18px;left:50px;width:140px;animation-delay:.5s"></i>
+        <i class="ec-rip" style="bottom:40px;right:40px;width:110px;animation-delay:1.5s"></i>
+        <div style="position:relative;z-index:2;width:210px;height:200px;margin-bottom:28px">
+          <div style="position:absolute;top:0;left:24px;width:78px;height:96px;border-radius:12px;background:linear-gradient(160deg,#473A66,#2E2548);box-shadow:0 8px 24px rgba(20,10,30,.5),0 0 0 1px rgba(255,200,150,.12);border:1px solid rgba(255,210,160,.12);transform:rotate(-6deg);display:flex;align-items:center;justify-content:center"><svg width="40" height="52" viewBox="0 0 40 52"><path d="M14 4 L26 4 L24 12 L32 46 Q20 52 8 46 L16 12 Z" fill="#F5A8BE"/><path d="M14 4 L20 9 L26 4 L24 12 L20 13 L16 12 Z" fill="#E07898"/></svg></div>
+          <div style="position:absolute;top:14px;right:18px;width:78px;height:90px;border-radius:12px;background:linear-gradient(160deg,#473A66,#2E2548);box-shadow:0 8px 24px rgba(20,10,30,.5),0 0 0 1px rgba(255,200,150,.12);border:1px solid rgba(255,210,160,.12);transform:rotate(5deg);display:flex;align-items:center;justify-content:center"><svg width="48" height="44" viewBox="0 0 48 44"><path d="M16 4 L32 4 L44 14 L38 22 L34 18 L34 42 L14 42 L14 18 L10 22 L4 14 Z" fill="#7BA8E0"/><path d="M16 4 L24 12 L32 4 L28 8 L24 14 L20 8 Z" fill="#5080C8"/></svg></div>
+          <div style="position:absolute;bottom:0;left:8px;width:74px;height:74px;border-radius:12px;background:linear-gradient(160deg,#473A66,#2E2548);box-shadow:0 8px 24px rgba(20,10,30,.5),0 0 0 1px rgba(255,200,150,.12);border:1px solid rgba(255,210,160,.12);transform:rotate(4deg);display:flex;align-items:center;justify-content:center"><svg width="46" height="34" viewBox="0 0 46 34"><path d="M4 22 Q4 14 12 14 L20 14 L34 24 L42 26 Q44 30 40 31 L8 31 Q3 30 4 22Z" fill="#D4AF37"/><path d="M20 14 L34 24 L26 24 Z" fill="#A07820"/></svg></div>
+          <div style="position:absolute;bottom:14px;right:14px;width:72px;height:72px;border-radius:12px;background:linear-gradient(160deg,#473A66,#2E2548);box-shadow:0 8px 24px rgba(20,10,30,.5),0 0 0 1px rgba(255,200,150,.12);border:1px solid rgba(255,210,160,.12);transform:rotate(-4deg);display:flex;align-items:center;justify-content:center"><svg width="38" height="40" viewBox="0 0 38 40"><path d="M11 14 Q11 4 19 4 Q27 4 27 14" fill="none" stroke="#C8B8E8" stroke-width="2.5"/><path d="M6 14 L32 14 L34 36 L4 36 Z" fill="#C8B8E8"/><path d="M6 14 L32 14 L31 20 L7 20 Z" fill="#9878C8"/></svg></div>
+          <div style="position:absolute;top:-6px;right:-6px;background:#FFD45A;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:600;color:#3A2E0A;box-shadow:0 0 20px rgba(255,212,90,.7);z-index:10">&infin;</div>
+        </div>
+        <div style="position:relative;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#FFF3E0;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 8px rgba(40,20,40,.5)">Unlimited<br>Closet Space</div>
+        <div style="position:relative;z-index:2;font-size:13.5px;color:rgba(255,230,200,.62);line-height:1.6;max-width:250px;text-shadow:0 1px 5px rgba(40,20,40,.4)">Free plans hold 20 pieces. With Pro, your entire wardrobe lives in one place — every piece you own.</div>
+      </div>
+      <!-- EVE SLIDE 2: Unlimited Outfits -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;overflow:hidden">
+        
+        <!-- dusk sky + skyline backdrop -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#5B6FB5 0%,#9A7FB8 22%,#D98FA8 42%,#F4A98C 58%,#FBC98E 70%)"></div>
+        <div style="position:absolute;top:30px;right:50px;width:130px;height:70px;background:radial-gradient(ellipse,rgba(255,220,150,.5),transparent 70%)"></div>
+        <div style="position:absolute;top:44px;right:88px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#FFF0C8,#FFB870);opacity:.9;box-shadow:0 0 22px rgba(255,200,130,.6)"></div>
+        <!-- far buildings along a low band -->
+        <div style="position:absolute;bottom:64px;left:0;right:0;height:40px;opacity:.5">
+          <div class="ec-b" style="bottom:0;left:0;width:24px;height:24px"></div>
+          <div class="ec-b" style="bottom:0;left:22px;width:30px;height:32px"></div>
+          <div class="ec-b" style="bottom:0;left:56px;width:22px;height:18px"></div>
+          <div class="ec-b" style="bottom:0;left:300px;width:28px;height:26px"></div>
+          <div class="ec-b" style="bottom:0;left:332px;width:24px;height:34px"></div>
+          <div class="ec-b" style="bottom:0;right:10px;width:30px;height:22px"></div>
+        </div>
+        <div class="ec-m" style="bottom:64px;left:6px;width:30px;height:40px"><i class="ec-w" style="top:6px;left:6px;opacity:.6"></i><i class="ec-w" style="top:6px;left:18px;opacity:.45"></i><i class="ec-w" style="top:16px;left:11px;opacity:.55"></i><i class="ec-w" style="top:28px;left:6px;opacity:.5"></i></div>
+        <div class="ec-m2" style="bottom:64px;left:40px;width:24px;height:30px"><i class="ec-w" style="top:6px;left:6px;opacity:.55"></i><i class="ec-w" style="top:16px;left:13px;opacity:.6"></i></div>
+        <div class="ec-m" style="bottom:64px;right:6px;width:28px;height:44px"><i class="ec-w" style="top:6px;left:6px;opacity:.6"></i><i class="ec-w" style="top:6px;left:17px;opacity:.4"></i><i class="ec-w" style="top:18px;left:11px;opacity:.55"></i></div>
+        <div class="ec-m2" style="bottom:64px;right:38px;width:22px;height:32px"><i class="ec-w" style="top:6px;left:6px;opacity:.55"></i><i class="ec-w" style="top:16px;left:11px;opacity:.6"></i></div>
+        <!-- water at bottom -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:64px;background:linear-gradient(180deg,#B0738A 0%,#7C6090 35%,#574F82 70%,#3E3A68 100%)"></div>
+        <div style="position:absolute;bottom:63px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,225,180,.5),rgba(255,225,180,.25),transparent)"></div>
+        <i class="ec-rip" style="bottom:48px;left:40px;width:120px;animation-delay:0s"></i>
+        <i class="ec-rip" style="bottom:32px;left:120px;width:160px;animation-delay:1s"></i>
+        <i class="ec-rip" style="bottom:18px;left:50px;width:140px;animation-delay:.5s"></i>
+        <i class="ec-rip" style="bottom:40px;right:40px;width:110px;animation-delay:1.5s"></i>
+        <div style="position:relative;z-index:2;width:200px;height:200px;margin-bottom:28px">
+          <div style="position:absolute;top:6px;left:30px;width:140px;height:160px;border-radius:16px;background:#3A2F58;opacity:.5;box-shadow:0 6px 18px rgba(20,10,30,.4);transform:rotate(7deg)"></div>
+          <div style="position:absolute;top:10px;left:18px;width:144px;height:162px;border-radius:16px;background:#42355F;opacity:.8;box-shadow:0 6px 18px rgba(20,10,30,.4);transform:rotate(-4deg)"></div>
+          <div style="position:absolute;top:14px;left:8px;width:150px;height:172px;border-radius:16px;background:linear-gradient(160deg,#FBF4E8,#EBDCC8);box-shadow:0 12px 30px rgba(20,10,30,.5);overflow:hidden">
+            <svg style="position:absolute;top:16px;left:50%;transform:translateX(-50%)" width="56" height="44" viewBox="0 0 56 46"><path d="M18 5 L38 5 L54 15 L48 25 L42 20 L42 44 L14 44 L14 20 L8 25 L2 15 Z" fill="#E8DBC0"/><path d="M18 5 L28 13 L38 5 L33 9 L28 15 L23 9 Z" fill="#D6C5A2"/><line x1="22" y1="24" x2="22" y2="42" stroke="#D6C5A2" stroke-width="1"/><line x1="28" y1="24" x2="28" y2="42" stroke="#D6C5A2" stroke-width="1"/><line x1="34" y1="24" x2="34" y2="42" stroke="#D6C5A2" stroke-width="1"/></svg>
+            <svg style="position:absolute;top:57px;left:50%;transform:translateX(-50%)" width="46" height="56" viewBox="0 0 48 64"><path d="M8 2 L40 2 L40 10 L38 62 L27 62 L24 20 L21 62 L10 62 L8 10 Z" fill="#C49A60"/><line x1="24" y1="12" x2="24" y2="60" stroke="#A87E48" stroke-width="1"/><path d="M8 2 L40 2 L40 8 L8 8 Z" fill="#B0894F"/></svg>
+            <svg style="position:absolute;top:109px;left:50%;transform:translateX(-50%)" width="40" height="25" viewBox="0 0 46 34"><path d="M4 22 Q4 14 12 14 L20 14 L34 24 L42 26 Q44 30 40 31 L8 31 Q3 30 4 22Z" fill="#9C6B3F"/><path d="M40 31 L42 26 L44 30 Z" fill="#7A4F2A"/></svg>
+            <svg style="position:absolute;top:20px;right:8px;transform:rotate(6deg)" width="26" height="28" viewBox="0 0 38 40"><path d="M11 14 Q11 4 19 4 Q27 4 27 14" fill="none" stroke="#8A5A35" stroke-width="2.5"/><path d="M6 14 L32 14 L34 36 L4 36 Z" fill="#A86E3E"/><path d="M6 14 L32 14 L31 19 L7 19 Z" fill="#8A5A35"/><rect x="16" y="22" width="6" height="4" rx="1" fill="#D4AF37"/></svg>
+          </div>
+          <div style="position:absolute;bottom:0;right:2px;background:#FFD45A;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:600;color:#3A2E0A;box-shadow:0 0 20px rgba(255,212,90,.7);z-index:10">&infin;</div>
+        </div>
+        <div style="position:relative;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#FFF3E0;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 8px rgba(40,20,40,.5)">Unlimited<br>Outfit Boards</div>
+        <div style="position:relative;z-index:2;font-size:13.5px;color:rgba(255,230,200,.62);line-height:1.6;max-width:250px;text-shadow:0 1px 5px rgba(40,20,40,.4)">Free plans cap at 6 outfits. Style a complete look for every occasion — travel, events, every season.</div>
+      </div>
+      <!-- EVE SLIDE 3: Feed Boost -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;overflow:hidden">
+        
+        <!-- dusk sky + skyline backdrop -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#5B6FB5 0%,#9A7FB8 22%,#D98FA8 42%,#F4A98C 58%,#FBC98E 70%)"></div>
+        <div style="position:absolute;top:30px;right:50px;width:130px;height:70px;background:radial-gradient(ellipse,rgba(255,220,150,.5),transparent 70%)"></div>
+        <div style="position:absolute;top:44px;right:88px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#FFF0C8,#FFB870);opacity:.9;box-shadow:0 0 22px rgba(255,200,130,.6)"></div>
+        <!-- far buildings along a low band -->
+        <div style="position:absolute;bottom:64px;left:0;right:0;height:40px;opacity:.5">
+          <div class="ec-b" style="bottom:0;left:0;width:24px;height:24px"></div>
+          <div class="ec-b" style="bottom:0;left:22px;width:30px;height:32px"></div>
+          <div class="ec-b" style="bottom:0;left:56px;width:22px;height:18px"></div>
+          <div class="ec-b" style="bottom:0;left:300px;width:28px;height:26px"></div>
+          <div class="ec-b" style="bottom:0;left:332px;width:24px;height:34px"></div>
+          <div class="ec-b" style="bottom:0;right:10px;width:30px;height:22px"></div>
+        </div>
+        <div class="ec-m" style="bottom:64px;left:6px;width:30px;height:40px"><i class="ec-w" style="top:6px;left:6px;opacity:.6"></i><i class="ec-w" style="top:6px;left:18px;opacity:.45"></i><i class="ec-w" style="top:16px;left:11px;opacity:.55"></i><i class="ec-w" style="top:28px;left:6px;opacity:.5"></i></div>
+        <div class="ec-m2" style="bottom:64px;left:40px;width:24px;height:30px"><i class="ec-w" style="top:6px;left:6px;opacity:.55"></i><i class="ec-w" style="top:16px;left:13px;opacity:.6"></i></div>
+        <div class="ec-m" style="bottom:64px;right:6px;width:28px;height:44px"><i class="ec-w" style="top:6px;left:6px;opacity:.6"></i><i class="ec-w" style="top:6px;left:17px;opacity:.4"></i><i class="ec-w" style="top:18px;left:11px;opacity:.55"></i></div>
+        <div class="ec-m2" style="bottom:64px;right:38px;width:22px;height:32px"><i class="ec-w" style="top:6px;left:6px;opacity:.55"></i><i class="ec-w" style="top:16px;left:11px;opacity:.6"></i></div>
+        <!-- water at bottom -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:64px;background:linear-gradient(180deg,#B0738A 0%,#7C6090 35%,#574F82 70%,#3E3A68 100%)"></div>
+        <div style="position:absolute;bottom:63px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,225,180,.5),rgba(255,225,180,.25),transparent)"></div>
+        <i class="ec-rip" style="bottom:48px;left:40px;width:120px;animation-delay:0s"></i>
+        <i class="ec-rip" style="bottom:32px;left:120px;width:160px;animation-delay:1s"></i>
+        <i class="ec-rip" style="bottom:18px;left:50px;width:140px;animation-delay:.5s"></i>
+        <i class="ec-rip" style="bottom:40px;right:40px;width:110px;animation-delay:1.5s"></i>
+        <div style="position:relative;z-index:2;width:200px;margin-bottom:28px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border-radius:13px;background:linear-gradient(135deg,rgba(255,212,90,.28),rgba(71,58,102,.85));border:1.5px solid rgba(255,212,90,.7);padding:12px;box-shadow:0 6px 24px rgba(255,212,90,.25)">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+                <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(160deg,#F5A8BE,#E07898);flex-shrink:0"></div>
+                <div style="flex:1;text-align:left"><div style="height:7px;width:64%;border-radius:4px;background:rgba(255,240,220,.5);margin-bottom:5px"></div><div style="height:5px;width:40%;border-radius:4px;background:rgba(255,240,220,.28)"></div></div>
+                <div style="background:#FFD45A;border-radius:5px;padding:3px 8px;font-size:9px;font-weight:600;color:#3A2E0A;letter-spacing:.05em;flex-shrink:0">PRO &#10038;</div>
+              </div>
+              <div style="display:flex;gap:6px;justify-content:center">
+                <div style="width:36px;height:44px;border-radius:6px;background:#F5A8BE"></div>
+                <div style="width:36px;height:44px;border-radius:6px;background:#7BA8E0"></div>
+                <div style="width:36px;height:44px;border-radius:6px;background:#D4AF37"></div>
+              </div>
+            </div>
+            <div style="border-radius:13px;background:rgba(71,58,102,.5);border:0.5px solid rgba(255,210,160,.12);padding:10px 13px;display:flex;align-items:center;gap:9px;opacity:.6">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(104,152,204,.5);flex-shrink:0"></div>
+              <div style="flex:1;text-align:left"><div style="height:6px;width:60%;border-radius:4px;background:rgba(255,240,220,.28);margin-bottom:4px"></div><div style="height:4px;width:40%;border-radius:4px;background:rgba(255,240,220,.16)"></div></div>
+            </div>
+            <div style="border-radius:13px;background:rgba(71,58,102,.5);border:0.5px solid rgba(255,210,160,.12);padding:10px 13px;display:flex;align-items:center;gap:9px;opacity:.35">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(245,168,190,.5);flex-shrink:0"></div>
+              <div style="flex:1;text-align:left"><div style="height:6px;width:50%;border-radius:4px;background:rgba(255,240,220,.28);margin-bottom:4px"></div><div style="height:4px;width:32%;border-radius:4px;background:rgba(255,240,220,.16)"></div></div>
+            </div>
+          </div>
+          <div style="position:absolute;right:-16px;top:-12px;background:#FFD45A;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(255,212,90,.7);z-index:10"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="#3A2E0A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11.5V3M3 6.5L7 2.5l4 4"/></svg></div>
+        </div>
+        <div style="position:relative;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#FFF3E0;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 8px rgba(40,20,40,.5)">Feed Boost</div>
+        <div style="position:relative;z-index:2;font-size:13.5px;color:rgba(255,230,200,.62);line-height:1.6;max-width:250px;text-shadow:0 1px 5px rgba(40,20,40,.4)">Your shared outfits rise to the top of Explore — more eyes, more likes, more followers.</div>
+      </div>
+      <!-- EVE SLIDE 4: CTA -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;overflow:hidden">
+        
+        <!-- dusk sky + skyline backdrop -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#5B6FB5 0%,#9A7FB8 22%,#D98FA8 42%,#F4A98C 58%,#FBC98E 70%)"></div>
+        <div style="position:absolute;top:30px;right:50px;width:130px;height:70px;background:radial-gradient(ellipse,rgba(255,220,150,.5),transparent 70%)"></div>
+        <div style="position:absolute;top:44px;right:88px;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle,#FFF0C8,#FFB870);opacity:.9;box-shadow:0 0 22px rgba(255,200,130,.6)"></div>
+        <!-- far buildings along a low band -->
+        <div style="position:absolute;bottom:64px;left:0;right:0;height:40px;opacity:.5">
+          <div class="ec-b" style="bottom:0;left:0;width:24px;height:24px"></div>
+          <div class="ec-b" style="bottom:0;left:22px;width:30px;height:32px"></div>
+          <div class="ec-b" style="bottom:0;left:56px;width:22px;height:18px"></div>
+          <div class="ec-b" style="bottom:0;left:300px;width:28px;height:26px"></div>
+          <div class="ec-b" style="bottom:0;left:332px;width:24px;height:34px"></div>
+          <div class="ec-b" style="bottom:0;right:10px;width:30px;height:22px"></div>
+        </div>
+        <div class="ec-m" style="bottom:64px;left:6px;width:30px;height:40px"><i class="ec-w" style="top:6px;left:6px;opacity:.6"></i><i class="ec-w" style="top:6px;left:18px;opacity:.45"></i><i class="ec-w" style="top:16px;left:11px;opacity:.55"></i><i class="ec-w" style="top:28px;left:6px;opacity:.5"></i></div>
+        <div class="ec-m2" style="bottom:64px;left:40px;width:24px;height:30px"><i class="ec-w" style="top:6px;left:6px;opacity:.55"></i><i class="ec-w" style="top:16px;left:13px;opacity:.6"></i></div>
+        <div class="ec-m" style="bottom:64px;right:6px;width:28px;height:44px"><i class="ec-w" style="top:6px;left:6px;opacity:.6"></i><i class="ec-w" style="top:6px;left:17px;opacity:.4"></i><i class="ec-w" style="top:18px;left:11px;opacity:.55"></i></div>
+        <div class="ec-m2" style="bottom:64px;right:38px;width:22px;height:32px"><i class="ec-w" style="top:6px;left:6px;opacity:.55"></i><i class="ec-w" style="top:16px;left:11px;opacity:.6"></i></div>
+        <!-- water at bottom -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:64px;background:linear-gradient(180deg,#B0738A 0%,#7C6090 35%,#574F82 70%,#3E3A68 100%)"></div>
+        <div style="position:absolute;bottom:63px;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(255,225,180,.5),rgba(255,225,180,.25),transparent)"></div>
+        <i class="ec-rip" style="bottom:48px;left:40px;width:120px;animation-delay:0s"></i>
+        <i class="ec-rip" style="bottom:32px;left:120px;width:160px;animation-delay:1s"></i>
+        <i class="ec-rip" style="bottom:18px;left:50px;width:140px;animation-delay:.5s"></i>
+        <i class="ec-rip" style="bottom:40px;right:40px;width:110px;animation-delay:1.5s"></i>
+        <div style="position:relative;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:40px;font-weight:500;color:#FFF3E0;margin-bottom:8px;letter-spacing:.03em;text-shadow:0 1px 10px rgba(40,20,40,.6)">Szafa Pro</div>
+        <div style="position:relative;z-index:2;font-size:12px;color:#FFD45A;letter-spacing:.14em;text-transform:uppercase;margin-bottom:26px;font-style:italic">One time &middot; Forever</div>
+        <div class="pro-reason" style="position:relative;z-index:2;font-size:13.5px;color:rgba(255,230,200,.62);line-height:1.6;margin-bottom:30px;max-width:270px"></div>
+        <button onclick="goPro()" style="position:relative;z-index:2;width:100%;max-width:300px;padding:16px;border-radius:14px;border:none;background:#FFD45A;font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-weight:500;color:#3A2E0A;cursor:pointer;letter-spacing:.04em;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin-bottom:12px;box-shadow:0 6px 24px rgba(255,212,90,.5)">Unlock Pro &middot; $10</button>
+        <button onclick="closeProModal()" style="position:relative;z-index:2;background:none;border:none;font-size:13px;color:rgba(255,230,200,.62);cursor:pointer;font-family:'Jost',sans-serif;padding:8px;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Maybe later</button>
+      </div>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:10;padding:16px 24px calc(34px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;background:transparent">
+      <button class="pro-backbtn" onclick="proPrevSlide()" style="background:rgba(255,255,255,.18);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;visibility:hidden">&larr; Back</button>
+      <div class="pro-dotwrap" style="display:flex;gap:6px;align-items:center;position:absolute;left:50%;transform:translateX(-50%)">
+        <div class="pro-dot on"></div><div class="pro-dot"></div><div class="pro-dot"></div><div class="pro-dot"></div>
+      </div>
+      <button class="pro-nextbtn" onclick="proNextSlide()" style="background:rgba(255,255,255,.18);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Next &rarr;</button>
     </div>
   </div>
 

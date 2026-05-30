@@ -768,6 +768,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 
   /* Match page/body background to nav bar so any sub-pixel gap is invisible. */
   html,body{background:rgba(255,255,255,.97)}
+  body.pro-open,html:has(body.pro-open){background:#0A0A14}
   .page{background:rgba(255,255,255,.97)}
 
   /* ── Hide the fake status bar ── */
@@ -1348,7 +1349,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.2</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.3</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2947,6 +2948,8 @@ function openProSlideshow(){
   // Hide bottom nav so the dark full-screen slides aren't broken by the white bar
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='none';
+  // Dark body so the home-indicator safe area is dark, not white
+  document.body.classList.add('pro-open');
 }
 
 function closeProModal(){
@@ -2957,6 +2960,7 @@ function closeProModal(){
   // Restore bottom nav
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='';
+  document.body.classList.remove('pro-open');
 }
 
 function proNextSlide(){
@@ -5567,7 +5571,7 @@ checkProSuccess();   // ← detect ?pro=1 redirect back from Stripe
 initAuth();
 </script>
   <div id="pro-modal-bg" style="position:fixed;inset:0;z-index:300;background:rgba(0,0,0,0);pointer-events:none;transition:background .3s"></div>
-  <div id="pro-modal-sheet" style="position:fixed;inset:0;z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);display:flex;flex-direction:column;overflow:hidden">
+  <div id="pro-modal-sheet" style="position:fixed;top:0;left:0;right:0;bottom:0;height:100dvh;z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);display:flex;flex-direction:column;overflow:hidden">
 
     <!-- Close -->
     <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Szafa — Your Digital Wardrobe</title>
 
 <!-- ── PWA: iOS Add to Home Screen ── -->
@@ -35,7 +35,7 @@
   /* Height of the simulated status bar; full-screen overlays start below this */
   --sbar-h:54px;
 }
-html,body{height:100%;background:#DDD9D0;font-family:'Jost',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+html,body{height:100%;background:#DDD9D0;font-family:'Jost',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;touch-action:manipulation}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 80% 10%,rgba(192,146,88,.06) 0,transparent 60%),radial-gradient(ellipse at 10% 90%,rgba(170,136,152,.05) 0,transparent 55%);pointer-events:none;z-index:0}
 .page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 16px 44px;position:relative;z-index:1}
 
@@ -1351,7 +1351,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.0</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.1</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -5597,12 +5597,18 @@ loadS();
 initPWA();           // ← sets up manifest, icon, SW, install banner
 initPullToRefresh(); // ← pull-to-refresh gesture on touch devices
 checkProSuccess();   // ← detect ?pro=1 redirect back from Stripe
+// ─── Block pinch-gesture zoom (double-tap zoom handled by touch-action:manipulation) ──
+(function(){
+  document.addEventListener('gesturestart', function(e){ e.preventDefault(); }, { passive:false });
+  document.addEventListener('gesturechange', function(e){ e.preventDefault(); }, { passive:false });
+})();
+
 // Splash is visible by default. initAuth() resolves the session then either
 // goes straight to Home (session exists) or shows the auth screen (no session).
 initAuth();
 </script>
   <div id="pro-modal-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#0A0A14;opacity:0;pointer-events:none;transition:opacity .3s"></div>
-  <div id="pro-modal-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden">
+  <div id="pro-modal-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#0A0A14;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden;touch-action:manipulation">
 
     <!-- Close -->
     <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">
@@ -5784,7 +5790,7 @@ initAuth();
     <!-- Nav: Back · dots · Next (absolutely pinned to bottom — cannot shift) -->
     <div style="position:absolute;left:0;right:0;bottom:0;z-index:10;padding:16px 24px calc(34px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;background:#0A0A14">
       <!-- Back -->
-      <button id="pro-back-btn" onclick="proPrevSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;visibility:hidden">← Back</button>
+      <button id="pro-back-btn" onclick="proPrevSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;visibility:hidden">← Back</button>
       <!-- Centered dots -->
       <div style="display:flex;gap:6px;align-items:center;position:absolute;left:50%;transform:translateX(-50%)" id="pro-dots">
         <div class="pro-dot on"></div>
@@ -5793,7 +5799,7 @@ initAuth();
         <div class="pro-dot"></div>
       </div>
       <!-- Next -->
-      <button id="pro-next-btn" onclick="proNextSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent">Next →</button>
+      <button id="pro-next-btn" onclick="proNextSlide()" style="background:rgba(255,255,255,.08);border:none;border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#fff;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Next →</button>
     </div>
 
   </div>

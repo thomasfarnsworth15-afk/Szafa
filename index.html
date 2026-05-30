@@ -1348,7 +1348,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.6.9</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.0</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -1418,50 +1418,32 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
   </div>
 
   <!-- Szafa Pro Upgrade Modal -->
-  <!-- ══ PRO INTRO SHEET (shows first when limit reached or card tapped) ══ -->
-  <div class="bsheet-bg" id="pro-intro-bg" onclick="closeProIntro()">
-    <div class="bsheet" id="pro-intro-sheet" onclick="event.stopPropagation()" style="text-align:center">
-      <div class="bsheet-handle"></div>
-      <div style="padding:8px 28px 28px">
-        <!-- Bow icon -->
-        <div style="margin:8px auto 18px;width:52px;height:38px">
-          <svg width="52" height="38" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="var(--bow-main)"/>
-            <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
-            <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
-            <circle cx="5.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
-            <circle cx="7.2" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
-            <circle cx="4.8" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
-            <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="var(--bow-main)"/>
-            <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
-            <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
-            <circle cx="18.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
-            <circle cx="16.8" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
-            <circle cx="19.2" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
-            <path d="M11.4 9.4C10.4 11.8 9.5 14.2 9 16.6" stroke="var(--bow-main)" stroke-width="1.1" stroke-linecap="round"/>
-            <path d="M12.6 9.4C13.6 11.8 14.5 14.2 15 16.6" stroke="var(--bow-main)" stroke-width="1.1" stroke-linecap="round"/>
-            <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="var(--bow-knot)"/>
-            <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="var(--bow-knothi)" opacity=".65"/>
-          </svg>
-        </div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400;color:var(--ink);margin-bottom:6px">Szafa Pro</div>
-        <div style="font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:22px" id="pro-intro-reason">Upgrade to build unlimited outfits and unlock everything Szafa has to offer.</div>
-
-        <!-- Feature list -->
-        <div style="background:var(--tag);border-radius:14px;padding:16px 18px;margin-bottom:22px;text-align:left">
-          <div class="pro-feat">✦ Unlimited closet space</div>
-          <div class="pro-feat">✦ Unlimited outfits</div>
-          <div class="pro-feat">✦ Priority feed ranking</div>
-          <div class="pro-feat" style="margin-bottom:0">✦ Support independent development</div>
-        </div>
-
-        <!-- Price -->
-        <div style="font-size:28px;font-weight:500;color:var(--ink);margin-bottom:4px">$10</div>
-        <div style="font-size:11px;color:var(--dim);margin-bottom:20px;letter-spacing:.04em">ONE-TIME · NO SUBSCRIPTION</div>
-
-        <button class="btn-primary" style="width:100%;margin-bottom:10px" onclick="openProSlideshow()">Upgrade to Pro</button>
-        <button class="btn-ghost" style="width:100%" onclick="closeProIntro()">Maybe later</button>
+  <!-- ══ LIMIT REACHED POPUP (compact, funnels to slideshow) ══ -->
+  <div id="pro-intro-bg" onclick="closeProIntro()" style="position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0);pointer-events:none;transition:background .25s;display:flex;align-items:center;justify-content:center;padding:32px">
+    <div id="pro-intro-sheet" onclick="event.stopPropagation()" style="background:var(--w);border-radius:20px;padding:28px 24px;max-width:300px;width:100%;text-align:center;transform:scale(.9);opacity:0;transition:transform .28s cubic-bezier(.32,1.3,.5,1),opacity .2s;box-shadow:0 16px 48px rgba(0,0,0,.25)">
+      <!-- Bow icon -->
+      <div style="margin:0 auto 14px;width:44px;height:32px">
+        <svg width="44" height="32" viewBox="0 0 24 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 8C10 5 3 4 3 7.5C3 11 10 10 12 8Z" fill="var(--bow-main)"/>
+          <path d="M12 8C10 9 4 10 3 8.5C4 11 10 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
+          <path d="M12 8C10 5 4 4.5 3 6C4 4.2 9 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
+          <circle cx="5.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <circle cx="7.2" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <circle cx="4.8" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <path d="M12 8C14 5 21 4 21 7.5C21 11 14 10 12 8Z" fill="var(--bow-main)"/>
+          <path d="M12 8C14 9 20 10 21 8.5C20 11 14 10 12 8Z" fill="var(--bow-dark)" opacity=".38"/>
+          <path d="M12 8C14 5 20 4.5 21 6C20 4.2 15 4.5 12 8Z" fill="var(--bow-light)" opacity=".55"/>
+          <circle cx="18.5" cy="5.8" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <circle cx="16.8" cy="8.2" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <circle cx="19.2" cy="8.4" r="1.2" fill="var(--bow-dot)" opacity=".82"/>
+          <ellipse cx="12" cy="8" rx="2.2" ry="1.8" fill="var(--bow-knot)"/>
+          <ellipse cx="12" cy="8" rx="1.1" ry=".9" fill="var(--bow-knothi)" opacity=".65"/>
+        </svg>
       </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:500;color:var(--ink);margin-bottom:8px" id="pro-intro-title">You've run out of space</div>
+      <div style="font-size:13px;color:var(--mid);line-height:1.55;margin-bottom:22px" id="pro-intro-reason">Upgrade to Pro for unlimited closet space and outfits.</div>
+      <button class="btn-primary" style="width:100%;margin-bottom:9px" onclick="openProSlideshow()">View Pro benefits</button>
+      <button class="btn-ghost" style="width:100%" onclick="closeProIntro()">Maybe later</button>
     </div>
   </div>
 
@@ -3148,21 +3130,31 @@ const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/REPLACE_WITH_YOUR_LINK';
 let _proSlide = 0;
 const PRO_SLIDE_COUNT = 4;
 
-// Entry point — shows the intro bottom sheet first (the original page)
+// Entry point — shows the compact "out of space" popup when a limit is hit
 function openProModal(reason=''){
+  const title = document.getElementById('pro-intro-title');
   const msg = document.getElementById('pro-intro-reason');
-  if(msg){
-    if(reason==='outfits') msg.textContent=`You've reached the ${FREE_OUTFIT_LIMIT} outfit limit. Upgrade for unlimited outfits, unlimited closet space, and feed priority.`;
-    else if(reason==='items') msg.textContent=`You've reached the ${FREE_ITEM_LIMIT} item limit. Upgrade for unlimited closet space, unlimited outfits, and feed priority.`;
-    else msg.textContent='Upgrade to build unlimited outfits and unlock everything Szafa has to offer.';
+  if(reason==='outfits'){
+    if(title) title.textContent="You've run out of outfits";
+    if(msg) msg.textContent=`Free plans hold ${FREE_OUTFIT_LIMIT} outfits. Go Pro for unlimited outfits, closet space, and feed priority.`;
+  } else if(reason==='items'){
+    if(title) title.textContent="You've run out of space";
+    if(msg) msg.textContent=`Free plans hold ${FREE_ITEM_LIMIT} items. Go Pro for unlimited closet space, outfits, and feed priority.`;
+  } else {
+    if(title) title.textContent="Unlock Szafa Pro";
+    if(msg) msg.textContent='Unlimited closet space, unlimited outfits, and priority in the feed.';
   }
-  document.getElementById('pro-intro-bg').classList.add('open');
-  document.getElementById('pro-intro-sheet').classList.add('open');
+  const bg = document.getElementById('pro-intro-bg');
+  const sheet = document.getElementById('pro-intro-sheet');
+  if(bg){ bg.style.pointerEvents='auto'; bg.style.background='rgba(0,0,0,.4)'; }
+  if(sheet){ requestAnimationFrame(()=>{ sheet.style.transform='scale(1)'; sheet.style.opacity='1'; }); }
 }
 
 function closeProIntro(){
-  document.getElementById('pro-intro-bg').classList.remove('open');
-  document.getElementById('pro-intro-sheet').classList.remove('open');
+  const bg = document.getElementById('pro-intro-bg');
+  const sheet = document.getElementById('pro-intro-sheet');
+  if(sheet){ sheet.style.transform='scale(.9)'; sheet.style.opacity='0'; }
+  if(bg){ bg.style.background='rgba(0,0,0,0)'; setTimeout(()=>{ bg.style.pointerEvents='none'; },250); }
 }
 
 // Called by the "Upgrade to Pro" button on the intro sheet

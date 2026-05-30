@@ -384,6 +384,8 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ap-reset:active{background:var(--tag)}
 .pro-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.2);transition:all .2s}
 .pro-dot.on{width:20px;border-radius:3px;background:#D4AF37}
+#pro-slides-wrap{transform:translate3d(0,0,0);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.pro-slide{flex:0 0 100%;max-width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 @keyframes uc-shoot{
   0%{transform:translateX(-80px) translateY(8px);opacity:0}
   15%{opacity:1}
@@ -1349,7 +1351,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.6</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.7</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2936,7 +2938,11 @@ function closeProIntro(){
 // Called by the "Upgrade to Pro" button on the intro sheet
 function openProSlideshow(){
   closeProIntro();
+  _proAnimating = false;
   _proSlide = 0;
+  // Snap to slide 0 instantly without animation
+  const wrap0 = document.getElementById('pro-slides-wrap');
+  if(wrap0){ wrap0.style.transition='none'; wrap0.style.transform='translate3d(0,0,0)'; void wrap0.offsetWidth; wrap0.style.transition=''; }
   _proGoToSlide(0);
   // Set reason on final CTA slide
   const msg = document.getElementById('pro-modal-reason');
@@ -2971,17 +2977,29 @@ function closeProModal(){
   if(tc){ tc.setAttribute('content', tc.getAttribute('data-prev')||'#1A1916'); }
 }
 
+let _proAnimating = false;
 function proNextSlide(){
+  if(_proAnimating) return;
   if(_proSlide < PRO_SLIDE_COUNT - 1) _proGoToSlide(_proSlide + 1);
 }
 function proPrevSlide(){
+  if(_proAnimating) return;
   if(_proSlide > 0) _proGoToSlide(_proSlide - 1);
 }
 
 function _proGoToSlide(n){
+  n = Math.max(0, Math.min(PRO_SLIDE_COUNT - 1, n)); // clamp
+  if(n === _proSlide && document.getElementById('pro-slides-wrap')?.style.transform) {
+    // still update controls but skip if identical
+  }
   _proSlide = n;
   const wrap = document.getElementById('pro-slides-wrap');
-  if(wrap) wrap.style.transform=`translateX(-${n * 100}%)`;
+  if(wrap){
+    _proAnimating = true;
+    wrap.style.transform = `translate3d(-${n * 100}%,0,0)`;
+    clearTimeout(wrap._proTo);
+    wrap._proTo = setTimeout(()=>{ _proAnimating = false; }, 400);
+  }
   document.querySelectorAll('.pro-dot').forEach((d,i)=>d.classList.toggle('on',i===n));
   const nextBtn = document.getElementById('pro-next-btn');
   const backBtn = document.getElementById('pro-back-btn');
@@ -2989,21 +3007,26 @@ function _proGoToSlide(n){
   if(backBtn) backBtn.style.visibility = n === 0 ? 'hidden' : 'visible';
 }
 
-// Touch swipe support for pro slideshow
+// Touch swipe support for pro slideshow — only when sheet is open
 (function(){
-  let startX=0, dragging=false;
+  let startX=0, startY=0, dragging=false;
+  function sheetOpen(){
+    const s=document.getElementById('pro-modal-sheet');
+    return s && s.style.transform==='translateY(0)';
+  }
   document.addEventListener('touchstart',e=>{
-    const sheet=document.getElementById('pro-modal-sheet');
-    if(!sheet||sheet.style.transform!=='translateY(0)') return;
-    startX=e.touches[0].clientX; dragging=true;
+    if(!sheetOpen()) return;
+    startX=e.touches[0].clientX; startY=e.touches[0].clientY; dragging=true;
   },{passive:true});
   document.addEventListener('touchend',e=>{
-    if(!dragging) return; dragging=false;
-    const sheet=document.getElementById('pro-modal-sheet');
-    if(!sheet||sheet.style.transform!=='translateY(0)') return;
+    if(!dragging||!sheetOpen()) return; dragging=false;
+    if(_proAnimating) return;
     const dx=e.changedTouches[0].clientX - startX;
-    if(dx < -40 && _proSlide < PRO_SLIDE_COUNT-1) _proGoToSlide(_proSlide+1);
-    if(dx > 40 && _proSlide > 0) _proGoToSlide(_proSlide-1);
+    const dy=e.changedTouches[0].clientY - startY;
+    // Only treat as horizontal swipe if mostly horizontal and past threshold
+    if(Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy)*1.4) return;
+    if(dx < 0 && _proSlide < PRO_SLIDE_COUNT-1) _proGoToSlide(_proSlide+1);
+    else if(dx > 0 && _proSlide > 0) _proGoToSlide(_proSlide-1);
   },{passive:true});
 })();
 function goPro(){

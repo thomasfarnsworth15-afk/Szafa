@@ -1282,7 +1282,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.6.2</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.6.3</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -1851,9 +1851,10 @@ let curScreen = 0;
 let activeFilter = 'all';
 let closetSearch = '';
 let myStyleTags = []; // loaded from DB, persisted to users.style_tags
-let isPro = false;   // loaded from DB, unlocked by one-time $15 payment
+let isPro = false;   // loaded from DB, unlocked by one-time $10 payment
 let isPrivateAccount = true; // loaded from DB, default private
 const FREE_OUTFIT_LIMIT = 6;
+const FREE_ITEM_LIMIT   = 20;
 
 const STYLE_TAGS = ['Minimal','Streetwear','Vintage','Preppy','Y2K','Business Casual','Boho','Cottagecore','Dark Academia','Athleisure','Old Money','Grunge'];
 let selectedCat = null;
@@ -1938,7 +1939,16 @@ function go(n){
 }
 
 function goAdd(){
+  // Hard block at limit
+  if(!isPro && S.items.length >= FREE_ITEM_LIMIT){
+    openProModal('items');
+    return;
+  }
   go(2);
+  // Soft warning when 2 slots remain
+  if(!isPro && S.items.length >= FREE_ITEM_LIMIT - 2){
+    showToast(`${FREE_ITEM_LIMIT - S.items.length} item slot${FREE_ITEM_LIMIT-S.items.length===1?'':'s'} left on free plan`);
+  }
   const hadDraft = restoreFormDraft();
   if(hadDraft){
     // If a URL was saved in the draft go straight to stage 2
@@ -2103,7 +2113,14 @@ function renderProfile(){
   const badge=document.getElementById('p-plan-badge');
   if(badge){
     if(isPro){badge.textContent='Pro ✦';badge.style.cssText='background:#1A1916;color:#fff;border-color:#1A1916;cursor:default';badge.onclick=null;}
-    else{const used=S.outfits.length;badge.textContent=`Free · ${used}/${FREE_OUTFIT_LIMIT}`;badge.style.cssText='cursor:pointer';badge.onclick=()=>openProModal();}
+    else{
+      const usedOutfits=S.outfits.length;
+      const usedItems=S.items.length;
+      const atLimit=usedOutfits>=FREE_OUTFIT_LIMIT||usedItems>=FREE_ITEM_LIMIT;
+      badge.textContent=`Free · ${usedItems}/${FREE_ITEM_LIMIT} items · ${usedOutfits}/${FREE_OUTFIT_LIMIT} outfits`;
+      badge.style.cssText=`cursor:pointer${atLimit?';background:rgba(196,88,88,.1);border-color:rgba(196,88,88,.3);color:#C45858':''}`;
+      badge.onclick=()=>openProModal();
+    }
   }
   const hint=document.getElementById('p-style-hint'); if(hint) hint.textContent=myStyleTags.length?myStyleTags.slice(0,2).join(', ')+(myStyleTags.length>2?` +${myStyleTags.length-2}`:''):'';
   const vibeEl=document.getElementById('p-vibe');
@@ -2864,7 +2881,9 @@ const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/REPLACE_WITH_YOUR_LINK';
 function openProModal(reason=''){
   const msg=document.getElementById('pro-modal-reason');
   if(msg){
-    if(reason==='outfits') msg.textContent=`You've reached the ${FREE_OUTFIT_LIMIT} outfit limit on the free plan. Upgrade once for unlimited outfits and everything Szafa has to offer.`;
+    if(reason==='outfits') msg.textContent=`You've reached the ${FREE_OUTFIT_LIMIT} outfit limit on the free plan. Upgrade once for unlimited outfits, unlimited closet space, and everything Szafa has to offer.`;
+    else if(reason==='items') msg.textContent=`You've reached the ${FREE_ITEM_LIMIT} item limit on the free plan. Upgrade once for unlimited closet space, unlimited outfits, and everything Szafa has to offer.`;
+    else msg.textContent=`Upgrade once for unlimited closet space, unlimited outfits, and everything Szafa has to offer.`;
     else msg.textContent='Upgrade to unlock unlimited outfits and everything Szafa has to offer.';
   }
   document.getElementById('pro-modal-bg').classList.add('open');
@@ -3058,7 +3077,9 @@ function renderCloset(){
   // Favorites float to top of the grid
   items=[...items.filter(i=>i.liked), ...items.filter(i=>!i.liked)];
 
-  document.getElementById('closet-count').textContent=S.items.length+' items';
+  document.getElementById('closet-count').textContent=isPro
+    ? S.items.length+' items'
+    : `${S.items.length}/${FREE_ITEM_LIMIT} items`;
   if(!S.items.length){
     b.innerHTML=`<div class="empty-closet">
       <div class="empty-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="#C4C0BA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 13V11c0-.8.7-1.5 1.5-1.5S19 10.2 19 11V13"/><path d="M16 13L7.5 23H24.5L16 13Z"/></svg></div>
@@ -3311,6 +3332,11 @@ function resetAddStage(){
 }
 
 function submitManual(){
+  // Check item limit before anything else
+  if(!isPro && S.items.length >= FREE_ITEM_LIMIT){
+    openProModal('items');
+    return;
+  }
   const name=(document.getElementById('m-name').value||'').trim();
   if(!name){
     const el=document.getElementById('m-name');

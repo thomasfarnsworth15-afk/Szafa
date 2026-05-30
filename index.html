@@ -1249,7 +1249,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       <span style="flex:1;font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--ink);font-weight:400">Settings</span>
     </div>
     <!-- Pro upgrade card — hidden for Pro users -->
-    <div id="pro-upgrade-card" style="margin:4px 16px 16px;border-radius:14px;overflow:hidden;border:0.5px solid #E8DFB8;cursor:pointer;display:none" onclick="openProModal()">
+    <div id="pro-upgrade-card" style="margin:4px 16px 16px;border-radius:14px;overflow:hidden;border:0.5px solid #E8DFB8;cursor:pointer;display:none" onclick="openProSlideshow()">
       <div style="background:#0A0A14;padding:14px 16px;position:relative;overflow:hidden;height:76px;display:flex;align-items:center">
         <!-- Twinkling stars -->
         <div class="uc-st1" style="position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;top:10px;left:30px"></div>
@@ -1348,7 +1348,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.6.7</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.6.9</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -1529,12 +1529,26 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
           <!-- Back boards -->
           <div style="position:absolute;top:6px;left:30px;width:140px;height:160px;border-radius:16px;background:linear-gradient(160deg,#221b3c,#181228);border:1px solid rgba(255,255,255,.06);transform:rotate(7deg)"></div>
           <div style="position:absolute;top:10px;left:18px;width:144px;height:162px;border-radius:16px;background:linear-gradient(160deg,#241d40,#191330);border:1px solid rgba(255,255,255,.08);transform:rotate(-4deg)"></div>
-          <!-- Front board with real garments -->
-          <div style="position:absolute;top:14px;left:8px;width:150px;height:166px;border-radius:16px;background:linear-gradient(160deg,#F8F4EC,#E8DCC8);box-shadow:0 12px 32px rgba(0,0,0,.45);overflow:hidden">
-            <svg style="position:absolute;top:16px;left:14px;transform:rotate(-5deg)" width="46" height="50" viewBox="0 0 48 52"><path d="M16 4 L32 4 L44 14 L38 22 L34 18 L34 50 L14 50 L14 18 L10 22 L4 14 Z" fill="#F5A8BE"/><path d="M16 4 L24 11 L32 4 L28 8 L24 13 L20 8 Z" fill="#E07898"/></svg>
-            <svg style="position:absolute;top:20px;right:12px;transform:rotate(4deg)" width="40" height="48" viewBox="0 0 40 52"><path d="M14 4 L26 4 L24 12 L32 46 Q20 52 8 46 L16 12 Z" fill="#7BA8E0"/></svg>
-            <svg style="position:absolute;bottom:14px;left:16px;transform:rotate(3deg)" width="44" height="32" viewBox="0 0 46 34"><path d="M4 22 Q4 14 12 14 L20 14 L34 24 L42 26 Q44 30 40 31 L8 31 Q3 30 4 22Z" fill="#D4AF37"/></svg>
-            <svg style="position:absolute;bottom:16px;right:14px;transform:rotate(-4deg)" width="34" height="36" viewBox="0 0 38 40"><path d="M11 14 Q11 4 19 4 Q27 4 27 14" fill="none" stroke="#9878C8" stroke-width="2.5"/><path d="M6 14 L32 14 L34 36 L4 36 Z" fill="#C8B8E8"/></svg>
+          <!-- Front board: head-to-toe coordinated outfit -->
+          <div style="position:absolute;top:14px;left:8px;width:150px;height:172px;border-radius:16px;background:linear-gradient(160deg,#FAF6EF,#EFE7D8);box-shadow:0 12px 32px rgba(0,0,0,.45);overflow:hidden">
+            <!-- Cream knit sweater, top center -->
+            <svg style="position:absolute;top:16px;left:50%;transform:translateX(-50%)" width="56" height="44" viewBox="0 0 56 46">
+              <path d="M18 5 L38 5 L54 15 L48 25 L42 20 L42 44 L14 44 L14 20 L8 25 L2 15 Z" fill="#E8DBC0"/>
+              <path d="M18 5 L28 13 L38 5 L33 9 L28 15 L23 9 Z" fill="#D6C5A2"/>
+              <line x1="22" y1="24" x2="22" y2="42" stroke="#D6C5A2" stroke-width="1"/>
+              <line x1="28" y1="24" x2="28" y2="42" stroke="#D6C5A2" stroke-width="1"/>
+              <line x1="34" y1="24" x2="34" y2="42" stroke="#D6C5A2" stroke-width="1"/>
+            </svg>
+            <!-- Camel wide-leg trousers, middle -->
+            <svg style="position:absolute;top:57px;left:50%;transform:translateX(-50%)" width="46" height="56" viewBox="0 0 48 64">
+              <path d="M8 2 L40 2 L40 10 L38 62 L27 62 L24 20 L21 62 L10 62 L8 10 Z" fill="#C49A60"/>
+              <line x1="24" y1="12" x2="24" y2="60" stroke="#A87E48" stroke-width="1"/>
+              <path d="M8 2 L40 2 L40 8 L8 8 Z" fill="#B0894F"/>
+            </svg>
+            <!-- Cognac heel right at the trouser hem -->
+            <svg style="position:absolute;top:109px;left:50%;transform:translateX(-50%)" width="40" height="25" viewBox="0 0 46 34"><path d="M4 22 Q4 14 12 14 L20 14 L34 24 L42 26 Q44 30 40 31 L8 31 Q3 30 4 22Z" fill="#9C6B3F"/><path d="M40 31 L42 26 L44 30 Z" fill="#7A4F2A"/></svg>
+            <!-- Cognac bag tucked upper right -->
+            <svg style="position:absolute;top:20px;right:8px;transform:rotate(6deg)" width="26" height="28" viewBox="0 0 38 40"><path d="M11 14 Q11 4 19 4 Q27 4 27 14" fill="none" stroke="#8A5A35" stroke-width="2.5"/><path d="M6 14 L32 14 L34 36 L4 36 Z" fill="#A86E3E"/><path d="M6 14 L32 14 L31 19 L7 19 Z" fill="#8A5A35"/><rect x="16" y="22" width="6" height="4" rx="1" fill="#D4AF37"/></svg>
           </div>
           <div style="position:absolute;bottom:0;right:2px;background:#D4AF37;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:600;color:#0A0A14;box-shadow:0 0 20px rgba(212,175,55,.6);z-index:10">∞</div>
         </div>
@@ -2370,7 +2384,7 @@ function renderProfile(){
       const atLimit=usedOutfits>=FREE_OUTFIT_LIMIT||usedItems>=FREE_ITEM_LIMIT;
       badge.textContent=`Free · ${usedItems}/${FREE_ITEM_LIMIT} items · ${usedOutfits}/${FREE_OUTFIT_LIMIT} outfits`;
       badge.style.cssText=`cursor:pointer${atLimit?';background:rgba(196,88,88,.1);border-color:rgba(196,88,88,.3);color:#C45858':''}`;
-      badge.onclick=()=>openProModal();
+      badge.onclick=()=>openProSlideshow();
     }
   }
   const hint=document.getElementById('p-style-hint'); if(hint) hint.textContent=myStyleTags.length?myStyleTags.slice(0,2).join(', ')+(myStyleTags.length>2?` +${myStyleTags.length-2}`:''):'';

@@ -422,6 +422,17 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .ec-bx{position:absolute;width:4.5px;height:4.5px;border-radius:1px;background:#3A2E50;animation:ec-cycle 8s ease-in-out infinite}
 .ec-rs{position:absolute;width:4.5px;height:4.5px;border-radius:1px;background:#FFD45A;box-shadow:0 0 5px 1px rgba(255,212,90,.7);animation:ec-res 5s ease-in-out infinite}
 .ec-rip{position:absolute;height:1px;background:rgba(255,225,180,.25);animation:ec-ripple 4s ease-in-out infinite}
+/* ── MORNING card: dawn farm, swaying grass + bow-flowers ── */
+@keyframes mf-sway1{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes mf-sway2{0%,100%{transform:rotate(3deg)}50%{transform:rotate(-5deg)}}
+@keyframes mf-sway3{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(5deg)}}
+@keyframes mf-sway4{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(2deg)}}
+.mf-stem{position:absolute;bottom:0;transform-origin:bottom center}
+.mf-blade{position:absolute;bottom:0;transform-origin:bottom center;border-radius:50% 50% 0 0}
+.mf-s1{animation:mf-sway1 3.5s ease-in-out infinite}
+.mf-s2{animation:mf-sway2 4.2s ease-in-out infinite}
+.mf-s3{animation:mf-sway3 3.8s ease-in-out infinite}
+.mf-s4{animation:mf-sway4 4.6s ease-in-out infinite}
 .p-settings-overlay{position:absolute;top:0;bottom:0;left:0;right:0;background:var(--bg);z-index:160;transform:translateX(100%);transition:transform .3s cubic-bezier(.32,1,.45,1);overflow-y:auto;scrollbar-width:none}
 .p-settings-overlay.open{transform:none}
 .p-settings-overlay::-webkit-scrollbar{display:none}
@@ -1432,6 +1443,70 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
       </div>
     </div>
 
+    <!-- Pro upgrade card — MORNING (6am–1pm): dawn farm, bow-flowers swaying -->
+    <div id="pro-card-morning" style="margin:4px 16px 16px;border-radius:14px;overflow:hidden;border:0.5px solid #CFE2C0;cursor:pointer;display:none" onclick="openProSlideshow()">
+      <div style="position:relative;overflow:hidden;height:76px;background:linear-gradient(180deg,#FBD9C0 0%,#FBE3C8 22%,#E8E4D0 44%,#CFE0E8 70%,#BFD8E8 100%)">
+        <!-- rising sun -->
+        <div style="position:absolute;bottom:30px;left:42%;transform:translateX(-50%);width:80px;height:60px;background:radial-gradient(ellipse,rgba(255,224,170,.7),transparent 70%)"></div>
+        <div style="position:absolute;bottom:34px;left:42%;transform:translateX(-50%);width:24px;height:24px;border-radius:50%;background:radial-gradient(circle,#FFF4D8,#FFD98A);box-shadow:0 0 20px rgba(255,217,138,.7)"></div>
+        <!-- distant field bands -->
+        <div style="position:absolute;bottom:26px;left:0;right:0;height:18px;background:linear-gradient(180deg,#BBD08A,#A6C474)"></div>
+        <div style="position:absolute;bottom:24px;left:0;right:0;height:10px;background:linear-gradient(180deg,#A2C06C,#8FB45A)"></div>
+        <!-- perspective fence (SVG) -->
+        <svg viewBox="0 0 280 60" preserveAspectRatio="none" style="position:absolute;bottom:30px;left:-12px;width:300px;height:30px;overflow:visible"><line x1="6" y1="22" x2="250" y2="34" stroke="#9C7B4F" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="40" x2="250" y2="37" stroke="#8A6B45" stroke-width="2" stroke-linecap="round"/><line x1="6"   y1="18" x2="6"   y2="46" stroke="#9C7B4F" stroke-width="3"/><line x1="40"  y1="22" x2="40"  y2="44" stroke="#9C7B4F" stroke-width="2.6"/><line x1="78"  y1="25" x2="78"  y2="42" stroke="#8A6B45" stroke-width="2.3"/><line x1="118" y1="27" x2="118" y2="41" stroke="#8A6B45" stroke-width="2"/><line x1="158" y1="29" x2="158" y2="40" stroke="#7C6040" stroke-width="1.8"/><line x1="196" y1="31" x2="196" y2="39" stroke="#735838" stroke-width="1.6"/><line x1="228" y1="32" x2="228" y2="38" stroke="#6B5234" stroke-width="1.4"/></svg>
+        <!-- silo -->
+        <div style="position:absolute;bottom:24px;right:60px;width:14px;height:32px">
+          <div style="position:absolute;bottom:0;left:0;width:14px;height:27px;background:linear-gradient(90deg,#C9CDD0,#9DA3A8 60%,#7E848A);border-radius:2px 2px 0 0"></div>
+          <div style="position:absolute;bottom:25px;left:-1px;width:16px;height:7px;background:#8E9398;border-radius:50% 50% 0 0"></div>
+          <div style="position:absolute;bottom:8px;left:0;width:14px;height:1px;background:rgba(0,0,0,.12)"></div>
+          <div style="position:absolute;bottom:16px;left:0;width:14px;height:1px;background:rgba(0,0,0,.12)"></div>
+        </div>
+        <!-- barn -->
+        <div style="position:absolute;bottom:24px;right:14px;width:50px;height:34px">
+          <div style="position:absolute;bottom:0;left:3px;width:44px;height:23px;background:linear-gradient(180deg,#C0392B,#9E2D22)"></div>
+          <div style="position:absolute;bottom:23px;left:3px;width:0;height:0;border-left:22px solid transparent;border-right:22px solid transparent;border-bottom:7px solid #7A2018"></div>
+          <div style="position:absolute;bottom:28px;left:11px;width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-bottom:6px solid #7A2018"></div>
+          <div style="position:absolute;bottom:0;left:18px;width:14px;height:15px;background:#6E1F18;border:1px solid rgba(255,255,255,.45)"></div>
+          <div style="position:absolute;bottom:0;left:24.5px;width:1px;height:15px;background:rgba(255,255,255,.3)"></div>
+          <div style="position:absolute;bottom:17px;left:22px;width:6px;height:6px;background:#E8C04A;border:1px solid rgba(255,255,255,.4)"></div>
+        </div>
+        <!-- foreground grass -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:30px;background:linear-gradient(180deg,#7FB04E,#5E9438)"></div>
+        <!-- tall grass blades -->
+        <i class="mf-blade mf-s1" style="left:8px;width:3px;height:22px;background:#6FA840"></i>
+        <i class="mf-blade mf-s2" style="left:14px;width:2.5px;height:18px;background:#5E9838"></i>
+        <i class="mf-blade mf-s3" style="left:22px;width:3px;height:25px;background:#6FA840"></i>
+        <i class="mf-blade mf-s4" style="left:28px;width:2.5px;height:20px;background:#5E9838"></i>
+        <i class="mf-blade mf-s2" style="left:48px;width:3px;height:23px;background:#6FA840"></i>
+        <i class="mf-blade mf-s1" style="left:62px;width:2.5px;height:19px;background:#5E9838"></i>
+        <i class="mf-blade mf-s3" style="left:100px;width:3px;height:24px;background:#6FA840"></i>
+        <i class="mf-blade mf-s4" style="left:112px;width:2.5px;height:20px;background:#5E9838"></i>
+        <i class="mf-blade mf-s1" style="left:135px;width:3px;height:22px;background:#6FA840"></i>
+        <i class="mf-blade mf-s2" style="left:185px;width:2.5px;height:18px;background:#5E9838"></i>
+        <i class="mf-blade mf-s3" style="left:205px;width:3px;height:23px;background:#6FA840"></i>
+        <i class="mf-blade mf-s4" style="left:240px;width:2.5px;height:20px;background:#5E9838"></i>
+        <i class="mf-blade mf-s1" style="left:262px;width:3px;height:22px;background:#6FA840"></i>
+        <!-- bow-flower clusters -->
+        <div class="mf-stem mf-s2" style="left:70px;height:30px"><i style="position:absolute;bottom:0;left:1px;width:2px;height:30px;background:#4E8232"></i><i style="position:absolute;bottom:26px;left:-7px;width:17px;height:12px"><svg width="17" height="12" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div class="mf-stem mf-s3" style="left:82px;height:37px"><i style="position:absolute;bottom:0;left:1px;width:2px;height:37px;background:#4E8232"></i><i style="position:absolute;bottom:33px;left:-8px;width:19px;height:13px"><svg width="19" height="13" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F5EFE0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F5EFE0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8CFB8"/></svg></i></div>
+        <div class="mf-stem mf-s1" style="left:93px;height:32px"><i style="position:absolute;bottom:0;left:1px;width:2px;height:32px;background:#4E8232"></i><i style="position:absolute;bottom:28px;left:-7px;width:17px;height:12px"><svg width="17" height="12" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#C3AEDB"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#C3AEDB"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A088C0"/></svg></i></div>
+        <div class="mf-stem mf-s3" style="left:150px;height:34px"><i style="position:absolute;bottom:0;left:1px;width:2px;height:34px;background:#4E8232"></i><i style="position:absolute;bottom:30px;left:-7px;width:18px;height:13px"><svg width="18" height="13" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F2DC8E"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F2DC8E"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8BC60"/></svg></i></div>
+        <div class="mf-stem mf-s1" style="left:163px;height:40px"><i style="position:absolute;bottom:0;left:1px;width:2px;height:40px;background:#4E8232"></i><i style="position:absolute;bottom:36px;left:-8px;width:20px;height:14px"><svg width="20" height="14" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div class="mf-stem mf-s4" style="left:176px;height:33px"><i style="position:absolute;bottom:0;left:1px;width:2px;height:33px;background:#4E8232"></i><i style="position:absolute;bottom:29px;left:-7px;width:17px;height:12px"><svg width="17" height="12" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F5EFE0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F5EFE0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8CFB8"/></svg></i></div>
+        <div class="mf-stem mf-s4" style="left:34px;height:28px"><i style="position:absolute;bottom:0;left:1px;width:2px;height:28px;background:#4E8232"></i><i style="position:absolute;bottom:24px;left:-6px;width:15px;height:11px"><svg width="15" height="11" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#C3AEDB"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#C3AEDB"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A088C0"/></svg></i></div>
+        <div class="mf-stem mf-s2" style="left:45px;height:31px"><i style="position:absolute;bottom:0;left:1px;width:2px;height:31px;background:#4E8232"></i><i style="position:absolute;bottom:27px;left:-7px;width:16px;height:12px"><svg width="16" height="12" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F2DC8E"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F2DC8E"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8BC60"/></svg></i></div>
+        <!-- text -->
+        <div style="position:absolute;right:36px;top:28%;transform:translateY(-50%);text-align:right;z-index:6">
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:500;color:#3A4A2A;letter-spacing:.04em;line-height:1.1;text-shadow:0 1px 5px rgba(255,255,255,.6)">Upgrade to Pro</div>
+          <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:12.5px;font-weight:400;color:#5E7340;margin-top:3px;letter-spacing:.06em;font-style:italic;text-shadow:0 1px 4px rgba(255,255,255,.6)">unlimited &middot; $10 once</div>
+        </div>
+        <div style="position:absolute;right:14px;top:28%;transform:translateY(-50%);z-index:6">
+          <svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="rgba(58,74,42,.5)" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg>
+        </div>
+      </div>
+    </div>
+
+
 
     <!-- Background color -->
     <div class="ap-section">
@@ -1477,7 +1552,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.6</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.7</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2701,7 +2776,7 @@ async function saveAppearance(){
 
 // Returns the active Pro theme based on time of day (or manual override).
 // Windows: morning 6am–1pm, day 1pm–7pm, evening 7pm–10pm, night 10pm–6am.
-let _proThemeOverride = 'evening'; // TEMP: pin while building. Set to null for time-based.
+let _proThemeOverride = 'morning'; // TEMP: pin while building. Set to null for time-based.
 function currentProTheme(){
   if(_proThemeOverride) return _proThemeOverride;
   const h = new Date().getHours();
@@ -2719,6 +2794,7 @@ function openSettings(){
     night:   document.getElementById('pro-card-night'),
     day:     document.getElementById('pro-card-day'),
     evening: document.getElementById('pro-card-evening'),
+    morning: document.getElementById('pro-card-morning'),
   };
   // Hide all, then show the active theme's card (unless Pro)
   Object.values(cards).forEach(c=>{ if(c) c.style.display='none'; });
@@ -3089,6 +3165,7 @@ let _activeProBg = null;
 function _proSheetForTheme(theme){
   if(theme==='day')     return { sheet: document.getElementById('pro-modal-sheet-day'),     bg: document.getElementById('pro-modal-bg-day'),     dark:false, fill:'#689F38' };
   if(theme==='evening') return { sheet: document.getElementById('pro-modal-sheet-evening'), bg: document.getElementById('pro-modal-bg-evening'), dark:false, fill:'#3E3A68' };
+  if(theme==='morning') return { sheet: document.getElementById('pro-modal-sheet-morning'), bg: document.getElementById('pro-modal-bg-morning'), dark:false, fill:'#5E9438' };
   return { sheet: document.getElementById('pro-modal-sheet'), bg: document.getElementById('pro-modal-bg'), dark:true, fill:'#0A0A14' };
 }
 
@@ -6313,6 +6390,233 @@ initAuth();
         <div class="pro-dot on"></div><div class="pro-dot"></div><div class="pro-dot"></div><div class="pro-dot"></div>
       </div>
       <button class="pro-nextbtn" onclick="proNextSlide()" style="background:rgba(255,212,90,.92);border:none;border-radius:20px;padding:10px 22px;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;color:#3A2E0A;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;box-shadow:0 2px 10px rgba(255,212,90,.4)">Next &rarr;</button>
+    </div>
+  </div>
+
+
+  <!-- ══ PRO SLIDESHOW — MORNING THEME ══ -->
+  <div id="pro-modal-bg-morning" class="pro-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#5E9438;opacity:0;pointer-events:none;transition:opacity .3s"></div>
+  <div id="pro-modal-sheet-morning" class="pro-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#5E9438;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden;touch-action:manipulation">
+    <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">
+      <button onclick="closeProModal()" style="background:rgba(255,255,255,.55);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="#33492A" stroke-width="1.8" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+      </button>
+    </div>
+    <div class="pro-wrap" style="position:absolute;inset:0;display:flex;align-items:stretch;background:#5E9438;transition:transform .38s cubic-bezier(.32,1,.45,1);will-change:transform">
+
+      <!-- MORN SLIDE 1: Unlimited Closet -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;overflow:hidden">
+        
+        <!-- dawn sky -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#FBD9C0 0%,#FBE3C8 20%,#E8E4D0 40%,#CFE0E8 62%,#BFD8E8 100%)"></div>
+        <!-- rising sun -->
+        <div style="position:absolute;bottom:120px;left:42%;transform:translateX(-50%);width:150px;height:120px;background:radial-gradient(ellipse,rgba(255,224,170,.6),transparent 70%)"></div>
+        <div style="position:absolute;bottom:140px;left:42%;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF4D8,#FFD98A);box-shadow:0 0 36px rgba(255,217,138,.6)"></div>
+        <!-- distant field bands -->
+        <div style="position:absolute;bottom:96px;left:0;right:0;height:34px;background:linear-gradient(180deg,#BBD08A,#A6C474)"></div>
+        <div style="position:absolute;bottom:92px;left:0;right:0;height:18px;background:linear-gradient(180deg,#A2C06C,#8FB45A)"></div>
+        <!-- fence -->
+        <svg viewBox="0 0 280 60" preserveAspectRatio="none" style="position:absolute;bottom:78px;left:-4%;width:108%;height:42px;overflow:visible"><line x1="6" y1="22" x2="250" y2="34" stroke="#9C7B4F" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="40" x2="250" y2="37" stroke="#8A6B45" stroke-width="2" stroke-linecap="round"/><line x1="6"   y1="18" x2="6"   y2="46" stroke="#9C7B4F" stroke-width="3"/><line x1="40"  y1="22" x2="40"  y2="44" stroke="#9C7B4F" stroke-width="2.6"/><line x1="78"  y1="25" x2="78"  y2="42" stroke="#8A6B45" stroke-width="2.3"/><line x1="118" y1="27" x2="118" y2="41" stroke="#8A6B45" stroke-width="2"/><line x1="158" y1="29" x2="158" y2="40" stroke="#7C6040" stroke-width="1.8"/><line x1="196" y1="31" x2="196" y2="39" stroke="#735838" stroke-width="1.6"/><line x1="228" y1="32" x2="228" y2="38" stroke="#6B5234" stroke-width="1.4"/></svg>
+        <!-- silo + barn (right) -->
+        <div style="position:absolute;bottom:92px;right:74px;width:20px;height:46px">
+          <div style="position:absolute;bottom:0;left:0;width:20px;height:38px;background:linear-gradient(90deg,#C9CDD0,#9DA3A8 60%,#7E848A);border-radius:3px 3px 0 0"></div>
+          <div style="position:absolute;bottom:36px;left:-1px;width:22px;height:9px;background:#8E9398;border-radius:50% 50% 0 0"></div>
+          <div style="position:absolute;bottom:12px;left:0;width:20px;height:1.5px;background:rgba(0,0,0,.12)"></div>
+          <div style="position:absolute;bottom:24px;left:0;width:20px;height:1.5px;background:rgba(0,0,0,.12)"></div>
+        </div>
+        <div style="position:absolute;bottom:92px;right:14px;width:70px;height:48px">
+          <div style="position:absolute;bottom:0;left:4px;width:62px;height:32px;background:linear-gradient(180deg,#C0392B,#9E2D22)"></div>
+          <div style="position:absolute;bottom:32px;left:4px;width:0;height:0;border-left:31px solid transparent;border-right:31px solid transparent;border-bottom:10px solid #7A2018"></div>
+          <div style="position:absolute;bottom:39px;left:16px;width:0;height:0;border-left:19px solid transparent;border-right:19px solid transparent;border-bottom:8px solid #7A2018"></div>
+          <div style="position:absolute;bottom:0;left:25px;width:20px;height:21px;background:#6E1F18;border:1px solid rgba(255,255,255,.45)"></div>
+          <div style="position:absolute;bottom:0;left:34px;width:1.5px;height:21px;background:rgba(255,255,255,.3)"></div>
+          <div style="position:absolute;bottom:23px;left:30px;width:9px;height:9px;background:#E8C04A;border:1px solid rgba(255,255,255,.4)"></div>
+        </div>
+        <!-- foreground grass band -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:92px;background:linear-gradient(180deg,#7FB04E,#5E9438)"></div>
+        <i class="mf-blade mf-s1" style="left:4px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:9px;width:3px;height:24px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:15px;width:3px;height:34px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:22px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:34px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:44px;width:3px;height:25px;background:#5E9838"></i><i class="mf-blade mf-s3" style="left:60px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:72px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:82px;width:3px;height:28px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:100px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:120px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:140px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:300px;width:3px;height:28px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:320px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:340px;width:3px;height:26px;background:#6FA840"></i>
+        <!-- bow-flower clusters (foreground) -->
+        <div class="mf-stem mf-s2" style="left:36px;bottom:60px;height:40px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:40px;background:#4E8232"></i><i style="position:absolute;bottom:35px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div class="mf-stem mf-s3" style="left:54px;bottom:60px;height:50px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:50px;background:#4E8232"></i><i style="position:absolute;bottom:44px;left:-10px;width:24px;height:16px"><svg width="24" height="16" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F5EFE0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F5EFE0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8CFB8"/></svg></i></div>
+        <div class="mf-stem mf-s1" style="left:72px;bottom:60px;height:43px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:43px;background:#4E8232"></i><i style="position:absolute;bottom:38px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#C3AEDB"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#C3AEDB"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A088C0"/></svg></i></div>
+        <div class="mf-stem mf-s4" style="right:48px;bottom:60px;height:38px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:38px;background:#4E8232"></i><i style="position:absolute;bottom:33px;left:-9px;width:21px;height:14px"><svg width="21" height="14" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F2DC8E"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F2DC8E"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8BC60"/></svg></i></div>
+        <div class="mf-stem mf-s2" style="right:30px;bottom:60px;height:46px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:46px;background:#4E8232"></i><i style="position:absolute;bottom:41px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div style="position:relative;z-index:2;width:210px;height:200px;margin-bottom:28px">
+          <div style="position:absolute;top:0;left:24px;width:78px;height:96px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF,#F2F8EC);box-shadow:0 8px 24px rgba(80,110,60,.22);border:1px solid rgba(255,255,255,.85);transform:rotate(-6deg);display:flex;align-items:center;justify-content:center"><svg width="40" height="52" viewBox="0 0 40 52"><path d="M14 4 L26 4 L24 12 L32 46 Q20 52 8 46 L16 12 Z" fill="#F5A8BE"/><path d="M14 4 L20 9 L26 4 L24 12 L20 13 L16 12 Z" fill="#E07898"/></svg></div>
+          <div style="position:absolute;top:14px;right:18px;width:78px;height:90px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF,#F2F8EC);box-shadow:0 8px 24px rgba(80,110,60,.22);border:1px solid rgba(255,255,255,.85);transform:rotate(5deg);display:flex;align-items:center;justify-content:center"><svg width="48" height="44" viewBox="0 0 48 44"><path d="M16 4 L32 4 L44 14 L38 22 L34 18 L34 42 L14 42 L14 18 L10 22 L4 14 Z" fill="#7BA8E0"/><path d="M16 4 L24 12 L32 4 L28 8 L24 14 L20 8 Z" fill="#5080C8"/></svg></div>
+          <div style="position:absolute;bottom:0;left:8px;width:74px;height:74px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF,#F2F8EC);box-shadow:0 8px 24px rgba(80,110,60,.22);border:1px solid rgba(255,255,255,.85);transform:rotate(4deg);display:flex;align-items:center;justify-content:center"><svg width="46" height="34" viewBox="0 0 46 34"><path d="M4 22 Q4 14 12 14 L20 14 L34 24 L42 26 Q44 30 40 31 L8 31 Q3 30 4 22Z" fill="#D4AF37"/><path d="M20 14 L34 24 L26 24 Z" fill="#A07820"/></svg></div>
+          <div style="position:absolute;bottom:14px;right:14px;width:72px;height:72px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF,#F2F8EC);box-shadow:0 8px 24px rgba(80,110,60,.22);border:1px solid rgba(255,255,255,.85);transform:rotate(-4deg);display:flex;align-items:center;justify-content:center"><svg width="38" height="40" viewBox="0 0 38 40"><path d="M11 14 Q11 4 19 4 Q27 4 27 14" fill="none" stroke="#C8B8E8" stroke-width="2.5"/><path d="M6 14 L32 14 L34 36 L4 36 Z" fill="#C8B8E8"/><path d="M6 14 L32 14 L31 20 L7 20 Z" fill="#9878C8"/></svg></div>
+          <div style="position:absolute;top:-6px;right:-6px;background:#F2C84B;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:600;color:#3A2E0A;box-shadow:0 0 20px rgba(242,200,75,.7);z-index:10">&infin;</div>
+        </div>
+        <div style="position:relative;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#33492A;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 6px rgba(255,255,255,.6)">Unlimited<br>Closet Space</div>
+        <div style="position:relative;z-index:2;font-size:13.5px;color:#4E6B3A;line-height:1.6;max-width:250px;text-shadow:0 1px 4px rgba(255,255,255,.5)">Free plans hold 20 pieces. With Pro, your entire wardrobe lives in one place — every piece you own.</div>
+      </div>
+      <!-- MORN SLIDE 2: Unlimited Outfits -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;overflow:hidden">
+        
+        <!-- dawn sky -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#FBD9C0 0%,#FBE3C8 20%,#E8E4D0 40%,#CFE0E8 62%,#BFD8E8 100%)"></div>
+        <!-- rising sun -->
+        <div style="position:absolute;bottom:120px;left:42%;transform:translateX(-50%);width:150px;height:120px;background:radial-gradient(ellipse,rgba(255,224,170,.6),transparent 70%)"></div>
+        <div style="position:absolute;bottom:140px;left:42%;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF4D8,#FFD98A);box-shadow:0 0 36px rgba(255,217,138,.6)"></div>
+        <!-- distant field bands -->
+        <div style="position:absolute;bottom:96px;left:0;right:0;height:34px;background:linear-gradient(180deg,#BBD08A,#A6C474)"></div>
+        <div style="position:absolute;bottom:92px;left:0;right:0;height:18px;background:linear-gradient(180deg,#A2C06C,#8FB45A)"></div>
+        <!-- fence -->
+        <svg viewBox="0 0 280 60" preserveAspectRatio="none" style="position:absolute;bottom:78px;left:-4%;width:108%;height:42px;overflow:visible"><line x1="6" y1="22" x2="250" y2="34" stroke="#9C7B4F" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="40" x2="250" y2="37" stroke="#8A6B45" stroke-width="2" stroke-linecap="round"/><line x1="6"   y1="18" x2="6"   y2="46" stroke="#9C7B4F" stroke-width="3"/><line x1="40"  y1="22" x2="40"  y2="44" stroke="#9C7B4F" stroke-width="2.6"/><line x1="78"  y1="25" x2="78"  y2="42" stroke="#8A6B45" stroke-width="2.3"/><line x1="118" y1="27" x2="118" y2="41" stroke="#8A6B45" stroke-width="2"/><line x1="158" y1="29" x2="158" y2="40" stroke="#7C6040" stroke-width="1.8"/><line x1="196" y1="31" x2="196" y2="39" stroke="#735838" stroke-width="1.6"/><line x1="228" y1="32" x2="228" y2="38" stroke="#6B5234" stroke-width="1.4"/></svg>
+        <!-- silo + barn (right) -->
+        <div style="position:absolute;bottom:92px;right:74px;width:20px;height:46px">
+          <div style="position:absolute;bottom:0;left:0;width:20px;height:38px;background:linear-gradient(90deg,#C9CDD0,#9DA3A8 60%,#7E848A);border-radius:3px 3px 0 0"></div>
+          <div style="position:absolute;bottom:36px;left:-1px;width:22px;height:9px;background:#8E9398;border-radius:50% 50% 0 0"></div>
+          <div style="position:absolute;bottom:12px;left:0;width:20px;height:1.5px;background:rgba(0,0,0,.12)"></div>
+          <div style="position:absolute;bottom:24px;left:0;width:20px;height:1.5px;background:rgba(0,0,0,.12)"></div>
+        </div>
+        <div style="position:absolute;bottom:92px;right:14px;width:70px;height:48px">
+          <div style="position:absolute;bottom:0;left:4px;width:62px;height:32px;background:linear-gradient(180deg,#C0392B,#9E2D22)"></div>
+          <div style="position:absolute;bottom:32px;left:4px;width:0;height:0;border-left:31px solid transparent;border-right:31px solid transparent;border-bottom:10px solid #7A2018"></div>
+          <div style="position:absolute;bottom:39px;left:16px;width:0;height:0;border-left:19px solid transparent;border-right:19px solid transparent;border-bottom:8px solid #7A2018"></div>
+          <div style="position:absolute;bottom:0;left:25px;width:20px;height:21px;background:#6E1F18;border:1px solid rgba(255,255,255,.45)"></div>
+          <div style="position:absolute;bottom:0;left:34px;width:1.5px;height:21px;background:rgba(255,255,255,.3)"></div>
+          <div style="position:absolute;bottom:23px;left:30px;width:9px;height:9px;background:#E8C04A;border:1px solid rgba(255,255,255,.4)"></div>
+        </div>
+        <!-- foreground grass band -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:92px;background:linear-gradient(180deg,#7FB04E,#5E9438)"></div>
+        <i class="mf-blade mf-s1" style="left:4px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:9px;width:3px;height:24px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:15px;width:3px;height:34px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:22px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:34px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:44px;width:3px;height:25px;background:#5E9838"></i><i class="mf-blade mf-s3" style="left:60px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:72px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:82px;width:3px;height:28px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:100px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:120px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:140px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:300px;width:3px;height:28px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:320px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:340px;width:3px;height:26px;background:#6FA840"></i>
+        <!-- bow-flower clusters (foreground) -->
+        <div class="mf-stem mf-s2" style="left:36px;bottom:60px;height:40px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:40px;background:#4E8232"></i><i style="position:absolute;bottom:35px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div class="mf-stem mf-s3" style="left:54px;bottom:60px;height:50px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:50px;background:#4E8232"></i><i style="position:absolute;bottom:44px;left:-10px;width:24px;height:16px"><svg width="24" height="16" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F5EFE0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F5EFE0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8CFB8"/></svg></i></div>
+        <div class="mf-stem mf-s1" style="left:72px;bottom:60px;height:43px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:43px;background:#4E8232"></i><i style="position:absolute;bottom:38px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#C3AEDB"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#C3AEDB"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A088C0"/></svg></i></div>
+        <div class="mf-stem mf-s4" style="right:48px;bottom:60px;height:38px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:38px;background:#4E8232"></i><i style="position:absolute;bottom:33px;left:-9px;width:21px;height:14px"><svg width="21" height="14" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F2DC8E"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F2DC8E"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8BC60"/></svg></i></div>
+        <div class="mf-stem mf-s2" style="right:30px;bottom:60px;height:46px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:46px;background:#4E8232"></i><i style="position:absolute;bottom:41px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div style="position:relative;z-index:2;width:200px;height:200px;margin-bottom:28px">
+          <div style="position:absolute;top:6px;left:30px;width:140px;height:160px;border-radius:16px;background:#FFFFFF;opacity:.5;box-shadow:0 6px 18px rgba(80,110,60,.2);transform:rotate(7deg)"></div>
+          <div style="position:absolute;top:10px;left:18px;width:144px;height:162px;border-radius:16px;background:#FFFFFF;opacity:.78;box-shadow:0 6px 18px rgba(80,110,60,.2);transform:rotate(-4deg)"></div>
+          <div style="position:absolute;top:14px;left:8px;width:150px;height:172px;border-radius:16px;background:linear-gradient(160deg,#FFFFFF,#F2F8EC);box-shadow:0 12px 30px rgba(80,110,60,.3);overflow:hidden">
+            <svg style="position:absolute;top:16px;left:50%;transform:translateX(-50%)" width="56" height="44" viewBox="0 0 56 46"><path d="M18 5 L38 5 L54 15 L48 25 L42 20 L42 44 L14 44 L14 20 L8 25 L2 15 Z" fill="#E8DBC0"/><path d="M18 5 L28 13 L38 5 L33 9 L28 15 L23 9 Z" fill="#D6C5A2"/><line x1="22" y1="24" x2="22" y2="42" stroke="#D6C5A2" stroke-width="1"/><line x1="28" y1="24" x2="28" y2="42" stroke="#D6C5A2" stroke-width="1"/><line x1="34" y1="24" x2="34" y2="42" stroke="#D6C5A2" stroke-width="1"/></svg>
+            <svg style="position:absolute;top:57px;left:50%;transform:translateX(-50%)" width="46" height="56" viewBox="0 0 48 64"><path d="M8 2 L40 2 L40 10 L38 62 L27 62 L24 20 L21 62 L10 62 L8 10 Z" fill="#C49A60"/><line x1="24" y1="12" x2="24" y2="60" stroke="#A87E48" stroke-width="1"/><path d="M8 2 L40 2 L40 8 L8 8 Z" fill="#B0894F"/></svg>
+            <svg style="position:absolute;top:109px;left:50%;transform:translateX(-50%)" width="40" height="25" viewBox="0 0 46 34"><path d="M4 22 Q4 14 12 14 L20 14 L34 24 L42 26 Q44 30 40 31 L8 31 Q3 30 4 22Z" fill="#9C6B3F"/><path d="M40 31 L42 26 L44 30 Z" fill="#7A4F2A"/></svg>
+            <svg style="position:absolute;top:20px;right:8px;transform:rotate(6deg)" width="26" height="28" viewBox="0 0 38 40"><path d="M11 14 Q11 4 19 4 Q27 4 27 14" fill="none" stroke="#8A5A35" stroke-width="2.5"/><path d="M6 14 L32 14 L34 36 L4 36 Z" fill="#A86E3E"/><path d="M6 14 L32 14 L31 19 L7 19 Z" fill="#8A5A35"/><rect x="16" y="22" width="6" height="4" rx="1" fill="#D4AF37"/></svg>
+          </div>
+          <div style="position:absolute;bottom:0;right:2px;background:#F2C84B;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:600;color:#3A2E0A;box-shadow:0 0 20px rgba(242,200,75,.7);z-index:10">&infin;</div>
+        </div>
+        <div style="position:relative;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#33492A;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 6px rgba(255,255,255,.6)">Unlimited<br>Outfit Boards</div>
+        <div style="position:relative;z-index:2;font-size:13.5px;color:#4E6B3A;line-height:1.6;max-width:250px;text-shadow:0 1px 4px rgba(255,255,255,.5)">Free plans cap at 6 outfits. Style a complete look for every occasion — travel, events, every season.</div>
+      </div>
+      <!-- MORN SLIDE 3: Feed Boost -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;overflow:hidden">
+        
+        <!-- dawn sky -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#FBD9C0 0%,#FBE3C8 20%,#E8E4D0 40%,#CFE0E8 62%,#BFD8E8 100%)"></div>
+        <!-- rising sun -->
+        <div style="position:absolute;bottom:120px;left:42%;transform:translateX(-50%);width:150px;height:120px;background:radial-gradient(ellipse,rgba(255,224,170,.6),transparent 70%)"></div>
+        <div style="position:absolute;bottom:140px;left:42%;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF4D8,#FFD98A);box-shadow:0 0 36px rgba(255,217,138,.6)"></div>
+        <!-- distant field bands -->
+        <div style="position:absolute;bottom:96px;left:0;right:0;height:34px;background:linear-gradient(180deg,#BBD08A,#A6C474)"></div>
+        <div style="position:absolute;bottom:92px;left:0;right:0;height:18px;background:linear-gradient(180deg,#A2C06C,#8FB45A)"></div>
+        <!-- fence -->
+        <svg viewBox="0 0 280 60" preserveAspectRatio="none" style="position:absolute;bottom:78px;left:-4%;width:108%;height:42px;overflow:visible"><line x1="6" y1="22" x2="250" y2="34" stroke="#9C7B4F" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="40" x2="250" y2="37" stroke="#8A6B45" stroke-width="2" stroke-linecap="round"/><line x1="6"   y1="18" x2="6"   y2="46" stroke="#9C7B4F" stroke-width="3"/><line x1="40"  y1="22" x2="40"  y2="44" stroke="#9C7B4F" stroke-width="2.6"/><line x1="78"  y1="25" x2="78"  y2="42" stroke="#8A6B45" stroke-width="2.3"/><line x1="118" y1="27" x2="118" y2="41" stroke="#8A6B45" stroke-width="2"/><line x1="158" y1="29" x2="158" y2="40" stroke="#7C6040" stroke-width="1.8"/><line x1="196" y1="31" x2="196" y2="39" stroke="#735838" stroke-width="1.6"/><line x1="228" y1="32" x2="228" y2="38" stroke="#6B5234" stroke-width="1.4"/></svg>
+        <!-- silo + barn (right) -->
+        <div style="position:absolute;bottom:92px;right:74px;width:20px;height:46px">
+          <div style="position:absolute;bottom:0;left:0;width:20px;height:38px;background:linear-gradient(90deg,#C9CDD0,#9DA3A8 60%,#7E848A);border-radius:3px 3px 0 0"></div>
+          <div style="position:absolute;bottom:36px;left:-1px;width:22px;height:9px;background:#8E9398;border-radius:50% 50% 0 0"></div>
+          <div style="position:absolute;bottom:12px;left:0;width:20px;height:1.5px;background:rgba(0,0,0,.12)"></div>
+          <div style="position:absolute;bottom:24px;left:0;width:20px;height:1.5px;background:rgba(0,0,0,.12)"></div>
+        </div>
+        <div style="position:absolute;bottom:92px;right:14px;width:70px;height:48px">
+          <div style="position:absolute;bottom:0;left:4px;width:62px;height:32px;background:linear-gradient(180deg,#C0392B,#9E2D22)"></div>
+          <div style="position:absolute;bottom:32px;left:4px;width:0;height:0;border-left:31px solid transparent;border-right:31px solid transparent;border-bottom:10px solid #7A2018"></div>
+          <div style="position:absolute;bottom:39px;left:16px;width:0;height:0;border-left:19px solid transparent;border-right:19px solid transparent;border-bottom:8px solid #7A2018"></div>
+          <div style="position:absolute;bottom:0;left:25px;width:20px;height:21px;background:#6E1F18;border:1px solid rgba(255,255,255,.45)"></div>
+          <div style="position:absolute;bottom:0;left:34px;width:1.5px;height:21px;background:rgba(255,255,255,.3)"></div>
+          <div style="position:absolute;bottom:23px;left:30px;width:9px;height:9px;background:#E8C04A;border:1px solid rgba(255,255,255,.4)"></div>
+        </div>
+        <!-- foreground grass band -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:92px;background:linear-gradient(180deg,#7FB04E,#5E9438)"></div>
+        <i class="mf-blade mf-s1" style="left:4px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:9px;width:3px;height:24px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:15px;width:3px;height:34px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:22px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:34px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:44px;width:3px;height:25px;background:#5E9838"></i><i class="mf-blade mf-s3" style="left:60px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:72px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:82px;width:3px;height:28px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:100px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:120px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:140px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:300px;width:3px;height:28px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:320px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:340px;width:3px;height:26px;background:#6FA840"></i>
+        <!-- bow-flower clusters (foreground) -->
+        <div class="mf-stem mf-s2" style="left:36px;bottom:60px;height:40px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:40px;background:#4E8232"></i><i style="position:absolute;bottom:35px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div class="mf-stem mf-s3" style="left:54px;bottom:60px;height:50px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:50px;background:#4E8232"></i><i style="position:absolute;bottom:44px;left:-10px;width:24px;height:16px"><svg width="24" height="16" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F5EFE0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F5EFE0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8CFB8"/></svg></i></div>
+        <div class="mf-stem mf-s1" style="left:72px;bottom:60px;height:43px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:43px;background:#4E8232"></i><i style="position:absolute;bottom:38px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#C3AEDB"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#C3AEDB"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A088C0"/></svg></i></div>
+        <div class="mf-stem mf-s4" style="right:48px;bottom:60px;height:38px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:38px;background:#4E8232"></i><i style="position:absolute;bottom:33px;left:-9px;width:21px;height:14px"><svg width="21" height="14" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F2DC8E"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F2DC8E"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8BC60"/></svg></i></div>
+        <div class="mf-stem mf-s2" style="right:30px;bottom:60px;height:46px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:46px;background:#4E8232"></i><i style="position:absolute;bottom:41px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div style="position:relative;z-index:2;width:200px;margin-bottom:28px">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="border-radius:13px;background:linear-gradient(135deg,#FFF6D8,#FFFFFF);border:1.5px solid #F2C84B;padding:12px;box-shadow:0 8px 24px rgba(242,200,75,.3)">
+              <div style="display:flex;align-items:center;gap:9px;margin-bottom:9px">
+                <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(160deg,#F5A8BE,#E07898);flex-shrink:0"></div>
+                <div style="flex:1;text-align:left"><div style="height:7px;width:64%;border-radius:4px;background:rgba(80,110,60,.3);margin-bottom:5px"></div><div style="height:5px;width:40%;border-radius:4px;background:rgba(80,110,60,.18)"></div></div>
+                <div style="background:#F2C84B;border-radius:5px;padding:3px 8px;font-size:9px;font-weight:600;color:#3A2E0A;letter-spacing:.05em;flex-shrink:0">PRO &#10038;</div>
+              </div>
+              <div style="display:flex;gap:6px;justify-content:center">
+                <div style="width:36px;height:44px;border-radius:6px;background:#F5A8BE"></div>
+                <div style="width:36px;height:44px;border-radius:6px;background:#7BA8E0"></div>
+                <div style="width:36px;height:44px;border-radius:6px;background:#D4AF37"></div>
+              </div>
+            </div>
+            <div style="border-radius:13px;background:rgba(255,255,255,.6);border:0.5px solid rgba(255,255,255,.8);padding:10px 13px;display:flex;align-items:center;gap:9px;opacity:.65">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(104,152,80,.4);flex-shrink:0"></div>
+              <div style="flex:1;text-align:left"><div style="height:6px;width:60%;border-radius:4px;background:rgba(80,110,60,.25);margin-bottom:4px"></div><div style="height:4px;width:40%;border-radius:4px;background:rgba(80,110,60,.15)"></div></div>
+            </div>
+            <div style="border-radius:13px;background:rgba(255,255,255,.6);border:0.5px solid rgba(255,255,255,.8);padding:10px 13px;display:flex;align-items:center;gap:9px;opacity:.4">
+              <div style="width:24px;height:24px;border-radius:50%;background:rgba(245,168,190,.4);flex-shrink:0"></div>
+              <div style="flex:1;text-align:left"><div style="height:6px;width:50%;border-radius:4px;background:rgba(80,110,60,.25);margin-bottom:4px"></div><div style="height:4px;width:32%;border-radius:4px;background:rgba(80,110,60,.15)"></div></div>
+            </div>
+          </div>
+          <div style="position:absolute;right:-16px;top:-12px;background:#F2C84B;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(242,200,75,.7);z-index:10"><svg width="15" height="15" viewBox="0 0 14 14" fill="none" stroke="#3A2E0A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 11.5V3M3 6.5L7 2.5l4 4"/></svg></div>
+        </div>
+        <div style="position:relative;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:34px;font-weight:500;color:#33492A;margin-bottom:12px;line-height:1.1;letter-spacing:.02em;text-shadow:0 1px 6px rgba(255,255,255,.6)">Feed Boost</div>
+        <div style="position:relative;z-index:2;font-size:13.5px;color:#4E6B3A;line-height:1.6;max-width:250px;text-shadow:0 1px 4px rgba(255,255,255,.5)">Your shared outfits rise to the top of Explore — more eyes, more likes, more followers.</div>
+      </div>
+      <!-- MORN SLIDE 4: CTA -->
+      <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;overflow:hidden">
+        
+        <!-- dawn sky -->
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,#FBD9C0 0%,#FBE3C8 20%,#E8E4D0 40%,#CFE0E8 62%,#BFD8E8 100%)"></div>
+        <!-- rising sun -->
+        <div style="position:absolute;bottom:120px;left:42%;transform:translateX(-50%);width:150px;height:120px;background:radial-gradient(ellipse,rgba(255,224,170,.6),transparent 70%)"></div>
+        <div style="position:absolute;bottom:140px;left:42%;transform:translateX(-50%);width:46px;height:46px;border-radius:50%;background:radial-gradient(circle,#FFF4D8,#FFD98A);box-shadow:0 0 36px rgba(255,217,138,.6)"></div>
+        <!-- distant field bands -->
+        <div style="position:absolute;bottom:96px;left:0;right:0;height:34px;background:linear-gradient(180deg,#BBD08A,#A6C474)"></div>
+        <div style="position:absolute;bottom:92px;left:0;right:0;height:18px;background:linear-gradient(180deg,#A2C06C,#8FB45A)"></div>
+        <!-- fence -->
+        <svg viewBox="0 0 280 60" preserveAspectRatio="none" style="position:absolute;bottom:78px;left:-4%;width:108%;height:42px;overflow:visible"><line x1="6" y1="22" x2="250" y2="34" stroke="#9C7B4F" stroke-width="2" stroke-linecap="round"/><line x1="6" y1="40" x2="250" y2="37" stroke="#8A6B45" stroke-width="2" stroke-linecap="round"/><line x1="6"   y1="18" x2="6"   y2="46" stroke="#9C7B4F" stroke-width="3"/><line x1="40"  y1="22" x2="40"  y2="44" stroke="#9C7B4F" stroke-width="2.6"/><line x1="78"  y1="25" x2="78"  y2="42" stroke="#8A6B45" stroke-width="2.3"/><line x1="118" y1="27" x2="118" y2="41" stroke="#8A6B45" stroke-width="2"/><line x1="158" y1="29" x2="158" y2="40" stroke="#7C6040" stroke-width="1.8"/><line x1="196" y1="31" x2="196" y2="39" stroke="#735838" stroke-width="1.6"/><line x1="228" y1="32" x2="228" y2="38" stroke="#6B5234" stroke-width="1.4"/></svg>
+        <!-- silo + barn (right) -->
+        <div style="position:absolute;bottom:92px;right:74px;width:20px;height:46px">
+          <div style="position:absolute;bottom:0;left:0;width:20px;height:38px;background:linear-gradient(90deg,#C9CDD0,#9DA3A8 60%,#7E848A);border-radius:3px 3px 0 0"></div>
+          <div style="position:absolute;bottom:36px;left:-1px;width:22px;height:9px;background:#8E9398;border-radius:50% 50% 0 0"></div>
+          <div style="position:absolute;bottom:12px;left:0;width:20px;height:1.5px;background:rgba(0,0,0,.12)"></div>
+          <div style="position:absolute;bottom:24px;left:0;width:20px;height:1.5px;background:rgba(0,0,0,.12)"></div>
+        </div>
+        <div style="position:absolute;bottom:92px;right:14px;width:70px;height:48px">
+          <div style="position:absolute;bottom:0;left:4px;width:62px;height:32px;background:linear-gradient(180deg,#C0392B,#9E2D22)"></div>
+          <div style="position:absolute;bottom:32px;left:4px;width:0;height:0;border-left:31px solid transparent;border-right:31px solid transparent;border-bottom:10px solid #7A2018"></div>
+          <div style="position:absolute;bottom:39px;left:16px;width:0;height:0;border-left:19px solid transparent;border-right:19px solid transparent;border-bottom:8px solid #7A2018"></div>
+          <div style="position:absolute;bottom:0;left:25px;width:20px;height:21px;background:#6E1F18;border:1px solid rgba(255,255,255,.45)"></div>
+          <div style="position:absolute;bottom:0;left:34px;width:1.5px;height:21px;background:rgba(255,255,255,.3)"></div>
+          <div style="position:absolute;bottom:23px;left:30px;width:9px;height:9px;background:#E8C04A;border:1px solid rgba(255,255,255,.4)"></div>
+        </div>
+        <!-- foreground grass band -->
+        <div style="position:absolute;bottom:0;left:0;right:0;height:92px;background:linear-gradient(180deg,#7FB04E,#5E9438)"></div>
+        <i class="mf-blade mf-s1" style="left:4px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:9px;width:3px;height:24px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:15px;width:3px;height:34px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:22px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:34px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:44px;width:3px;height:25px;background:#5E9838"></i><i class="mf-blade mf-s3" style="left:60px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:72px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:82px;width:3px;height:28px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:100px;width:3px;height:30px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:120px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s4" style="left:140px;width:3px;height:26px;background:#6FA840"></i><i class="mf-blade mf-s2" style="left:300px;width:3px;height:28px;background:#6FA840"></i><i class="mf-blade mf-s1" style="left:320px;width:3px;height:32px;background:#6FA840"></i><i class="mf-blade mf-s3" style="left:340px;width:3px;height:26px;background:#6FA840"></i>
+        <!-- bow-flower clusters (foreground) -->
+        <div class="mf-stem mf-s2" style="left:36px;bottom:60px;height:40px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:40px;background:#4E8232"></i><i style="position:absolute;bottom:35px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div class="mf-stem mf-s3" style="left:54px;bottom:60px;height:50px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:50px;background:#4E8232"></i><i style="position:absolute;bottom:44px;left:-10px;width:24px;height:16px"><svg width="24" height="16" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F5EFE0"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F5EFE0"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8CFB8"/></svg></i></div>
+        <div class="mf-stem mf-s1" style="left:72px;bottom:60px;height:43px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:43px;background:#4E8232"></i><i style="position:absolute;bottom:38px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#C3AEDB"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#C3AEDB"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#A088C0"/></svg></i></div>
+        <div class="mf-stem mf-s4" style="right:48px;bottom:60px;height:38px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:38px;background:#4E8232"></i><i style="position:absolute;bottom:33px;left:-9px;width:21px;height:14px"><svg width="21" height="14" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#F2DC8E"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#F2DC8E"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#D8BC60"/></svg></i></div>
+        <div class="mf-stem mf-s2" style="right:30px;bottom:60px;height:46px"><i style="position:absolute;bottom:0;left:1px;width:2.5px;height:46px;background:#4E8232"></i><i style="position:absolute;bottom:41px;left:-9px;width:22px;height:15px"><svg width="22" height="15" viewBox="0 0 24 18"><path d="M12 9C10 6 3 5 3 8.5C3 12 10 11 12 9Z" fill="#E89BB8"/><path d="M12 9C14 6 21 5 21 8.5C21 12 14 11 12 9Z" fill="#E89BB8"/><ellipse cx="12" cy="9" rx="2" ry="1.6" fill="#C97595"/></svg></i></div>
+        <div style="position:relative;z-index:2;font-family:'Cormorant Garamond',Georgia,serif;font-size:40px;font-weight:500;color:#33492A;margin-bottom:8px;letter-spacing:.03em;text-shadow:0 1px 8px rgba(255,255,255,.6)">Szafa Pro</div>
+        <div style="position:relative;z-index:2;font-size:12px;color:#4E6B3A;letter-spacing:.14em;text-transform:uppercase;margin-bottom:26px;font-style:italic">One time &middot; Forever</div>
+        <div class="pro-reason" style="position:relative;z-index:2;font-size:13.5px;color:#4E6B3A;line-height:1.6;margin-bottom:30px;max-width:270px"></div>
+        <button onclick="goPro()" style="position:relative;z-index:2;width:100%;max-width:300px;padding:16px;border-radius:14px;border:none;background:#F2C84B;font-family:'Cormorant Garamond',Georgia,serif;font-size:21px;font-weight:500;color:#3A2E0A;cursor:pointer;letter-spacing:.04em;-webkit-tap-highlight-color:transparent;touch-action:manipulation;margin-bottom:12px;box-shadow:0 6px 24px rgba(242,200,75,.5)">Unlock Pro &middot; $10</button>
+        <button onclick="closeProModal()" style="position:relative;z-index:2;background:none;border:none;font-size:13px;color:#4E6B3A;cursor:pointer;font-family:'Jost',sans-serif;padding:8px;-webkit-tap-highlight-color:transparent;touch-action:manipulation">Maybe later</button>
+      </div>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;z-index:10;padding:16px 24px calc(34px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;justify-content:space-between;background:transparent">
+      <button class="pro-backbtn" onclick="proPrevSlide()" style="background:rgba(255,255,255,.7);border:1px solid rgba(78,107,58,.35);border-radius:20px;padding:10px 20px;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;color:#33492A;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;box-shadow:0 2px 8px rgba(0,0,0,.12);visibility:hidden">&larr; Back</button>
+      <div class="pro-dotwrap" style="display:flex;gap:6px;align-items:center;position:absolute;left:50%;transform:translateX(-50%)">
+        <div class="pro-dot on"></div><div class="pro-dot"></div><div class="pro-dot"></div><div class="pro-dot"></div>
+      </div>
+      <button class="pro-nextbtn" onclick="proNextSlide()" style="background:#F2C84B;border:none;border-radius:20px;padding:10px 22px;font-family:'Jost',sans-serif;font-size:13px;font-weight:600;color:#3A2E0A;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;box-shadow:0 2px 10px rgba(242,200,75,.45)">Next &rarr;</button>
     </div>
   </div>
 

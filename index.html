@@ -1393,7 +1393,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.3</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.8.4</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -3028,7 +3028,7 @@ function openProSlideshow(){
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='none';
   // Match safe-area backgrounds and PWA theme-color to the active theme
-  const fill = dark ? '#0A0A14' : '#A8D8EE';
+  const fill = dark ? '#0A0A14' : '#689F38';
   document.body.classList.add('pro-open');
   document.body.style.background=fill;
   document.documentElement.style.background=fill;
@@ -5893,8 +5893,8 @@ initAuth();
 
 
   <!-- ══ PRO SLIDESHOW — DAY THEME ══ -->
-  <div id="pro-modal-bg-day" class="pro-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#A8D8EE;opacity:0;pointer-events:none;transition:opacity .3s"></div>
-  <div id="pro-modal-sheet-day" class="pro-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#A8D8EE;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden;touch-action:manipulation">
+  <div id="pro-modal-bg-day" class="pro-bg" style="position:fixed;inset:0;height:100%;z-index:300;background:#689F38;opacity:0;pointer-events:none;transition:opacity .3s"></div>
+  <div id="pro-modal-sheet-day" class="pro-sheet" style="position:fixed;inset:0;height:100%;z-index:301;background:#689F38;transform:translateY(100%);transition:transform .38s cubic-bezier(.32,1,.45,1);overflow:hidden;touch-action:manipulation">
 
     <!-- Close -->
     <div style="position:absolute;top:0;left:0;right:0;padding:calc(16px + env(safe-area-inset-top,0px)) 20px 0;display:flex;justify-content:flex-end;z-index:10">
@@ -5903,7 +5903,7 @@ initAuth();
       </button>
     </div>
 
-    <div class="pro-wrap" style="position:absolute;inset:0;display:flex;align-items:stretch;background:#A8D8EE;transition:transform .38s cubic-bezier(.32,1,.45,1);will-change:transform">
+    <div class="pro-wrap" style="position:absolute;inset:0;display:flex;align-items:stretch;background:#689F38;transition:transform .38s cubic-bezier(.32,1,.45,1);will-change:transform">
 
       <!-- DAY SLIDE 1: Unlimited Closet -->
       <div class="pro-slide" style="min-width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 36px;text-align:center;position:relative;background:linear-gradient(180deg,#6FC0E8 0%,#A8D8EE 60%,#CFEAF5 100%)">

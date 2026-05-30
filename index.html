@@ -1349,7 +1349,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.4</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.7.5</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2948,8 +2948,12 @@ function openProSlideshow(){
   // Hide bottom nav so the dark full-screen slides aren't broken by the white bar
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='none';
-  // Dark body so the home-indicator safe area is dark, not white
+  // Dark everything behind the safe areas — body, html, and PWA theme-color
   document.body.classList.add('pro-open');
+  document.body.style.background='#0A0A14';
+  document.documentElement.style.background='#0A0A14';
+  const tc=document.querySelector('meta[name="theme-color"]');
+  if(tc){ tc.setAttribute('data-prev', tc.getAttribute('content')||''); tc.setAttribute('content','#0A0A14'); }
 }
 
 function closeProModal(){
@@ -2961,6 +2965,10 @@ function closeProModal(){
   const nav = document.querySelector('.bnav');
   if(nav) nav.style.display='';
   document.body.classList.remove('pro-open');
+  document.body.style.background='';
+  document.documentElement.style.background='';
+  const tc=document.querySelector('meta[name="theme-color"]');
+  if(tc){ tc.setAttribute('content', tc.getAttribute('data-prev')||'#1A1916'); }
 }
 
 function proNextSlide(){

@@ -616,6 +616,12 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .auth-divider{font-size:12px;color:var(--dim);margin:16px 0 12px;letter-spacing:.04em}
 .auth-guest{background:transparent;border:1.5px solid var(--ln);border-radius:14px;padding:13px;font-size:14px;color:var(--mid);cursor:pointer;font-family:'Jost',sans-serif;width:100%;transition:border-color .15s,color .15s;-webkit-tap-highlight-color:transparent}
 .auth-guest:active{border-color:var(--ink);color:var(--ink)}
+.auth-fp{align-self:flex-end;background:none;border:none;font-family:'Jost',sans-serif;font-size:12px;color:var(--mid);cursor:pointer;padding:2px 2px 0;margin-top:-6px;-webkit-tap-highlight-color:transparent;transition:color .15s}
+.auth-fp:active{color:var(--ink)}
+.auth-backlink{align-self:center;background:none;border:none;font-family:'Jost',sans-serif;font-size:13px;color:var(--mid);cursor:pointer;padding:10px 8px 2px;-webkit-tap-highlight-color:transparent;transition:color .15s}
+.auth-backlink:active{color:var(--ink)}
+.auth-reset-h{font-size:17px;font-weight:500;color:var(--ink);text-align:center;font-family:'Jost',sans-serif;margin-bottom:-2px}
+.auth-reset-p{font-size:13px;color:var(--mid);text-align:center;line-height:1.55;margin-bottom:4px}
 .auth-confirm{width:100%;text-align:center;padding:24px 20px;background:#F0F9F3;border-radius:14px;border:1px solid #B8E0C4;margin-bottom:8px}
 .auth-confirm-icon{font-size:36px;margin-bottom:10px}
 .auth-confirm-h{font-size:16px;font-weight:500;color:var(--ink);margin-bottom:6px}
@@ -889,7 +895,7 @@ body.onb-active{background:#F6F4F1}
       <div class="auth-logo">szafa</div>
       <div class="auth-tag">Your digital wardrobe</div>
 
-      <div class="auth-tabs" style="width:100%">
+      <div class="auth-tabs" id="auth-tabs" style="width:100%">
         <div class="auth-tab on" id="tab-login"  onclick="switchAuthTab('login')">Sign In</div>
         <div class="auth-tab"    id="tab-signup" onclick="switchAuthTab('signup')">Create Account</div>
       </div>
@@ -908,6 +914,7 @@ body.onb-active{background:#F6F4F1}
           <input class="field-inp" id="login-pass" type="password" placeholder="••••••••"
                  autocomplete="current-password" onkeydown="if(event.key==='Enter')signIn()">
         </div>
+        <button type="button" class="auth-fp" onclick="showResetForm()">Forgot password?</button>
         <button class="auth-submit" id="login-btn" onclick="signIn()">
           <span id="login-lbl">Sign In</span>
           <span class="spinner" id="login-spin"></span>
@@ -942,8 +949,43 @@ body.onb-active{background:#F6F4F1}
         </button>
       </div>
 
-      <div class="auth-divider">— or —</div>
-      <button class="auth-guest" onclick="continueAsGuest()">Continue as guest</button>
+      <!-- Reset Password form -->
+      <div class="auth-form" id="form-reset" style="display:none">
+        <div class="auth-reset-h" id="reset-h">Reset your password</div>
+        <div class="auth-reset-p" id="reset-sub">Enter your email and we'll send you a link to set a new password.</div>
+        <div id="reset-fields" style="display:flex;flex-direction:column;gap:14px;width:100%">
+          <div>
+            <div class="field-lbl">Email</div>
+            <input class="field-inp" id="reset-email" type="email" placeholder="you@example.com"
+                   autocomplete="email" onkeydown="if(event.key==='Enter')sendReset()">
+          </div>
+          <button class="auth-submit" id="reset-btn" onclick="sendReset()">
+            <span id="reset-lbl">Send reset link</span>
+            <span class="spinner" id="reset-spin"></span>
+          </button>
+        </div>
+        <button type="button" class="auth-backlink" onclick="backToSignIn()">← Back to sign in</button>
+      </div>
+
+      <!-- Set New Password (arrived via recovery link) -->
+      <div class="auth-form" id="form-newpass" style="display:none">
+        <div class="auth-reset-h">Set a new password</div>
+        <div class="auth-reset-p">Choose a new password for your account.</div>
+        <div>
+          <div class="field-lbl">New password <span style="color:var(--dim);font-size:10px;font-weight:400">(min. 6 chars)</span></div>
+          <input class="field-inp" id="newpass-pass" type="password" placeholder="New password"
+                 autocomplete="new-password" onkeydown="if(event.key==='Enter')submitNewPass()">
+        </div>
+        <button class="auth-submit" id="newpass-btn" onclick="submitNewPass()">
+          <span id="newpass-lbl">Update password</span>
+          <span class="spinner" id="newpass-spin"></span>
+        </button>
+      </div>
+
+      <div id="auth-alt" style="width:100%;display:flex;flex-direction:column;align-items:center">
+        <div class="auth-divider">— or —</div>
+        <button class="auth-guest" onclick="continueAsGuest()">Continue as guest</button>
+      </div>
     </div>
   </div><!-- /.auth-screen -->
 
@@ -1558,7 +1600,7 @@ body.onb-active{background:#F6F4F1}
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.9.2</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.9.3</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -4845,6 +4887,44 @@ class _SbClient {
         self._emit('SIGNED_OUT', null);
         return { error:null };
       },
+
+      // Send a password-recovery email. The link returns to redirectTo with a
+      // #type=recovery token, which the app detects on load (see maybeHandleRecovery).
+      async resetPasswordForEmail(email, options={}){
+        try{
+          const q = options.redirectTo ? ('?redirect_to=' + encodeURIComponent(options.redirectTo)) : '';
+          await self._authPost('/auth/v1/recover' + q, { email });
+          return { data:{}, error:null };
+        }catch(e){
+          return { data:null, error:{
+            message: e.msg || e.error_description || e.message || 'Could not send reset email',
+            code:    e.error_code || e.code || '',
+          }};
+        }
+      },
+
+      // Update the signed-in user (used here to set a new password during recovery).
+      async updateUser(attrs){
+        try{
+          const h = { 'Content-Type':'application/json', 'apikey':SUPABASE_ANON };
+          if(self._session?.access_token) h['Authorization']=`Bearer ${self._session.access_token}`;
+          const res = await fetch(SUPABASE_URL+'/auth/v1/user', { method:'PUT', headers:h, body:JSON.stringify(attrs) });
+          const json = await res.json().catch(()=>({}));
+          if(!res.ok) throw json;
+          return { data:{ user:json }, error:null };
+        }catch(e){
+          return { data:null, error:{
+            message: e.msg || e.error_description || e.message || 'Could not update password',
+            code:    e.error_code || e.code || '',
+          }};
+        }
+      },
+
+      // Establish a session directly from recovery tokens (no SIGNED_IN emit — we
+      // don't want to boot the app, just authorise the password update).
+      setSessionFromTokens(access_token, refresh_token){
+        self._setSession({ access_token, refresh_token, token_type:'bearer' });
+      },
     };
   }
 
@@ -4946,6 +5026,10 @@ function getSb(){
 
 async function initAuth(){
   const sb = getSb();
+
+  // If the user arrived via a password-recovery email link, intercept it before
+  // the normal session-restore flow and show the "set new password" screen.
+  if(await maybeHandleRecovery()) return;
 
   // Only handle explicit sign-in/sign-out events here.
   // INITIAL_SESSION is intentionally ignored — it fires via setTimeout with a
@@ -5233,8 +5317,8 @@ function hideSplashAfterDelay(){
     sessionStorage.setItem('szafa_splash_played', '1');
   }, remaining);
 }
-function clearAuthError(){ document.getElementById('auth-error').textContent = ''; }
-function setAuthError(msg){ document.getElementById('auth-error').textContent = msg; }
+function clearAuthError(){ const el=document.getElementById('auth-error'); el.textContent=''; el.style.color=''; }
+function setAuthError(msg){ const el=document.getElementById('auth-error'); el.style.color=''; el.textContent = msg; }
 
 function setAuthLoading(form, on){
   const btn  = document.getElementById(form+'-btn');
@@ -5296,6 +5380,115 @@ function switchAuthTab(tab){
   document.getElementById('form-login').style.display  = isLogin ? 'flex' : 'none';
   document.getElementById('form-signup').style.display = isLogin ? 'none' : 'flex';
   clearAuthError();
+}
+
+// ─── PASSWORD RESET ──────────────────────────────────────────────────────────
+function showResetForm(){
+  clearAuthError();
+  // Carry over whatever they typed in the sign-in email field
+  const typed = (document.getElementById('login-email').value || '').trim();
+  if(typed) document.getElementById('reset-email').value = typed;
+  // Restore the form to its default (un-sent) state
+  document.getElementById('reset-fields').style.display = 'flex';
+  document.getElementById('reset-h').textContent   = 'Reset your password';
+  document.getElementById('reset-sub').textContent = "Enter your email and we'll send you a link to set a new password.";
+  // Hide everything else, show the reset panel
+  document.getElementById('auth-tabs').style.display   = 'none';
+  document.getElementById('form-login').style.display  = 'none';
+  document.getElementById('form-signup').style.display = 'none';
+  document.getElementById('auth-alt').style.display    = 'none';
+  document.getElementById('form-reset').style.display  = 'flex';
+  setTimeout(()=>document.getElementById('reset-email').focus(), 50);
+}
+
+function backToSignIn(){
+  clearAuthError();
+  document.getElementById('form-reset').style.display   = 'none';
+  document.getElementById('form-newpass').style.display = 'none';
+  document.getElementById('auth-tabs').style.display    = 'flex';
+  document.getElementById('auth-alt').style.display     = 'flex';
+  switchAuthTab('login');
+}
+
+async function sendReset(){
+  const sb = getSb();
+  if(!sb){ setAuthError('Could not connect — please reload the app'); return; }
+  const email = (document.getElementById('reset-email').value || '').trim();
+  if(!email){ setAuthError('Please enter your email address'); return; }
+
+  clearAuthError();
+  setAuthLoading('reset', true);
+  try{
+    const redirectTo = location.origin + location.pathname;
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo });
+    if(error){ setAuthError(friendlyAuthError(error)); return; }
+    // Success — show an inline confirmation (don't reveal whether the email exists)
+    document.getElementById('reset-fields').style.display = 'none';
+    document.getElementById('reset-h').textContent   = 'Check your inbox';
+    document.getElementById('reset-sub').innerHTML   =
+      'If an account exists for <strong>' + email.replace(/</g,'&lt;') + '</strong>, ' +
+      "we've sent a link to reset your password.";
+  }catch(e){
+    setAuthError('Network error — check your connection and try again');
+  }finally{
+    setAuthLoading('reset', false);
+  }
+}
+
+// Called on load if the URL carries a recovery token (?#type=recovery)
+async function maybeHandleRecovery(){
+  const raw = (location.hash || '').replace(/^#/, '');
+  if(!raw) return false;
+  const p = new URLSearchParams(raw);
+  if(p.get('type') !== 'recovery') return false;
+  const at = p.get('access_token'), rt = p.get('refresh_token');
+  if(!at){ return false; }
+  const sb = getSb();
+  if(!sb) return false;
+  // Authorise the upcoming password update, then scrub the token from the URL
+  sb.auth.setSessionFromTokens(at, rt || '');
+  history.replaceState(null, '', location.pathname + location.search);
+  showAuthScreen();
+  showNewPassForm();
+  return true;
+}
+
+function showNewPassForm(){
+  clearAuthError();
+  document.getElementById('auth-tabs').style.display    = 'none';
+  document.getElementById('form-login').style.display   = 'none';
+  document.getElementById('form-signup').style.display  = 'none';
+  document.getElementById('form-reset').style.display   = 'none';
+  document.getElementById('auth-alt').style.display     = 'none';
+  document.getElementById('form-newpass').style.display = 'flex';
+  setTimeout(()=>document.getElementById('newpass-pass').focus(), 50);
+}
+
+async function submitNewPass(){
+  const sb = getSb();
+  if(!sb){ setAuthError('Could not connect — please reload the app'); return; }
+  const pass = document.getElementById('newpass-pass').value;
+  if(!pass || pass.length < 6){ setAuthError('Password must be at least 6 characters'); return; }
+
+  clearAuthError();
+  setAuthLoading('newpass', true);
+  try{
+    const { error } = await sb.auth.updateUser({ password: pass });
+    if(error){ setAuthError(friendlyAuthError(error)); return; }
+    // Sign out the temporary recovery session, then send them to sign in fresh
+    try{ await sb.auth.signOut(); }catch(_){}
+    document.getElementById('form-newpass').style.display = 'none';
+    backToSignIn();
+    setAuthError('');
+    // Brief success cue in the shared status line
+    const el = document.getElementById('auth-error');
+    if(el){ el.style.color = 'var(--ink)'; el.textContent = 'Password updated — please sign in with your new password.';
+            setTimeout(()=>{ el.style.color=''; }, 6000); }
+  }catch(e){
+    setAuthError('Network error — check your connection and try again');
+  }finally{
+    setAuthLoading('newpass', false);
+  }
 }
 
 // ─── BOOKMARKLET SETUP ───────────────────────────────────────────────────────

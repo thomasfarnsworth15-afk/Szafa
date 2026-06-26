@@ -1592,7 +1592,7 @@ body.onb-active{background:#F6F4F1}
     </div>
     <!-- Notifications -->
     <div class="p-sec">Notifications</div>
-    <div class="p-row"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--mid)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2C8 2 4.5 3.5 4.5 9V13H11.5V9C11.5 3.5 8 2 8 2Z"/><path d="M6.5 13C6.5 13.8 7.2 14.5 8 14.5S9.5 13.8 9.5 13"/></svg></div><span class="p-rt">Notifications</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
+    <div class="p-row" id="notif-perm-row" onclick="enableNotifications()"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--mid)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2C8 2 4.5 3.5 4.5 9V13H11.5V9C11.5 3.5 8 2 8 2Z"/><path d="M6.5 13C6.5 13.8 7.2 14.5 8 14.5S9.5 13.8 9.5 13"/></svg></div><div><span class="p-rt">Notifications</span><div id="notif-perm-status" style="font-size:11px;color:var(--mid);margin-top:1px"></div></div></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
     <!-- App -->
     <div class="p-sec">App</div>
     <div class="p-row" onclick="resetDemo()"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="var(--mid)" stroke-width="1.5" stroke-linecap="round"><path d="M2 8C2 4.7 4.7 2 8 2s6 2.7 6 6-2.7 6-6 6"/><path d="M2 8L5 5M2 8L5 11"/></svg></div><span class="p-rt">Reset demo data</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="var(--dim)" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
@@ -1600,7 +1600,7 @@ body.onb-active{background:#F6F4F1}
     <!-- Security -->
     <div class="p-sec">Security</div>
     <div class="p-row" onclick="signOut()" style="border-bottom:none"><div class="p-rl"><div class="p-ic"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3H13V13H10"/><path d="M6 5L2 8L6 11"/><line x1="2" y1="8" x2="10" y2="8"/></svg></div><span class="p-rt" style="color:#C45858">Log out</span></div><svg width="7" height="12" viewBox="0 0 7 12" fill="none" stroke="#C45858" stroke-width="1.5" stroke-linecap="round"><path d="M1 1L6 6L1 11"/></svg></div>
-    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.9.4</div>
+    <div style="padding:10px 20px 32px;font-size:10px;color:var(--dim);letter-spacing:.05em">VERSION 1.9.5</div>
   </div>
 
   <!-- ══ EDIT PROFILE OVERLAY ══ -->
@@ -2851,6 +2851,7 @@ function openSettings(){
     if(active) active.style.display='block';
   }
   document.getElementById('p-settings-overlay').classList.add('open');
+  _updateNotifStatus();
 }
 function closeSettings(){
   document.getElementById('p-settings-overlay').classList.remove('open');
@@ -2989,6 +2990,70 @@ async function requestPushPermission(){
     });
     return true;
   } catch(e){ return false; }
+}
+
+// Tapped from Settings → Notifications. Walks the user through enabling push,
+// with clear, platform-aware feedback (iOS requires Home Screen install first).
+async function enableNotifications(){
+  if(!currentUser || currentUser.id === 'guest'){
+    showToast('Sign in first to enable notifications');
+    return;
+  }
+  // No push support at all in this context (e.g. iOS Safari tab, not installed)
+  if(!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)){
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    if(isIOS && !standalone){
+      showToast('On iPhone: tap Share → Add to Home Screen, then open Szafa from the icon to enable notifications.');
+    } else {
+      showToast("This device or browser doesn't support push notifications.");
+    }
+    return;
+  }
+  // Already blocked at the OS/browser level
+  if(Notification.permission === 'denied'){
+    showToast('Notifications are blocked. Enable them for Szafa in your device settings, then try again.');
+    _updateNotifStatus();
+    return;
+  }
+  if(Notification.permission === 'granted'){
+    // Re-subscribe silently in case the subscription was lost
+    const ok = await requestPushPermission();
+    showToast(ok ? '🔔 Notifications are on' : 'Could not finish enabling notifications');
+    _updateNotifStatus();
+    return;
+  }
+  // permission === 'default' → ask now
+  showToast('Allow notifications when prompted…');
+  const ok = await requestPushPermission();
+  if(ok){
+    showToast('🔔 Notifications enabled — you\'ll get price-drop alerts');
+  } else {
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    if(isIOS && !standalone){
+      showToast('On iPhone, add Szafa to your Home Screen first, then open it from the icon to allow notifications.');
+    } else {
+      showToast('Notifications were not enabled. You can allow them and try again.');
+    }
+  }
+  _updateNotifStatus();
+}
+
+// Reflect current permission state under the Notifications row
+function _updateNotifStatus(){
+  const el = document.getElementById('notif-perm-status');
+  if(!el) return;
+  let txt = 'Tap to enable price-drop alerts';
+  if('Notification' in window){
+    if(Notification.permission === 'granted') txt = 'On';
+    else if(Notification.permission === 'denied') txt = 'Blocked in device settings';
+  } else {
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    if(isIOS && !standalone) txt = 'Add to Home Screen to enable';
+  }
+  el.textContent = txt;
 }
 
 function urlBase64ToUint8Array(base64String){
